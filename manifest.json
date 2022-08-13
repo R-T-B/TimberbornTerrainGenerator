@@ -2,7 +2,7 @@
   "name": "TimberbornTerrainGenerator",
   "version_number": "0.1.0",
   "website_url": "https://github.com/R-T-B/TimberbornTerrainGenerator",
-  "description": "This mod allows you to generate modern procdural Timerborn style maps via a internal OSS python script. For more information visit github page",
+  "description": "This mod allows you to generate modern procedural Timerborn style maps via a internal OSS python script. For more information visit github page",
   "dependencies": [
     "BepInEx-BepInExPack_Timberborn-5.4.19"
   ]
