@@ -10,6 +10,8 @@ Generating a map is simple!  Install the plugin, and generate a new map!  Be awa
 
 Once the map is generated, feel free to run the water sim, drop a starting location somewhere nice, and load in.  That's reall all there is to it, and most of the maps it makes are playable, though you may want to load a few times to "optimze" your start.  I won't judge you... heh.
 
+Please note that because of how this mod hooks into another dev language (python) it may trigger some antiviruses.  This is a false positive.
+
 # Installation
 In order to install the mod follow the instructions from BepInEx website:
 https://docs.bepinex.dev/articles/user_guide/installation/index.html
