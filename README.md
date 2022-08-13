@@ -16,11 +16,11 @@ Please note that because of how this mod hooks into another dev language (python
 In order to install the mod follow the instructions from BepInEx website:
 https://docs.bepinex.dev/articles/user_guide/installation/index.html
 
-Below I will list all the generators in the orded of newest to oldest:
-## Normal distribution map generator
-A generator that create a random heightmap of size [w,h]. Size range is [1,7] with the highest chance of obtaining height=4. Height is distributed using normal distribution.
-## Simplest map generator
-A generator that create a random heightmap of size [w,h]. The size range is [3,5] - modifiable in respected classes.
+Changelog:
+
+v0.1.0: Initial Release.
+
+v0.1.1: Make rivers more shallow and integrate water errorsion to smooth them so flow is not impeded.
     
 # Feedback
 
@@ -30,9 +30,5 @@ If you have any feedback, please reach out to me at github
 # Authors
 
 - [@MSterczewski (aka Informati)](https://github.com/MSterczewski) (initial plugin code), Caps_Errors (initial python code), reddit user u/savanik (updated with river handling), R-T-B (additions of new plant life, interation to the game as a plugin, and such).
-
-# Changelog
-## v0.1.0
-- Made OSS python script into a usable plugin with modern plant life
 
   
