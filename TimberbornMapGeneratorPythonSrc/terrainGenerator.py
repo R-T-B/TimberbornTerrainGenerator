@@ -509,7 +509,7 @@ def generateSlopeMap(xSize, ySize, slope):
             slopeMap[x,y] = value
     return slopeMap
 
-def generateRiverSlopeMap(map, entities, xSize, ySize, nodes, windiness=0.4125, givenWidth=4, depth=0.3):
+def generateRiverSlopeMap(map, entities, xSize, ySize, nodes, windiness=0.4125, givenWidth=4, depth=0.2):
     # This generates a river as a complex sin function with a number of nodes.
     # Windiness should be a float between 0.0 and 1.0, with 1.0 meaning the river
     #   will twist back and forth the whole width of the map.
@@ -549,8 +549,8 @@ def generateRiverSlopeMap(map, entities, xSize, ySize, nodes, windiness=0.4125, 
         riverSource = dict()
         riverSource = writeValue(riverSource,["Id"],str(uuid.uuid4()))
         riverSource = writeValue(riverSource,["Template"],"WaterSource")
-        riverSource = writeValue(riverSource,["Components","WaterSource","SpecifiedStrength"],6.0)
-        riverSource = writeValue(riverSource,["Components","WaterSource","CurrentStrength"],6.0)
+        riverSource = writeValue(riverSource,["Components","WaterSource","SpecifiedStrength"],10.0)
+        riverSource = writeValue(riverSource,["Components","WaterSource","CurrentStrength"],10.0)
         riverSource = writeValue(riverSource,["Components","BlockObject","Coordinates","X"],center+x)
         riverSource = writeValue(riverSource,["Components","BlockObject","Coordinates","Y"],Y)
         riverSource = writeValue(riverSource,["Components","BlockObject","Coordinates","Z"],Z)
@@ -672,7 +672,7 @@ def slosh(heightMap, waterMap):
     return (heightResultMap, waterResultMap)
 
 def processWater(heightMap):
-    # Currently a stub (and disabled, R-T-B tested it, indeed it is not ready.).
+    # Currently a stub (and disabled, R-T-B tested it, indeed it is not ready, at least not rain).
     
     # Adding water to the map and modelling erosion
 
@@ -688,7 +688,7 @@ def processWater(heightMap):
     waterDropSize = 0.01
     
     #Do we want a river?
-    riverSource = 0
+    riverSource = 1
     rX = int(np.random.rand() * xSize)
     rY = int(np.random.rand() * ySize)
 #    rX = 32
@@ -696,14 +696,14 @@ def processWater(heightMap):
     riverAmount = 20
     
     #Do we want Rain?
-    precipitation = 1
+    precipitation = 0
     rainAmount = 10
     
     #How many rounds of erosion shall we run?
     rounds = 400
 
     for i in range(0,rounds):
-        if (i % 100) == 0 : print("Rounds: " + str(i) + " / " + str(rounds))
+        #if (i % 100) == 0 : print("Rounds: " + str(i) + " / " + str(rounds))
         if precipitation == 1 :
             # Make it rain
             for i in range(0,rainAmount):
