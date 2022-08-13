@@ -447,7 +447,7 @@ def getMines(map, targetMines,seed):
 
 def placeEntities(map, entities, seed):
     #Placement and sanity check on entities
-    entities.extend(getMines(map,8 * ((len(map) * len(map)) / (256 * 256)),seed + 25)) # The first number in these statements is the quantity desired on a 256x256 map, the second part scales it
+    entities.extend(getMines(map,4 * ((len(map) * len(map)) / (256 * 256)),seed + 25)) # The first number in these statements is the quantity desired on a 256x256 map, the second part scales it
     entities.extend(getRuins(map,500 * ((len(map) * len(map)) / (256 * 256)),seed + 50))
     entities.extend(getPineTrees(map,2400 * ((len(map) * len(map)) / (256 * 256)),seed + 75))
     entities.extend(getBirchTrees(map,800 * ((len(map) * len(map)) / (256 * 256)),seed + 100))
@@ -725,10 +725,11 @@ def main():
     x = int(sys.argv[1]) #set map x here
     y = int(sys.argv[2]) #set map y here
     #now make sure this is a square, by using largest value
-    if x > y:
+    if x != y:
         y = x
-    if y > x:
-       x = y
+        seedInt = y
+    else:
+        seedInt = int(time.time() % (2**30-1))
     tic = time.perf_counter()
     maptype = "River"
     map = np.zeros((x, y))
@@ -737,7 +738,6 @@ def main():
     if maptype == "River":
         # Start with a Perlin map
         #seedInt = 50
-        seedInt = int(time.time() % (2**30-1))
         random.seed(int(seedInt))
         map = generateMultiLayerPerlin(x, y, seedInt, 0.4125)
 

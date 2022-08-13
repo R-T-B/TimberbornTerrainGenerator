@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using BepInEx;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,9 +9,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Timberborn.Core;
 using Timberborn.EntitySystem;
 using Timberborn.MapEditorSceneLoading;
 using Timberborn.MapSystem;
+using Timberborn.MapSystemUI;
 using Timberborn.Persistence;
 using Timberborn.SingletonSystem;
 using UnityEngine;
@@ -70,5 +73,14 @@ namespace TimberbornTerrainGenerator
 			Statics.Logger.LogInfo("Finished loading");
             return false;
 		}
-	}
+    }
+    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.1.3")]
+    public class TimberbornTerrainGeneratorPlugin : BaseUnityPlugin
+    {
+        public void Awake()
+        {
+            var size = typeof(NewMapBox).GetField("MaxMapSize", BindingFlags.Static | BindingFlags.NonPublic);
+            size.SetValue(null, (int)Int32.MaxValue);
+        }
+    }
 }
