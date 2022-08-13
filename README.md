@@ -21,6 +21,8 @@ Changelog:
 v0.1.0: Initial Release.
 
 v0.1.1: Make rivers more shallow and integrate water errorsion to smooth them so flow is not impeded.
+
+v0.1.2: Hotfix to prevent floodplains being way too common.
     
 # Feedback
 

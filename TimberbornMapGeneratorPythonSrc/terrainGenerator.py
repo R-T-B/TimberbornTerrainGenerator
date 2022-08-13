@@ -689,8 +689,8 @@ def processWater(heightMap):
     
     #Do we want a river?
     riverSource = 1
-    rX = int(np.random.rand() * xSize)
-    rY = int(np.random.rand() * ySize)
+    rX = int(0.5 * xSize)
+    rY = int(0.5 * ySize)
 #    rX = 32
 #    rY = 50
     riverAmount = 20
