@@ -622,13 +622,13 @@ def generateRiverSlopeMap(map, entities, xSize, ySize, nodes, windiness=0.4125, 
         riverSource = dict()
         riverSource = writeValue(riverSource,["Id"],str(uuid.uuid4()))
         riverSource = writeValue(riverSource,["Template"],"WaterSource")
-        riverSource = writeValue(riverSource,["Components","WaterSource","SpecifiedStrength"],10.0)
-        riverSource = writeValue(riverSource,["Components","WaterSource","CurrentStrength"],10.0)
+        riverSource = writeValue(riverSource,["Components","WaterSource","SpecifiedStrength"],6.0)
+        riverSource = writeValue(riverSource,["Components","WaterSource","CurrentStrength"],6.0)
         riverSource = writeValue(riverSource,["Components","BlockObject","Coordinates","X"],center+x)
         riverSource = writeValue(riverSource,["Components","BlockObject","Coordinates","Y"],Y)
         riverSource = writeValue(riverSource,["Components","BlockObject","Coordinates","Z"],Z)
         entities.append(riverSource)
-    
+    riverCenter = center
     for x in np.arange(0.0,xSize,0.2):
         # Calculate center
         # Using three sin functions for additional meandering
@@ -661,7 +661,7 @@ def generateRiverSlopeMap(map, entities, xSize, ySize, nodes, windiness=0.4125, 
                 if (dist < width):
                     riverMap[x2,y] = 0-depth
     riverMap = map + riverMap
-    return (riverMap, entities)
+    return (riverMap, entities, riverCenter)
 
 def slosh(heightMap, waterMap):
 #Currently a stub. In theory, would model water movement.
@@ -744,8 +744,8 @@ def slosh(heightMap, waterMap):
                     
     return (heightResultMap, waterResultMap)
 
-def processWater(heightMap):
-    # Currently a stub (and disabled, R-T-B tested it, indeed it is not ready, at least not rain).
+def processWater(heightMap, riverCenter):
+    # Currently a stub (and partially disabled, R-T-B tested it, indeed it is not ready, at least not the rain part).
     
     # Adding water to the map and modelling erosion
 
@@ -762,18 +762,18 @@ def processWater(heightMap):
     
     #Do we want a river?
     riverSource = 1
-    rX = int(0.5 * xSize)
-    rY = int(0.5 * ySize)
+    rX = riverCenter
+    rY = ySize-1
 #    rX = 32
 #    rY = 50
-    riverAmount = 20
+    riverAmount = 40
     
     #Do we want Rain?
     precipitation = 0
     rainAmount = 10
     
     #How many rounds of erosion shall we run?
-    rounds = 400
+    rounds = 800
 
     for i in range(0,rounds):
         #if (i % 100) == 0 : print("Rounds: " + str(i) + " / " + str(rounds))
@@ -828,8 +828,8 @@ def main():
         # There is probably some way to draw a river directly with plot libraries, 
         # but I am not smart enough to do so.
         # We are passing entities so we can have our water sources come back as well.
-
-        (map, entities)= generateRiverSlopeMap(map, entities, x, y, 2)
+        riverCenter = 0
+        (map, entities, riverCenter)= generateRiverSlopeMap(map, entities, x, y, 2)
         
         toc = time.perf_counter()
         #print("Time to River: " + str(toc-tic))
@@ -842,7 +842,7 @@ def main():
         
         #plt.imshow(map,origin='upper')
         #plt.show()
-        #map = processWater(map)
+        map = processWater(map, riverCenter)
 
     normalized = convert(map,1,16)
     entities = placeEntities(normalized,entities,int(seedInt))

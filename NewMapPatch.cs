@@ -50,9 +50,11 @@ namespace TimberbornTerrainGenerator
             }
             if (!launched)
             {
-                new Process
+                if ((Application.platform == RuntimePlatform.WindowsPlayer))
                 {
-                    StartInfo =
+                    new Process
+                    {
+                        StartInfo =
             {
                 UseShellExecute = false,
                 WorkingDirectory = PluginPath + "/dist/",
@@ -60,7 +62,22 @@ namespace TimberbornTerrainGenerator
                 Arguments = mapSize.x.ToString() + " " + mapSize.y.ToString(),
                 CreateNoWindow = true
             }
-                }.Start();
+                    }.Start();
+                }
+                else
+                {
+                    new Process
+                    {
+                        StartInfo =
+            {
+                UseShellExecute = false,
+                WorkingDirectory = PluginPath + "/dist/",
+                FileName = "python",
+                Arguments = "terrainGenerator.py" + " " + mapSize.x.ToString() + " " + mapSize.y.ToString(),
+                CreateNoWindow = true
+            }
+                    }.Start();
+                }
                 launched = true;
             }
             while (!File.Exists(PluginPath + "/dist/" + "newMap.json"))
@@ -74,7 +91,7 @@ namespace TimberbornTerrainGenerator
             return false;
 		}
     }
-    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.1.4")]
+    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.2.0")]
     public class TimberbornTerrainGeneratorPlugin : BaseUnityPlugin
     {
         public void Awake()
