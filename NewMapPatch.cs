@@ -74,7 +74,7 @@ namespace TimberbornTerrainGenerator
             return false;
 		}
     }
-    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.1.3")]
+    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.1.4")]
     public class TimberbornTerrainGeneratorPlugin : BaseUnityPlugin
     {
         public void Awake()

@@ -407,15 +407,14 @@ def getMines(map, targetMines,seed):
         #Generate a mine!
         thisMine = dict()
         bufferzone = 4 #should be at least this to function properly on mines
-        height = 1
         x = random.randint(0, xSize - (bufferzone + 1)) 
         y = random.randint(0, ySize - (bufferzone + 1)) 
         testX = 0
         testY = 0
-        z = map[y,x]+height
+        z = map[y,x]+1
         tryAnotherLocation = 0
         while testY <= bufferzone:
-            if z != (map[y+testY,x+testX])+height or mineMap[y+testY,x+testX] == int(255):
+            if z != (map[y+testY,x+testX])+1 or mineMap[y+testY,x+testX] == int(255):
                 tryAnotherLocation = 1
             testX += 1
             if testX > bufferzone:
@@ -444,6 +443,79 @@ def getMines(map, targetMines,seed):
         minesNum += 1
     
     return mines
+    
+def getSlopes(map, targetSlopes,seed):
+    xSize = len(map)
+    ySize = len(map[0])
+    slopeMap = np.zeros((int(xSize), int(ySize)))
+    #Place some slopes!
+    slopesNum = 0
+    slopes = []
+    while slopesNum < targetSlopes :
+        #Generate a slope!
+        thisSlope = dict()
+        tryAnotherLocation = 0
+        x = random.randint(1, xSize - 8) # 8 because we want SOME room to wander
+        y = random.randint(1, ySize - 8) 
+        testValue = 0
+        #First off, where?  Lets wander and find a potential spot.
+        startingZ = map[y,x] # First record our starting z-altitude
+        HorizontalOrVertical = random.randint(0,1) #Wander along x or y?  0 = x, 1 = y
+        if HorizontalOrVertical == 0:
+            while startingZ == map[y,x + testValue]:
+                if x + testValue >= (xSize - 1):
+                    tryAnotherLocation = 1
+                    break
+                testValue += 1
+        if HorizontalOrVertical == 1:
+            while startingZ == map[y + testValue,x]:
+                if y + testValue >= (ySize - 1):
+                    tryAnotherLocation = 1
+                    break
+                testValue += 1
+        if HorizontalOrVertical == 0:
+            x += testValue;
+        if HorizontalOrVertical == 1:
+            y += testValue;
+        endingZ = map[y,x] # Record our ending z
+        if (startingZ > endingZ and ((startingZ - endingZ) > 1)) or (startingZ < endingZ and ((endingZ - startingZ) > 1)): #Slope is impossibly steep
+            tryAnotherLocation = 1
+        if slopeMap[y,x] == int(255): #We already had a slope here
+            tryAnotherLocation = 1
+        if tryAnotherLocation == 1: # If for any reason this looks bad, bail out and try again
+            tryAnotherLocation = 0
+            continue
+        #If we got this far, we can make a slope!  Hooray!  We want to start from the low ground, and go up
+        if startingZ > endingZ: #Most simple scenario
+            z = endingZ + 1 #Plus one for the object itself
+        if startingZ < endingZ: #Uh oh, we're going uphill.  We need to back off a step
+            z = startingZ + 1 #Plus one for the object itself
+            if HorizontalOrVertical == 0:
+                x = x - 1
+            if HorizontalOrVertical == 1:
+                y = y - 1
+        #Okay, the coords are established!  We are ready!
+        thisSlope = writeValue(thisSlope,["Id"],str(uuid.uuid4()))
+        thisSlope = writeValue(thisSlope,["Template"],"Slope")
+        thisSlope = writeValue(thisSlope,["Components","BlockObject","Coordinates","X"],int(x))
+        thisSlope = writeValue(thisSlope,["Components","BlockObject","Coordinates","Y"],int(y))
+        thisSlope = writeValue(thisSlope,["Components","BlockObject","Coordinates","Z"],int(z))
+        #Now we need to establish the slopes orientation.  We can infer that from some if statements.  Keep in mind CW0 does not exist, and is not labeled in the JSON
+        if (HorizontalOrVertical == 0) and (startingZ > endingZ):
+            thisSlope = writeValue(thisSlope,["Components","BlockObject","Orientation","Value"],"Cw90")
+        if (HorizontalOrVertical == 0) and (startingZ < endingZ):
+            thisSlope = writeValue(thisSlope,["Components","BlockObject","Orientation","Value"],"Cw270")
+        if (HorizontalOrVertical == 1) and (startingZ > endingZ):
+            thisSlope = thisSlope #Dummy Entry to keep the logical flow
+        if (HorizontalOrVertical == 1) and (startingZ < endingZ):
+            thisSlope = writeValue(thisSlope,["Components","BlockObject","Orientation","Value"],"Cw180")
+        thisSlope = writeValue(thisSlope,["Components","Constructible","Finished"],bool(1))
+        thisSlope = writeValue(thisSlope,["Components","ConstructionSite","BuildTimeProgressInHoursKey"],float(1.0))
+        slopeMap[y,x] = int(255) # Register our succesful slope to the slope map
+        slopes.append(thisSlope)
+        slopesNum += 1
+    
+    return slopes
 
 def placeEntities(map, entities, seed):
     #Placement and sanity check on entities
@@ -455,6 +527,7 @@ def placeEntities(map, entities, seed):
     entities.extend(getMapleTrees(map,600 * ((len(map) * len(map)) / (256 * 256)),seed + 150))
     entities.extend(getBlueberries(map,3200 * ((len(map) * len(map)) / (256 * 256)),seed + 175))
     entities.extend(getDandelions(map,1600 * ((len(map) * len(map)) / (256 * 256)),seed + 200))
+    entities.extend(getSlopes(map,128 * ((len(map) * len(map)) / (256 * 256)),seed + 225))
     ##Water sources were placed earlier, but they need to exist at the proper height.
     # And we might as well sanity-check everything else, too.
 
