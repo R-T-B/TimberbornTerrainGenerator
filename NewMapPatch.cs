@@ -16,7 +16,11 @@ using Timberborn.MapSystem;
 using Timberborn.MapSystemUI;
 using Timberborn.Persistence;
 using Timberborn.SingletonSystem;
+using Timberborn.CoreUI;
+using Timberborn.Localization;
+using Timberborn.MapEditorSceneLoading;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace TimberbornTerrainGenerator
 {
@@ -24,29 +28,14 @@ namespace TimberbornTerrainGenerator
 	[HarmonyPatch("StartNewMap")]
 	class NewMapPatch
 	{
-        private static string pluginPath;
-        public static string PluginPath
-        {
-            get
-            {
-                if (ReferenceEquals(null, pluginPath))
-                {
-                    string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                    UriBuilder uri = new UriBuilder(codeBase);
-                    pluginPath = Uri.UnescapeDataString(uri.Path);
-                    pluginPath = Path.GetDirectoryName(pluginPath);
-                }
-                return pluginPath;
-            }
-        }
-        //Overrides starting new map with generating some hardcoded map into "tmp.json" file and then loading it
+        //Overrides starting new map with generating some hardcoded map into "newMap.json" file and then loading it
         public static bool Prefix(Vector2Int mapSize, MapEditorSceneLoader __instance)
 		{
             bool launched = false;
 			Statics.Logger.LogInfo("Creating new randomised map");
-            if (File.Exists(PluginPath + "/dist/" + "newMap.json"))
+            if (File.Exists(Statics.PluginPath + "/dist/" + "newMap.json"))
             {
-                File.Delete(PluginPath + "/dist/" + "newMap.json");
+                File.Delete(Statics.PluginPath + "/dist/" + "newMap.json");
             }
             if (!launched)
             {
@@ -57,8 +46,8 @@ namespace TimberbornTerrainGenerator
                         StartInfo =
             {
                 UseShellExecute = false,
-                WorkingDirectory = PluginPath + "/dist/",
-                FileName = PluginPath + "/dist/terrainGenerator.exe",
+                WorkingDirectory = Statics.PluginPath + "/dist/",
+                FileName = Statics.PluginPath + "/dist/terrainGenerator.exe",
                 Arguments = mapSize.x.ToString() + " " + mapSize.y.ToString(),
                 CreateNoWindow = true
             }
@@ -71,7 +60,7 @@ namespace TimberbornTerrainGenerator
                         StartInfo =
             {
                 UseShellExecute = false,
-                WorkingDirectory = PluginPath + "/dist/",
+                WorkingDirectory = Statics.PluginPath + "/dist/",
                 FileName = "python",
                 Arguments = "terrainGenerator.py" + " " + mapSize.x.ToString() + " " + mapSize.y.ToString(),
                 CreateNoWindow = true
@@ -80,18 +69,35 @@ namespace TimberbornTerrainGenerator
                 }
                 launched = true;
             }
-            while (!File.Exists(PluginPath + "/dist/" + "newMap.json"))
+            while (!File.Exists(Statics.PluginPath + "/dist/" + "newMap.json"))
             {
                 Thread.Sleep(500);
             }
             Statics.Logger.LogInfo("Loading randomised map");
-            MapFileReference mapFileReference = MapFileReference.FromDisk(PluginPath + "/dist/" + "newMap");
+            MapFileReference mapFileReference = MapFileReference.FromDisk(Statics.PluginPath + "/dist/" + "newMap");
             __instance.LoadMap(mapFileReference);
 			Statics.Logger.LogInfo("Finished loading");
             return false;
 		}
     }
-    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.3.0")]
+    /*[HarmonyPatch(typeof(NewMapBox))]
+    [HarmonyPatch("GetPanel")]
+    class GetPanelPatch
+    {
+        public static VisualElement Prefix(NewMapBox __instance)
+        {
+            VisualElement visualElement = this._visualElementLoader.LoadVisualElement("Options/NewMapBox");
+            visualElement.Q("StartButton", null).clicked += this.StartNewMap;
+            visualElement.Q("CancelButton", null).clicked += this.OnUICancelled;
+            this._sizeXField = visualElement.Q("SizeXField", null);
+            this._sizeYField = visualElement.Q("SizeYField", null);
+            this._sizeXField.value = NewMapBox.DefaultMapSize.x.ToString();
+            this._sizeYField.value = NewMapBox.DefaultMapSize.y.ToString();
+            return visualElement;
+            __instance.
+        }
+    }*/
+    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.3.1")]
     public class TimberbornTerrainGeneratorPlugin : BaseUnityPlugin
     {
         public void Awake()

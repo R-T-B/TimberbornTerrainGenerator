@@ -205,6 +205,9 @@
     <Reference Include="Timberborn.Core">
       <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Timberborn.CoreUI">
+      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CoreUI.dll</HintPath>
+    </Reference>
     <Reference Include="Timberborn.CoreUIT">
       <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CoreUIT.dll</HintPath>
     </Reference>
@@ -768,6 +771,15 @@
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

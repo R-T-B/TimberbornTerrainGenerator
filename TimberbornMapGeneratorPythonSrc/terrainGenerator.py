@@ -797,18 +797,22 @@ def sealRiverSources(finalMap,riverCenter):
     xSize = len(finalMap)
     ySize = len(finalMap[0])
     y = ySize - 1
-    zHeight = finalMap[y,riverCenter]
+    zHeight = 0
+    if (finalMap[y,riverCenter + 3] > finalMap[y,riverCenter - 4]):
+        zHeight = finalMap[y,riverCenter + 3]
+    else:
+        zHeight = finalMap[y,riverCenter - 4]
     testDistance = 4
     done = 0
     donePlus = 0
     doneMinus = 0
     while done == 0:
         if (zHeight >= finalMap[y,riverCenter+(testDistance - 1)]) and (donePlus == 0):
-            finalMap[y,riverCenter+(testDistance - 1)] += 3
+            finalMap[y,riverCenter+(testDistance - 1)] = zHeight + 2
         else:
             donePlus = 1
         if (zHeight >= finalMap[y,riverCenter-testDistance]) and (doneMinus == 0):
-            finalMap[y,riverCenter-testDistance] += 3
+            finalMap[y,riverCenter-testDistance] = zHeight + 2
         else:
             doneMinus = 1
         if (donePlus == 1) and (doneMinus == 1):

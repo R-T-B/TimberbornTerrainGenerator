@@ -38,6 +38,8 @@ v0.2.3: Fix infinite loop on generation of very small maps (64x64 or less, 32x32
 
 v0.3.0: Slightly improved generation of hills/mountains (still a bit plains like, but more varied).  This is a seed breaking release, your old seeds will not work and need an older release.  Maps you have saved will still work, as always. You may have noticed the v0.x.0 version change often coincides indicates a seed breakage, this is intentional and can be used as a quick reference to know if your old seed will work.  FYI, I intend to support this branch for a while with seed compatability.
     
+v0.3.1: Improved water sealing logic slightly.  No impact on seeds.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github
