@@ -622,8 +622,8 @@ def generateRiverSlopeMap(map, entities, xSize, ySize, nodes, windiness=0.4125, 
         riverSource = dict()
         riverSource = writeValue(riverSource,["Id"],str(uuid.uuid4()))
         riverSource = writeValue(riverSource,["Template"],"WaterSource")
-        riverSource = writeValue(riverSource,["Components","WaterSource","SpecifiedStrength"],6.0)
-        riverSource = writeValue(riverSource,["Components","WaterSource","CurrentStrength"],6.0)
+        riverSource = writeValue(riverSource,["Components","WaterSource","SpecifiedStrength"],3.25)
+        riverSource = writeValue(riverSource,["Components","WaterSource","CurrentStrength"],3.25)
         riverSource = writeValue(riverSource,["Components","BlockObject","Coordinates","X"],center+x)
         riverSource = writeValue(riverSource,["Components","BlockObject","Coordinates","Y"],Y)
         riverSource = writeValue(riverSource,["Components","BlockObject","Coordinates","Z"],Z)
@@ -766,14 +766,14 @@ def processWater(heightMap, riverCenter):
     rY = ySize-1
 #    rX = 32
 #    rY = 50
-    riverAmount = 40
+    riverAmount = 20
     
     #Do we want Rain?
     precipitation = 0
     rainAmount = 10
     
     #How many rounds of erosion shall we run?
-    rounds = 800
+    rounds = 200
 
     for i in range(0,rounds):
         #if (i % 100) == 0 : print("Rounds: " + str(i) + " / " + str(rounds))
@@ -792,6 +792,29 @@ def processWater(heightMap, riverCenter):
         (heightMap, waterDepth) = slosh(heightMap,waterDepth)
    
     return heightMap
+    
+def sealRiverSources(finalMap,riverCenter):
+    xSize = len(finalMap)
+    ySize = len(finalMap[0])
+    y = ySize - 1
+    zHeight = finalMap[y,riverCenter]
+    testDistance = 4
+    done = 0
+    donePlus = 0
+    doneMinus = 0
+    while done == 0:
+        if (zHeight >= finalMap[y,riverCenter+(testDistance - 1)]) and (donePlus == 0):
+            finalMap[y,riverCenter+(testDistance - 1)] += 3
+        else:
+            donePlus = 1
+        if (zHeight >= finalMap[y,riverCenter-testDistance]) and (doneMinus == 0):
+            finalMap[y,riverCenter-testDistance] += 3
+        else:
+            doneMinus = 1
+        if (donePlus == 1) and (doneMinus == 1):
+            done = 1
+        testDistance += 1
+    return finalMap
 
 
 def main():
@@ -845,9 +868,11 @@ def main():
         map = processWater(map, riverCenter)
 
     normalized = convert(map,1,16)
-    entities = placeEntities(normalized,entities,int(seedInt))
+    #Seal the river sources
+    finalMap = sealRiverSources(normalized,riverCenter)
+    entities = placeEntities(finalMap,entities,int(seedInt))
         
-    saveTerrainMap(normalized, x, y, entities)
+    saveTerrainMap(finalMap, x, y, entities)
     
     toc = time.perf_counter()
     #print("Time to save: " + str(toc-tic))

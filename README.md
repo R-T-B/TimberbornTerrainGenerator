@@ -29,6 +29,8 @@ v0.1.3: Reduce spawn of mines to roughly same as stock, also add second dimensio
 v0.1.4: Add autoslope generation for better survivability out of the box.
 
 v0.2.0: Improve errosion handling and added mac support.  The new errosion handling may change the outcome of seeds slightly (as well as slow down mapgen a little), but old maps will still load fine obviously, and the river banks will be much better.  About Mac support:  Mac users will also need to install the latest supported Python app for this to work.
+
+v0.2.1: added map sealing to the water sources start, because water was sometimes (often) running out the back of the map.  Also some speed improvements on mapgen.  Seeds should remain consistent.
     
 # Feedback
 
