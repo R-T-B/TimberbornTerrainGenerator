@@ -8,7 +8,7 @@ Before you proceed, you should be aware mac users will need to install Python fo
 # Generating a map
 Generating a map is simple!  Install the plugin, and generate a new map!  Be aware all maps will be square due a limitation of the generator, using the largest dimension, and all will be based roughly around a single river system.  I am open to expanding this in the future.
 
-Once the map is generated, feel free to run the water sim, drop a starting location somewhere nice, and load in.  That's reall all there is to it, and most of the maps it makes are playable, though you may want to load a few times to "optimze" your start.  I won't judge you... heh.
+Once the map is generated, feel free to run the water sim, drop a starting location somewhere nice, and load in.  That's really all there is to it, and most of the maps it makes are playable, though you may want to load a few times to "optimze" your start.  I won't judge you... heh.
 
 Please note that because of how this mod hooks into another dev language (python) it may trigger some antiviruses.  This is a false positive.
 
@@ -31,6 +31,8 @@ v0.1.4: Add autoslope generation for better survivability out of the box.
 v0.2.0: Improve errosion handling and added mac support.  The new errosion handling may change the outcome of seeds slightly (as well as slow down mapgen a little), but old maps will still load fine obviously, and the river banks will be much better.  About Mac support:  Mac users will also need to install the latest supported Python app for this to work.
 
 v0.2.1: added map sealing to the water sources start, because water was sometimes (often) running out the back of the map.  Also some speed improvements on mapgen.  Seeds should remain consistent.
+
+v0.2.2:  Allow inputting negative values (as well as values <4) as seeds.
     
 # Feedback
 

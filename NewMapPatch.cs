@@ -91,13 +91,15 @@ namespace TimberbornTerrainGenerator
             return false;
 		}
     }
-    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.2.1")]
+    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.2.2")]
     public class TimberbornTerrainGeneratorPlugin : BaseUnityPlugin
     {
         public void Awake()
         {
-            var size = typeof(NewMapBox).GetField("MaxMapSize", BindingFlags.Static | BindingFlags.NonPublic);
-            size.SetValue(null, (int)Int32.MaxValue);
+            var maxsize = typeof(NewMapBox).GetField("MaxMapSize", BindingFlags.Static | BindingFlags.NonPublic);
+            var minsize = typeof(NewMapBox).GetField("MinMapSize", BindingFlags.Static | BindingFlags.NonPublic);
+            maxsize.SetValue(null, (int)Int32.MaxValue);
+            minsize.SetValue(null, (int)Int32.MinValue);
         }
     }
 }
