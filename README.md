@@ -40,6 +40,8 @@ v0.3.0: Slightly improved generation of hills/mountains (still a bit plains like
     
 v0.3.1: Improved water sealing logic slightly.  No impact on seeds.
 
+v0.3.2: Fix support on macs with Python 2 as default.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github

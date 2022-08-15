@@ -61,7 +61,7 @@ namespace TimberbornTerrainGenerator
             {
                 UseShellExecute = false,
                 WorkingDirectory = Statics.PluginPath + "/dist/",
-                FileName = "python",
+                FileName = "python3",
                 Arguments = "terrainGenerator.py" + " " + mapSize.x.ToString() + " " + mapSize.y.ToString(),
                 CreateNoWindow = true
             }
@@ -97,7 +97,7 @@ namespace TimberbornTerrainGenerator
             __instance.
         }
     }*/
-    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.3.1")]
+    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.3.2")]
     public class TimberbornTerrainGeneratorPlugin : BaseUnityPlugin
     {
         public void Awake()
