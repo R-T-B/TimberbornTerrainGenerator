@@ -42,6 +42,8 @@ v0.3.1: Improved water sealing logic slightly.  No impact on seeds.
 
 v0.3.2: Fix support on macs with Python 2 as default.
 
+v0.3.3: More mac fixes.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github

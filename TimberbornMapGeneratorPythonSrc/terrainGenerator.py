@@ -6,7 +6,6 @@ Created on Sat Sep 18 22:51:25 2021
 Contributions: Savanik, R-T-B
 """
 
-import matplotlib.pyplot as plt
 import numpy as np
 import time as time
 import uuid
@@ -766,14 +765,14 @@ def processWater(heightMap, riverCenter):
     rY = ySize-4
 #    rX = 32
 #    rY = 50
-    riverAmount = 40
+    riverAmount = 20
     
     #Do we want Rain?
     precipitation = 0
     rainAmount = 10
     
     #How many rounds of erosion shall we run?
-    rounds = 400
+    rounds = 200
 
     for i in range(0,rounds):
         #if (i % 100) == 0 : print("Rounds: " + str(i) + " / " + str(rounds))
@@ -867,9 +866,7 @@ def main():
         # I will need to review more physics papers before attempting hydrodynamic erosion.
         # Keeping the code around as a stub.
         
-        #plt.imshow(map,origin='upper')
-        #plt.show()
-        #map = processWater(map, riverCenter)
+        map = processWater(map, riverCenter)
 
     normalized = convert(map,1,16)
     #Seal the river sources
