@@ -396,7 +396,7 @@ def getRuins(map, targetRuins,seed):
     
 def getMines(map, targetMines,seed):
     if targetMines < 1:
-        targetMines = 1
+        targetMines = 0
     xSize = len(map)
     ySize = len(map[0])
     mineMap = np.zeros((int(xSize), int(ySize)))

@@ -1,7 +1,7 @@
 
 # Random map generator
 
-A work in progress project for generating random maps for timberborn.
+A work in progress project for generating random maps for timberborn.  Minimum supported map size is 32x32, maximum is 512x512.  All maps are squares and the Y parameter on "new map" is used as a seed.
 It uses several open source projects, including the works of Caps_Errors (initial python code), reddit user u/savanik (updated with river handling) and myself, MSterczewski (some plugin modeling), R-T-B (additions of new plant life, porting to the game as a plugin, and such).
 
 Before you proceed, you should be aware mac users will need to install Python for this to work.  Google it, it should be easy, but you may need admin.
@@ -32,7 +32,9 @@ v0.2.0: Improve errosion handling and added mac support.  The new errosion handl
 
 v0.2.1: added map sealing to the water sources start, because water was sometimes (often) running out the back of the map.  Also some speed improvements on mapgen.  Seeds should remain consistent.
 
-v0.2.2:  Allow inputting negative values (as well as values <4) as seeds.
+v0.2.2: Allow inputting negative values (as well as values <4) as seeds.
+
+v0.2.3: Fix infinite loop on generation of very small maps (64x64 or less, 32x32 remains the smallest the map generator can reliably produce without errors).
     
 # Feedback
 
