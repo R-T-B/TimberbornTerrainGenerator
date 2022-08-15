@@ -1,14 +1,14 @@
 
 # Random map generator
 
-A work in progress project for generating random maps for timberborn.  Minimum supported map size is 32x32, maximum is 512x512.  All maps are squares and the Y parameter on "new map" is used as a seed.
+A work in progress project for generating random maps for timberborn.  Minimum supported map size is 32x32, maximum is 384x384.  All maps are squares and the Y parameter on "new map" is used as a seed.  If the Y parameter is the same as x, it is completely random.
 It uses several open source projects, including the works of Caps_Errors (initial python code), reddit user u/savanik (updated with river handling) and myself, MSterczewski (some plugin modeling), R-T-B (additions of new plant life, porting to the game as a plugin, and such).
 
 Before you proceed, you should be aware mac users will need to install Python for this to work.  Google it, it should be easy, but you may need admin.
 # Generating a map
-Generating a map is simple!  Install the plugin, and generate a new map!  Be aware all maps will be square due a limitation of the generator, using the largest dimension, and all will be based roughly around a single river system.  I am open to expanding this in the future.
+Generating a map is simple!  Install the plugin, and generate a new map!  Be aware all maps will be square due a limitation of the generator, and all will be based roughly around a single river system.  I am open to expanding this in the future.
 
-Once the map is generated, feel free to run the water sim, drop a starting location somewhere nice, and load in.  That's really all there is to it, and most of the maps it makes are playable, though you may want to load a few times to "optimze" your start.  I won't judge you... heh.
+Once the map is generated, feel free to run the water sim, drop a starting location somewhere nice, and load in.  That's really all there is to it, and most of the maps it makes are playable, though you may want to generate a few times to "optimze" your start.  I won't judge you... heh.
 
 Please note that because of how this mod hooks into another dev language (python) it may trigger some antiviruses.  This is a false positive.
 
@@ -35,6 +35,8 @@ v0.2.1: added map sealing to the water sources start, because water was sometime
 v0.2.2: Allow inputting negative values (as well as values <4) as seeds.
 
 v0.2.3: Fix infinite loop on generation of very small maps (64x64 or less, 32x32 remains the smallest the map generator can reliably produce without errors).
+
+v0.3.0: Slightly improved generation of hills/mountains (still a bit plains like, but more varied).  This is a seed breaking release, your old seeds will not work and need an older release.  Maps you have saved will still work, as always. You may have noticed the v0.x.0 version change often coincides indicates a seed breakage, this is intentional and can be used as a quick reference to know if your old seed will work.  FYI, I intend to support this branch for a while with seed compatability.
     
 # Feedback
 

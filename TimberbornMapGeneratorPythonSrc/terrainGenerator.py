@@ -745,7 +745,7 @@ def slosh(heightMap, waterMap):
     return (heightResultMap, waterResultMap)
 
 def processWater(heightMap, riverCenter):
-    # Currently a stub (and partially disabled, R-T-B tested it, indeed it is not ready, at least not the rain part).
+    # Currently a stub (and partially disabled, R-T-B tested it, fixed some of it, the rain is still broken).
     
     # Adding water to the map and modelling erosion
 
@@ -763,17 +763,17 @@ def processWater(heightMap, riverCenter):
     #Do we want a river?
     riverSource = 1
     rX = riverCenter
-    rY = ySize-1
+    rY = ySize-4
 #    rX = 32
 #    rY = 50
-    riverAmount = 20
+    riverAmount = 40
     
     #Do we want Rain?
     precipitation = 0
     rainAmount = 10
     
     #How many rounds of erosion shall we run?
-    rounds = 200
+    rounds = 400
 
     for i in range(0,rounds):
         #if (i % 100) == 0 : print("Rounds: " + str(i) + " / " + str(rounds))
@@ -787,7 +787,7 @@ def processWater(heightMap, riverCenter):
             
         if riverSource == 1 :
             # Add river water        
-            waterDepth[rX][rY] += waterDropSize * riverAmount
+            waterDepth[rY][rX] += waterDropSize * riverAmount
         
         (heightMap, waterDepth) = slosh(heightMap,waterDepth)
    
@@ -835,7 +835,7 @@ def main():
         # Start with a Perlin map
         #seedInt = 50
         random.seed(int(seedInt))
-        map = generateMultiLayerPerlin(x, y, seedInt, 0.4125)
+        map = generateMultiLayerPerlin(x, y, seedInt, 0.5)
 
         toc = time.perf_counter()
         #print("Time to Perlin: " + str(toc-tic))
@@ -865,7 +865,7 @@ def main():
         
         #plt.imshow(map,origin='upper')
         #plt.show()
-        map = processWater(map, riverCenter)
+        #map = processWater(map, riverCenter)
 
     normalized = convert(map,1,16)
     #Seal the river sources
