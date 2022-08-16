@@ -762,17 +762,17 @@ def processWater(heightMap, riverCenter):
     #Do we want a river?
     riverSource = 1
     rX = riverCenter
-    rY = ySize-4
+    rY = ySize-2
 #    rX = 32
 #    rY = 50
-    riverAmount = 20
+    riverAmount = 60
     
     #Do we want Rain?
     precipitation = 0
     rainAmount = 10
     
     #How many rounds of erosion shall we run?
-    rounds = 200
+    rounds = 600
 
     for i in range(0,rounds):
         #if (i % 100) == 0 : print("Rounds: " + str(i) + " / " + str(rounds))

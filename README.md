@@ -16,6 +16,8 @@ Please note that because of how this mod hooks into another dev language (python
 In order to install the mod follow the instructions from BepInEx website:
 https://docs.bepinex.dev/articles/user_guide/installation/index.html
 
+Mac users additionally need to install the latest 3.x series Python and run in terminal/console the command "pip3 install numpy"
+
 Changelog:
 
 v0.1.0: Initial Release.
@@ -43,6 +45,8 @@ v0.3.1: Improved water sealing logic slightly.  No impact on seeds.
 v0.3.2: Fix support on macs with Python 2 as default.
 
 v0.3.3: More mac fixes.
+
+v0.3.4: Improved erosion processing. Still supports same seeds.
 
 # Feedback
 

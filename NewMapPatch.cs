@@ -80,24 +80,8 @@ namespace TimberbornTerrainGenerator
             return false;
 		}
     }
-    /*[HarmonyPatch(typeof(NewMapBox))]
-    [HarmonyPatch("GetPanel")]
-    class GetPanelPatch
-    {
-        public static VisualElement Prefix(NewMapBox __instance)
-        {
-            VisualElement visualElement = this._visualElementLoader.LoadVisualElement("Options/NewMapBox");
-            visualElement.Q("StartButton", null).clicked += this.StartNewMap;
-            visualElement.Q("CancelButton", null).clicked += this.OnUICancelled;
-            this._sizeXField = visualElement.Q("SizeXField", null);
-            this._sizeYField = visualElement.Q("SizeYField", null);
-            this._sizeXField.value = NewMapBox.DefaultMapSize.x.ToString();
-            this._sizeYField.value = NewMapBox.DefaultMapSize.y.ToString();
-            return visualElement;
-            __instance.
-        }
-    }*/
-    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.3.3")]
+
+    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.3.4")]
     public class TimberbornTerrainGeneratorPlugin : BaseUnityPlugin
     {
         public void Awake()
