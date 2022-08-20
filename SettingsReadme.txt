@@ -1,0 +1,1 @@
+TerrainNoiseType Options = Perlin,OpenSimplex2, TerrainAmplitude = TerrainHeight scaled from 0-1, All counts are scaled to a 256x256 map size, except mines which can have a minimum no matter how small.  All the rest should be self-explanatory.

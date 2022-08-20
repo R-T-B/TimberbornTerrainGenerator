@@ -869,7 +869,7 @@ def main():
         map = processWater(map, riverCenter)
 
     normalized = convert(map,1,16)
-    #Seal the river sources
+    #Seal the water sources
     finalMap = sealRiverSources(normalized,riverCenter)
     entities = placeEntities(finalMap,entities,int(seedInt))
         

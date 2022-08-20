@@ -28,6 +28,7 @@ def rawPerlin(x,y,seed=0):
     n01 = gradient(p[p[xi]+yi+1],xf,yf-1)
     n11 = gradient(p[p[xi+1]+yi+1],xf-1,yf-1)
     n10 = gradient(p[p[xi+1]+yi],xf-1,yf)
+    
     # combine noises
     x1 = lerp(n00,n10,u)
     x2 = lerp(n01,n11,u)
