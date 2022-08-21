@@ -23,13 +23,13 @@ namespace TimberbornTerrainGenerator
         public static int mapSizeX;
         public static int mapSizeY;
         public static int seed;
-        //BEGIN EXTERNAL SETTINGS
+        //BEGIN EXTERNAL LOADABLE INI SETTINGS
         public static int TerrainMinHeight = 10;
         public static int TerrainMaxHeight = 20;
         public static FastNoiseLite.NoiseType TerrainNoiseType = FastNoiseLite.NoiseType.Perlin;
-        public static float TerrainAmplitude = 0.7125f;
-        public static int TerrainFrequencyMult = 1;
-        public static int RiverNodes = 2;
+        public static float TerrainAmplitude = 2.5f;
+        public static int TerrainFrequencyMult = 10;
+        public static int RiverNodes = 3;
         public static float RiverWindiness = 0.4125f;
         public static int RiverWidth = 8;
         public static float RiverDepth = 0.2f;
@@ -43,10 +43,10 @@ namespace TimberbornTerrainGenerator
         public static int BlueberryBushCount = 3200;
         public static int DandelionBushCount = 1600;
         public static int SlopeCount = 128;
-        //END EXTERNAL SETTINGS
+        //END EXTERNAL LOADABLE INI SETTINGS
         public static bool Prefix(Vector2Int mapSize, MapEditorSceneLoader __instance)
         {
-            //Try load settings
+            //Try load .ini settings
             try
             {
                 IniParser iniParser = new IniParser(Statics.PluginPath + "/settings.ini");
@@ -59,6 +59,10 @@ namespace TimberbornTerrainGenerator
                 else if (iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainNoiseType").ToLower().Equals("opensimplex2"))
                 {
                     TerrainNoiseType = FastNoiseLite.NoiseType.OpenSimplex2;
+                }
+                else if (iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainNoiseType").ToLower().Equals("cellular"))
+                {
+                    TerrainNoiseType = FastNoiseLite.NoiseType.Cellular;
                 }
                 else
                 {
@@ -102,13 +106,12 @@ namespace TimberbornTerrainGenerator
             noise = new FastNoiseLite(seed);
             List<Dictionary<String, System.Object>> jsonEntities = new List<Dictionary<String, System.Object>>();
             List<float[,]> floatMapCombiner = new List<float[,]>();
-            floatMapCombiner.Add(generateMultiLayerNoise(mapSizeX, mapSizeY, TerrainAmplitude, seed));
+            floatMapCombiner.Add(GenerateBaseLayerNoise(mapSizeX, mapSizeY, TerrainAmplitude, seed));
             floatMapCombiner.Add(GenerateSlopeMap(mapSizeX, mapSizeY, 0.8f));
             float[,] finalFloatMap = GenerateFinalRiverSlopeMap(Utilities.ReturnMeanedMap(floatMapCombiner), out jsonEntities, mapSizeX, mapSizeY, RiverNodes, RiverWindiness, RiverWidth, RiverDepth);
             int[,] normalizedMap = new int[mapSizeX, mapSizeY];
             normalizedMap = ConvertMap(finalFloatMap, TerrainMinHeight, TerrainMaxHeight);
             jsonEntities = PlaceEntities(normalizedMap, jsonEntities);
-            //#########REMEBER THIS IS finalMap not normalizedMap!
             MapFileTools.SaveTerrainMap(normalizedMap, mapSizeX, mapSizeY, jsonEntities);
             //now load the file
             while (!File.Exists(Statics.PluginPath + "/newMap.json"))
@@ -410,23 +413,28 @@ namespace TimberbornTerrainGenerator
         {
             return dictTree;
         }
-        private static float[,] generateMultiLayerNoise(int xSize, int ySize, float hills, int seed)
+        private static float[,] GenerateBaseLayerNoise(int xSize, int ySize, float hills, int seed)
         {
-            List<float[,]> noiseList = new List<float[,]>();
-            noiseList.Add(GenerateNoiseMap(xSize, ySize, 48, 0.6f * hills, seed));
-            noiseList.Add(GenerateNoiseMap(xSize, ySize, 32, 0.4f * hills, seed));
-            noiseList.Add(GenerateNoiseMap(xSize, ySize, 24, 0.3f * hills, seed));
-            noiseList.Add(GenerateNoiseMap(xSize, ySize, 16, 0.2f * hills, seed));
-            noiseList.Add(GenerateNoiseMap(xSize, ySize, 12, 0.15f * hills, seed));
-            return Utilities.ReturnAdditiveMap(noiseList);
+            
+            return GenerateNoiseMap(xSize, ySize, 1, 0.2f * hills);
         }
-        private static float[,] GenerateNoiseMap(int xSize, int ySize, int scale, float amplitude, int seed)
+        private static float[,] GenerateNoiseMap(int xSize, int ySize, int scale, float amplitude)
         {
             float[,] result = new float[xSize, ySize];
             int xCounter = 0;
             int yCounter = 0;
-            int xTrueScale = rand.Next(1, scale);
-            int yTrueScale = rand.Next(1, scale);
+            int xTrueScale = scale;
+            int yTrueScale = scale;
+            if (scale > 10)
+            {
+                xTrueScale = rand.Next(1, scale);
+                yTrueScale = rand.Next(1, scale);
+            }
+            else
+            {
+                xTrueScale = scale;
+                yTrueScale = scale;
+            }
             while (xCounter <= xSize)
             {
                 while (yCounter <= ySize)
@@ -465,8 +473,13 @@ namespace TimberbornTerrainGenerator
         private static float GenerateRawNoise(int x, int y, FastNoiseLite.NoiseType NoiseType, int FrequencyMult)
         {
             noise.SetNoiseType(NoiseType);
-            noise.SetFractalType(FastNoiseLite.FractalType.None);
-            noise.SetFrequency(0.02f * FrequencyMult);
+            noise.SetFractalType(FastNoiseLite.FractalType.PingPong);
+            if (NoiseType.Equals(FastNoiseLite.NoiseType.Cellular))
+            {
+                noise.SetCellularDistanceFunction(FastNoiseLite.CellularDistanceFunction.Hybrid);
+                noise.SetCellularReturnType(FastNoiseLite.CellularReturnType.CellValue);
+            }
+            noise.SetFrequency(0.001f * FrequencyMult);
             //Get the noise.
             return noise.GetNoise(x, y);
 

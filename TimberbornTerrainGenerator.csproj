@@ -19,15 +19,26 @@
     <Compile Remove="IronPython34\**" />
     <Compile Remove="NewtonsoftJson\**" />
     <Compile Remove="NumSharp\**" />
+    <Compile Remove="TimberbornMapGeneratorHistoricalPythonSrc\**" />
     <Compile Remove="TimberbornMapGeneratorPythonSrc\**" />
     <EmbeddedResource Remove="IronPython34\**" />
     <EmbeddedResource Remove="NewtonsoftJson\**" />
     <EmbeddedResource Remove="NumSharp\**" />
+    <EmbeddedResource Remove="TimberbornMapGeneratorHistoricalPythonSrc\**" />
     <EmbeddedResource Remove="TimberbornMapGeneratorPythonSrc\**" />
     <None Remove="IronPython34\**" />
     <None Remove="NewtonsoftJson\**" />
     <None Remove="NumSharp\**" />
+    <None Remove="TimberbornMapGeneratorHistoricalPythonSrc\**" />
     <None Remove="TimberbornMapGeneratorPythonSrc\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove=".gitignore" />
+    <None Remove="icon.png" />
+    <None Remove="LICENSE" />
+    <None Remove="manifest.json" />
+    <None Remove="SettingsReadme.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -77,7 +88,7 @@
       <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\BepInEx\core\MonoMod.Utils.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>NewtonsoftJson\Newtonsoft.Json.dll</HintPath>
+      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\Timberborn_Data\Managed\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="TimberAPI">
       <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\BepInEx\plugins\TimberAPI.dll</HintPath>
