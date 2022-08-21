@@ -107,8 +107,7 @@ namespace TimberbornTerrainGenerator
             float[,] finalFloatMap = GenerateFinalRiverSlopeMap(Utilities.ReturnMeanedMap(floatMapCombiner), out jsonEntities, mapSizeX, mapSizeY, RiverNodes, RiverWindiness, RiverWidth, RiverDepth);
             int[,] normalizedMap = new int[mapSizeX, mapSizeY];
             normalizedMap = ConvertMap(finalFloatMap, TerrainMinHeight, TerrainMaxHeight);
-            //NDArray finalMap = sealRiverSources(normalizedMap, riverCenter);
-            //entities = placeEntities(finalMap,entities,int(seedInt))
+            jsonEntities = PlaceEntities(normalizedMap, jsonEntities);
             //#########REMEBER THIS IS finalMap not normalizedMap!
             MapFileTools.SaveTerrainMap(normalizedMap, mapSizeX, mapSizeY, jsonEntities);
             //now load the file
@@ -121,6 +120,136 @@ namespace TimberbornTerrainGenerator
             __instance.LoadMap(mapFileReference);
             Statics.Logger.LogInfo("Finished loading");
             return false;
+        }
+        public static List<Dictionary<String, System.Object>> PlaceEntities(int[,] map, List<Dictionary<String, System.Object>> entitiesList)
+        {
+            float mapScaler = (map.Length / 65536);
+            int minesQuantity = (int)Math.Round(MaxMineCount * mapScaler);
+            if (minesQuantity < MinMineCount)
+            {
+                minesQuantity = MinMineCount;
+            }
+            rand = new System.Random(seed);
+            entitiesList = GetMines(map, minesQuantity, entitiesList);
+            rand = new System.Random(seed + 25);
+            entitiesList = GetRuins(map, RuinCount, entitiesList);
+            rand = new System.Random(seed + 50);
+            entitiesList = GetPineTrees(map, PineTreeCount, entitiesList);
+            rand = new System.Random(seed + 75);
+            entitiesList = GetBirchTrees(map, BirchTreeCount, entitiesList);
+            rand = new System.Random(seed + 100);
+            entitiesList = GetChestnutTrees(map, ChestnutTreeCount, entitiesList);
+            rand = new System.Random(seed + 125);
+            entitiesList = GetMapleTrees(map, MapleTreeCount, entitiesList);
+            rand = new System.Random(seed + 150);
+            entitiesList = GetBlueberries(map, BlueberryBushCount, entitiesList);
+            rand = new System.Random(seed + 175);
+            entitiesList = GetDandelions(map, DandelionBushCount, entitiesList);
+            rand = new System.Random(seed + 200);
+            entitiesList = GetSlopes(map, SlopeCount, entitiesList);
+                
+
+            return entitiesList;
+        }
+        private static List<Dictionary<String, System.Object>> GetMines(int[,] map, int targetMines, List<Dictionary<String, System.Object>> entitiesList)
+        {
+            int xSize = map.GetLength(0);
+            int ySize = map.GetLength(1);
+            Boolean[,] mineMap = new bool[xSize, ySize];
+            //Place some mines!
+            int minesNum = 0;
+            while (minesNum < targetMines)
+            {
+                int x = rand.Next(0, xSize);
+                int y = rand.Next(0, ySize);
+                int z = z = map[y, x] + 1;
+                int testX = 0;
+                int testY = 0;
+                Boolean tryAnotherLocation = false;
+                int bufferZone = 4; //this needs to be at least 4 to fit a mine
+                while (testY <= bufferZone)
+                {
+                    if ((z != map[y + testY, x + testX] +1) || (mineMap[y + testY, x + testX]))
+                    {
+                        tryAnotherLocation = true;
+                    }
+                    testX++;
+                    if (testX > bufferZone)
+                    {
+                        testX = 0;
+                        testY++;
+                    }
+                }
+                testX = 0;
+                testY = 0;
+                if (tryAnotherLocation)
+                {
+                    tryAnotherLocation = false;
+                    continue;
+                }
+                Dictionary<String, System.Object> mineProperty = new Dictionary<String, System.Object>();
+                Dictionary<String, System.Object> mineComponentsDictionary = new Dictionary<String, System.Object>();
+                Dictionary<String, System.Object> mineBlockComponentsDictionary = new Dictionary<String, System.Object>();
+                Dictionary<String, int> mineCoordinatesDictionary = new Dictionary<String, int>();
+                Dictionary<String, bool> mineIsDryDictionary = new Dictionary<String, bool>();
+                mineProperty.Add("Id", Guid.NewGuid().ToString());
+                mineProperty.Add("Template", "UndergroundRuins");
+                mineCoordinatesDictionary.Add("X", x);
+                mineCoordinatesDictionary.Add("Y", y);
+                mineCoordinatesDictionary.Add("Z", z);
+                mineBlockComponentsDictionary.Add("Coordinates", mineCoordinatesDictionary);
+                mineComponentsDictionary.Add("BlockObject", mineBlockComponentsDictionary);
+                mineIsDryDictionary.Add("IsDry", true);
+                mineComponentsDictionary.Add("DryObject", mineIsDryDictionary);
+                mineProperty.Add("Components", mineComponentsDictionary);
+                testX = 0;
+                testY = 0;
+                while (testY <= bufferZone)
+                {
+                    mineMap[y + testY, x + testX] = true;
+                    testX++;
+                    if (testX > bufferZone)
+                    {
+                        testX = 0;
+                        testY++;
+                    }
+                }
+                entitiesList.Add(mineProperty);
+                minesNum++;
+            }
+            return entitiesList;
+        }
+        private static List<Dictionary<String, System.Object>> GetRuins(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        {
+            return entitiesList;
+        }
+        private static List<Dictionary<String, System.Object>> GetPineTrees(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        {
+            return entitiesList;
+        }
+        private static List<Dictionary<String, System.Object>> GetBirchTrees(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        {
+            return entitiesList;
+        }
+        private static List<Dictionary<String, System.Object>> GetChestnutTrees(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        {
+            return entitiesList;
+        }
+        private static List<Dictionary<String, System.Object>> GetMapleTrees(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        {
+            return entitiesList;
+        }
+        private static List<Dictionary<String, System.Object>> GetBlueberries(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        {
+            return entitiesList;
+        }
+        private static List<Dictionary<String, System.Object>> GetDandelions(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        {
+            return entitiesList;
+        }
+        private static List<Dictionary<String, System.Object>> GetSlopes(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        {
+            return entitiesList;
         }
         private static float[,] GenerateFinalRiverSlopeMap(float[,] map, out List<Dictionary<String, System.Object>> jsonEntities, int xSize, int ySize, int nodes, float windiness, float width, float depth)
         {
