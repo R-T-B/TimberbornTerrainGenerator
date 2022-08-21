@@ -11,6 +11,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Timberborn.Core;
+using static FastNoiseLite;
 
 namespace TimberbornTerrainGenerator
 {
@@ -31,7 +32,7 @@ namespace TimberbornTerrainGenerator
         public static int TerrainFrequencyMult = 10;
         public static int RiverNodes = 3;
         public static float RiverWindiness = 0.4125f;
-        public static int RiverWidth = 8;
+        public static int RiverWidth = 4;
         public static float RiverDepth = 0.2f;
         public static int MaxMineCount = 4;
         public static int MinMineCount = 0;
@@ -126,12 +127,23 @@ namespace TimberbornTerrainGenerator
         }
         public static List<Dictionary<String, System.Object>> PlaceEntities(int[,] map, List<Dictionary<String, System.Object>> entitiesList)
         {
-            float mapScaler = (map.Length / 65536);
-            if (mapScaler < 0.26)
+            float mapScaler = (mapSizeX * mapSizeX) / 65536f;
+            float mineMapScaler = mapScaler;
+            if ((mineMapScaler < 0.255) && (!(mineMapScaler < 0.22))) //This deals with float imprecision cheating 128x128 players out of their own default mine.
             {
-                mapScaler = 0.26f;
+                mineMapScaler = 0.255f;
             }
-            int minesQuantity = (int)Math.Round(MaxMineCount * mapScaler);
+            int minesQuantity = (int)Math.Round(MaxMineCount * mineMapScaler);
+            int scaledRuinsCount = (int)Math.Round(RuinCount * mapScaler);
+            int scaledPineTreeCount = (int)Math.Round(PineTreeCount * mapScaler);
+            int scaledBirchTreeCount = (int)Math.Round(BirchTreeCount * mapScaler);
+            int scaledChestnutTreeCount = (int)Math.Round(ChestnutTreeCount * mapScaler);
+            int scaledMapleTreeCount = (int)Math.Round(MapleTreeCount * mapScaler);
+            int scaledBlueberryBushCount = (int)Math.Round(BlueberryBushCount * mapScaler);
+            int scaledDandelionBushCount = (int)Math.Round(DandelionBushCount * mapScaler);
+            int scaledSlopeCount = (int)Math.Round(SlopeCount * mapScaler);
+
+
             if (minesQuantity < MinMineCount)
             {
                 minesQuantity = MinMineCount;
@@ -139,21 +151,21 @@ namespace TimberbornTerrainGenerator
             rand = new System.Random(seed);
             entitiesList = GetMines(map, minesQuantity, entitiesList);
             rand = new System.Random(seed + 25);
-            entitiesList = GetRuins(map, RuinCount, entitiesList);
+            entitiesList = GetRuins(map, scaledRuinsCount, entitiesList);
             rand = new System.Random(seed + 50);
-            entitiesList = GetPineTrees(map, PineTreeCount, entitiesList);
+            entitiesList = GetPineTrees(map, scaledPineTreeCount, entitiesList);
             rand = new System.Random(seed + 75);
-            entitiesList = GetBirchTrees(map, BirchTreeCount, entitiesList);
+            entitiesList = GetBirchTrees(map, scaledBirchTreeCount, entitiesList);
             rand = new System.Random(seed + 100);
-            entitiesList = GetChestnutTrees(map, ChestnutTreeCount, entitiesList);
+            entitiesList = GetChestnutTrees(map, scaledChestnutTreeCount, entitiesList);
             rand = new System.Random(seed + 125);
-            entitiesList = GetMapleTrees(map, MapleTreeCount, entitiesList);
+            entitiesList = GetMapleTrees(map, scaledMapleTreeCount, entitiesList);
             rand = new System.Random(seed + 150);
-            entitiesList = GetBlueberries(map, BlueberryBushCount, entitiesList);
+            entitiesList = GetBlueberries(map, scaledBlueberryBushCount, entitiesList);
             rand = new System.Random(seed + 175);
-            entitiesList = GetDandelions(map, DandelionBushCount, entitiesList);
+            entitiesList = GetDandelions(map, scaledDandelionBushCount, entitiesList);
             rand = new System.Random(seed + 200);
-            entitiesList = GetSlopes(map, SlopeCount, entitiesList);
+            entitiesList = GetSlopes(map, scaledSlopeCount, entitiesList);
                 
 
             return entitiesList;
@@ -176,7 +188,7 @@ namespace TimberbornTerrainGenerator
                 Boolean tryAnotherLocation = false;
                 while (testY <= bufferZone)
                 {
-                    if ((z != map[y + testY, x + testX]) || (mineMap[y + testY, x + testX]))
+                    if ((z != map[y + testY, x + testX]) || mineMap[y + testY, x + testX])
                     {
                         tryAnotherLocation = true;
                     }
@@ -199,8 +211,6 @@ namespace TimberbornTerrainGenerator
                 Dictionary<String, System.Object> mineBlockComponentsDictionary = new Dictionary<String, System.Object>();
                 Dictionary<String, int> mineCoordinatesDictionary = new Dictionary<String, int>();
                 Dictionary<String, bool> mineIsDryDictionary = new Dictionary<String, bool>();
-                mineProperty.Add("Id", Guid.NewGuid().ToString());
-                mineProperty.Add("Template", "UndergroundRuins");
                 mineCoordinatesDictionary.Add("X", x);
                 mineCoordinatesDictionary.Add("Y", y);
                 mineCoordinatesDictionary.Add("Z", z);
@@ -208,6 +218,8 @@ namespace TimberbornTerrainGenerator
                 mineComponentsDictionary.Add("BlockObject", mineBlockComponentsDictionary);
                 mineIsDryDictionary.Add("IsDry", true);
                 mineComponentsDictionary.Add("DryObject", mineIsDryDictionary);
+                mineProperty.Add("Id", Guid.NewGuid().ToString());
+                mineProperty.Add("Template", "UndergroundRuins");
                 mineProperty.Add("Components", mineComponentsDictionary);
                 testX = 0;
                 testY = 0;
@@ -226,8 +238,86 @@ namespace TimberbornTerrainGenerator
             }
             return entitiesList;
         }
-        private static List<Dictionary<String, System.Object>> GetRuins(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        private static List<Dictionary<String, System.Object>> GetRuins(int[,] map, int targetRuins, List<Dictionary<String, System.Object>> entitiesList)
         {
+            int xSize = mapSizeX;
+            int ySize = mapSizeY;
+            float[,] ruinsMap = new float[xSize, ySize];
+            //Place some mines!
+            int ruinsNum = 0;
+            ruinsMap = GenerateNoiseMap(xSize, ySize, 25, 1, 0.8f, FastNoiseLite.NoiseType.Perlin);
+
+            float maxH = Utilities.GetFloatArrayMax(ruinsMap);
+            float modifier = 1.00f;
+            float prevalence;
+            while (ruinsNum < targetRuins)
+            {
+                ruinsNum = 0;
+                modifier -= 0.01f;
+                prevalence = maxH * modifier;
+                int xCounter = 0;
+                int yCounter = 0;
+                while (xCounter < xSize)
+                {
+                    while (yCounter < ySize)
+                    {
+                        if (ruinsMap[yCounter, xCounter] > prevalence)
+                        {
+                            int ruinHeight = (int)Mathf.Max(Mathf.Min((ruinsMap[yCounter,xCounter] - prevalence) * 400, 8), 1);
+                            int ruinYield = ruinHeight * 15;
+                            int variantInt = rand.Next(1,6);
+                            int z = map[yCounter, xCounter];
+                            Dictionary<String, System.Object> ruinProperty = new Dictionary<String, System.Object>();
+                            Dictionary<String, System.Object> ruinComponentsDictionary = new Dictionary<String, System.Object>();
+                            Dictionary<String, System.Object> ruinBlockComponentsDictionary = new Dictionary<String, System.Object>();
+                            Dictionary<String, int> ruinCoordinatesDictionary = new Dictionary<String, int>();
+                            Dictionary<String, bool> ruinIsDryDictionary = new Dictionary<String, bool>();
+                            Dictionary<String, System.Object> ruinYieldDictionary = new Dictionary<String, System.Object>();
+                            Dictionary<String, System.Object> ruinYieldGoodDictionary = new Dictionary<String, System.Object>();
+                            Dictionary<String, String> ruinYieldGoodIdDictionary = new Dictionary<String, String>();
+                            Dictionary<String, String> ruinModelsDictionary = new Dictionary<String, String>();
+                            string variant = "";
+                            if (variantInt == 1)
+                                variant = "A";
+                            else if (variantInt == 2)
+                                variant = "B";
+                            else if (variantInt == 3)
+                                variant = "C";
+                            else if (variantInt == 4)
+                                variant = "D";
+                            else if (variantInt == 5)
+                                variant = "E";
+
+                            ruinIsDryDictionary.Add("IsDry", true);
+                            ruinModelsDictionary.Add("VariantId", variant);
+                            ruinYieldGoodIdDictionary.Add("Id", "ScrapMetal");
+                            ruinYieldGoodDictionary.Add("Good", ruinYieldGoodIdDictionary);
+                            ruinYieldGoodDictionary.Add("Amount", (int)ruinYield);
+                            ruinYieldDictionary.Add("Yield", ruinYieldGoodDictionary);
+                            ruinCoordinatesDictionary.Add("X", xCounter);
+                            ruinCoordinatesDictionary.Add("Y", yCounter);
+                            ruinCoordinatesDictionary.Add("Z", z);
+                            ruinBlockComponentsDictionary.Add("Coordinates", ruinCoordinatesDictionary);
+                            ruinComponentsDictionary.Add("BlockObject", ruinBlockComponentsDictionary);
+                            ruinComponentsDictionary.Add("Yielder:Ruin", ruinYieldDictionary);
+                            ruinComponentsDictionary.Add("RuinModels", ruinModelsDictionary);
+                            ruinComponentsDictionary.Add("DryObject", ruinIsDryDictionary);
+                            ruinProperty.Add("Id", Guid.NewGuid().ToString());
+                            ruinProperty.Add("Template", "RuinColumnH" + ruinHeight.ToString());
+                            ruinProperty.Add("Components", ruinComponentsDictionary);
+                            entitiesList.Add(ruinProperty);
+                            ruinsNum += 1;
+                            if (ruinsNum >= targetRuins)
+                            {
+                                return entitiesList;
+                            }
+                        }
+                        yCounter++;
+                    }
+                    yCounter = 0;
+                    xCounter++;
+                }
+            }
             return entitiesList;
         }
         private static List<Dictionary<String, System.Object>> GetPineTrees(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
@@ -416,30 +506,29 @@ namespace TimberbornTerrainGenerator
         private static float[,] GenerateBaseLayerNoise(int xSize, int ySize, float hills, int seed)
         {
             
-            return GenerateNoiseMap(xSize, ySize, 1, 0.2f * hills);
+            return GenerateNoiseMap(xSize, ySize, -1, 1, 0.2f * hills, TerrainNoiseType);
         }
-        private static float[,] GenerateNoiseMap(int xSize, int ySize, int scale, float amplitude)
+        private static float[,] GenerateNoiseMap(int xSize, int ySize, int freqMult, int cubicScale, float amplitude, FastNoiseLite.NoiseType noiseType)
         {
+            if (freqMult == -1)
+            {
+                freqMult = TerrainFrequencyMult;
+            }
             float[,] result = new float[xSize, ySize];
             int xCounter = 0;
             int yCounter = 0;
-            int xTrueScale = scale;
-            int yTrueScale = scale;
-            if (scale > 10)
+            int xTrueScale = cubicScale;
+            int yTrueScale = cubicScale;
+            if (cubicScale > 10)
             {
-                xTrueScale = rand.Next(1, scale);
-                yTrueScale = rand.Next(1, scale);
-            }
-            else
-            {
-                xTrueScale = scale;
-                yTrueScale = scale;
+                xTrueScale = rand.Next(1, cubicScale);
+                yTrueScale = rand.Next(1, cubicScale);
             }
             while (xCounter <= xSize)
             {
                 while (yCounter <= ySize)
                 {
-                    float dataResult = GenerateRawNoise(xCounter, yCounter,TerrainNoiseType, TerrainFrequencyMult) * amplitude;
+                    float dataResult = GenerateRawNoise(xCounter, yCounter, noiseType, freqMult) * amplitude;
                     if (dataResult > 1)
                     {
                         dataResult = 1;

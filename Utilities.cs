@@ -11,7 +11,7 @@ namespace TimberbornTerrainGenerator
     {
         public static int ReturnScaledIntFromFloat(float flt)
         {
-            return (int)Math.Round((flt * (NewMapPatch.TerrainMaxHeight - NewMapPatch.TerrainMinHeight)) + (NewMapPatch.TerrainMinHeight));
+            return (int)Math.Round((flt * (NewMapPatch.TerrainMaxHeight - NewMapPatch.TerrainMinHeight)) + NewMapPatch.TerrainMinHeight);
         }
         public static float[,] ReturnAdditiveMap(List<float[,]> MList)
         {
@@ -303,6 +303,50 @@ namespace TimberbornTerrainGenerator
             return result;
         }
         public static float GetFloatArrayMin(float[,] floatArray)
+        {
+            int xCounter = 0;
+            int yCounter = 0;
+            int sizeX = floatArray.GetLength(0);
+            int sizeY = floatArray.GetLength(1);
+            float result = float.MaxValue;
+            while (xCounter < sizeX)
+            {
+                while (yCounter < sizeY)
+                {
+                    if (floatArray[xCounter, yCounter] < result)
+                    {
+                        result = floatArray[xCounter, yCounter];
+                    }
+                    yCounter++;
+                }
+                yCounter = 0;
+                xCounter++;
+            }
+            return result;
+        }
+        public static float GetIntArrayMax(int[,] floatArray)
+        {
+            int xCounter = 0;
+            int yCounter = 0;
+            int sizeX = floatArray.GetLength(0);
+            int sizeY = floatArray.GetLength(1);
+            float result = 0.0f;
+            while (xCounter < sizeX)
+            {
+                while (yCounter < sizeY)
+                {
+                    if (floatArray[xCounter, yCounter] > result)
+                    {
+                        result = floatArray[xCounter, yCounter];
+                    }
+                    yCounter++;
+                }
+                yCounter = 0;
+                xCounter++;
+            }
+            return result;
+        }
+        public static float GetIntArrayMin(int[,] floatArray)
         {
             int xCounter = 0;
             int yCounter = 0;

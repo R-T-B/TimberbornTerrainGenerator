@@ -175,7 +175,7 @@ public class IniParser
 
         foreach (String section in sections)
         {
-            strToSave += ("[" + section + "]\r\n");
+            strToSave += "[" + section + "]\r\n";
 
             foreach (SectionPair sectionPair in keyPairs.Keys)
             {
@@ -186,7 +186,7 @@ public class IniParser
                     if (tmpValue != null)
                         tmpValue = "=" + tmpValue;
 
-                    strToSave += (sectionPair.Key + tmpValue + "\r\n");
+                    strToSave += sectionPair.Key + tmpValue + "\r\n";
                 }
             }
 
