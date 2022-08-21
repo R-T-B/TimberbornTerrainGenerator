@@ -63,15 +63,6 @@ namespace TimberbornTerrainGenerator
             mapFile.Entities = jsonEntities;
             //Now we work on Entities, with a new variable in the class to manage them.
             mapSizeDictLevel1 = new Dictionary<String, System.Object>();
-            /*mapJson = WriteValue(mapJson, new string[] { "GameVersion" }, "0.2.4.1-9edd51d-xsw");
-            mapJson = WriteValue(mapJson, new string[] { "Timestamp" }, "2022-08-12 18:46:19");
-            mapJson = WriteValue(mapJson, new string[] { "Singletons", "MapSize", "Size", "X" }, x.ToString());
-            mapJson = WriteValue(mapJson, new string[] { "Singletons", "MapSize", "Size", "Y" }, y.ToString());
-            mapJson = WriteValue(mapJson, new string[] { "Singletons", "TerrainMap", "Heights", "Array" }, heightMap.ToString());
-            mapJson = WriteValue(mapJson, new string[] { "Singletons", "SoilMoistureSimulator", "MoistureLevels", "Array" }, scalarMap.ToString());
-            mapJson = WriteValue(mapJson, new string[] { "Singletons", "WaterMap", "WaterDepths", "Array" }, scalarMap.ToString());
-            mapJson = WriteValue(mapJson, new string[] { "Singletons", "WaterMap", "Outflows", "Array" }, flowMap.ToString());
-            mapJson = WriteValue(mapJson, new string[] { "Entities" }, jsonEntities);*/
             // serialize JSON to a string and then write string to a file
 
             File.WriteAllText(Statics.PluginPath + "/newMap.json", Newtonsoft.Json.JsonConvert.SerializeObject(mapFile));

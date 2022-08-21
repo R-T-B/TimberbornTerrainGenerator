@@ -124,6 +124,10 @@ namespace TimberbornTerrainGenerator
         public static List<Dictionary<String, System.Object>> PlaceEntities(int[,] map, List<Dictionary<String, System.Object>> entitiesList)
         {
             float mapScaler = (map.Length / 65536);
+            if (mapScaler < 0.26)
+            {
+                mapScaler = 0.26f;
+            }
             int minesQuantity = (int)Math.Round(MaxMineCount * mapScaler);
             if (minesQuantity < MinMineCount)
             {
@@ -153,23 +157,23 @@ namespace TimberbornTerrainGenerator
         }
         private static List<Dictionary<String, System.Object>> GetMines(int[,] map, int targetMines, List<Dictionary<String, System.Object>> entitiesList)
         {
-            int xSize = map.GetLength(0);
-            int ySize = map.GetLength(1);
+            int xSize = mapSizeX;
+            int ySize = mapSizeY;
             Boolean[,] mineMap = new bool[xSize, ySize];
             //Place some mines!
             int minesNum = 0;
             while (minesNum < targetMines)
             {
-                int x = rand.Next(0, xSize);
-                int y = rand.Next(0, ySize);
-                int z = z = map[y, x] + 1;
+                int bufferZone = 4; //this needs to be at least 4 to fit a mine
+                int x = rand.Next(0, xSize - (bufferZone + 1));
+                int y = rand.Next(0, ySize - (bufferZone + 1));
+                int z = map[y, x];
                 int testX = 0;
                 int testY = 0;
                 Boolean tryAnotherLocation = false;
-                int bufferZone = 4; //this needs to be at least 4 to fit a mine
                 while (testY <= bufferZone)
                 {
-                    if ((z != map[y + testY, x + testX] +1) || (mineMap[y + testY, x + testX]))
+                    if ((z != map[y + testY, x + testX]) || (mineMap[y + testY, x + testX]))
                     {
                         tryAnotherLocation = true;
                     }
@@ -281,11 +285,7 @@ namespace TimberbornTerrainGenerator
                 Dictionary<String, System.Object> waterBlockComponentsDictionary = new Dictionary<String, System.Object>();
                 Dictionary<String, int> riverSourceCoordinates = new Dictionary<String, int>();
                 riverSourceProperty.Add("Id", Guid.NewGuid().ToString());
-                //jsonEntities.Add(riverSourceProperty);
-                //riverSourceProperty = new Dictionary<String, System.Object>();
                 riverSourceProperty.Add("Template", "WaterSource");
-                //jsonEntities.Add(riverSourceProperty);
-                //riverSourceProperty = new Dictionary<String, System.Object>();
                 waterSourceComponentsDictionary.Add("SpecifiedStrength", 3.25f);
                 waterSourceComponentsDictionary.Add("CurrentStrength", 3.25f);
                 riverSourceCoordinates.Add("X", counter);
