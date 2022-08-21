@@ -148,23 +148,32 @@ namespace TimberbornTerrainGenerator
             {
                 minesQuantity = MinMineCount;
             }
+            //Place all the stuff!
             rand = new System.Random(seed);
             entitiesList = GetMines(map, minesQuantity, entitiesList);
             rand = new System.Random(seed + 25);
+            noise.SetSeed(seed + 25);
             entitiesList = GetRuins(map, scaledRuinsCount, entitiesList);
             rand = new System.Random(seed + 50);
+            noise.SetSeed(seed + 50);
             entitiesList = GetPineTrees(map, scaledPineTreeCount, entitiesList);
             rand = new System.Random(seed + 75);
+            noise.SetSeed(seed + 75);
             entitiesList = GetBirchTrees(map, scaledBirchTreeCount, entitiesList);
             rand = new System.Random(seed + 100);
+            noise.SetSeed(seed + 100);
             entitiesList = GetChestnutTrees(map, scaledChestnutTreeCount, entitiesList);
             rand = new System.Random(seed + 125);
+            noise.SetSeed(seed + 125);
             entitiesList = GetMapleTrees(map, scaledMapleTreeCount, entitiesList);
             rand = new System.Random(seed + 150);
+            noise.SetSeed(seed + 150);
             entitiesList = GetBlueberries(map, scaledBlueberryBushCount, entitiesList);
             rand = new System.Random(seed + 175);
+            noise.SetSeed(seed + 175);
             entitiesList = GetDandelions(map, scaledDandelionBushCount, entitiesList);
             rand = new System.Random(seed + 200);
+            noise.SetSeed(seed + 200);
             entitiesList = GetSlopes(map, scaledSlopeCount, entitiesList);
                 
 
@@ -172,16 +181,14 @@ namespace TimberbornTerrainGenerator
         }
         private static List<Dictionary<String, System.Object>> GetMines(int[,] map, int targetMines, List<Dictionary<String, System.Object>> entitiesList)
         {
-            int xSize = mapSizeX;
-            int ySize = mapSizeY;
-            Boolean[,] mineMap = new bool[xSize, ySize];
+            Boolean[,] mineMap = new bool[mapSizeX, mapSizeY];
             //Place some mines!
             int minesNum = 0;
             while (minesNum < targetMines)
             {
                 int bufferZone = 4; //this needs to be at least 4 to fit a mine
-                int x = rand.Next(0, xSize - (bufferZone + 1));
-                int y = rand.Next(0, ySize - (bufferZone + 1));
+                int x = rand.Next(0, mapSizeX - (bufferZone + 1));
+                int y = rand.Next(0, mapSizeY - (bufferZone + 1));
                 int z = map[y, x];
                 int testX = 0;
                 int testY = 0;
@@ -209,12 +216,12 @@ namespace TimberbornTerrainGenerator
                 Dictionary<String, System.Object> mineProperty = new Dictionary<String, System.Object>();
                 Dictionary<String, System.Object> mineComponentsDictionary = new Dictionary<String, System.Object>();
                 Dictionary<String, System.Object> mineBlockComponentsDictionary = new Dictionary<String, System.Object>();
-                Dictionary<String, int> mineCoordinatesDictionary = new Dictionary<String, int>();
+                Dictionary<String, int> mineBlockCoordinatesDictionary = new Dictionary<String, int>();
                 Dictionary<String, bool> mineIsDryDictionary = new Dictionary<String, bool>();
-                mineCoordinatesDictionary.Add("X", x);
-                mineCoordinatesDictionary.Add("Y", y);
-                mineCoordinatesDictionary.Add("Z", z);
-                mineBlockComponentsDictionary.Add("Coordinates", mineCoordinatesDictionary);
+                mineBlockCoordinatesDictionary.Add("X", x);
+                mineBlockCoordinatesDictionary.Add("Y", y);
+                mineBlockCoordinatesDictionary.Add("Z", z);
+                mineBlockComponentsDictionary.Add("Coordinates", mineBlockCoordinatesDictionary);
                 mineComponentsDictionary.Add("BlockObject", mineBlockComponentsDictionary);
                 mineIsDryDictionary.Add("IsDry", true);
                 mineComponentsDictionary.Add("DryObject", mineIsDryDictionary);
@@ -240,12 +247,10 @@ namespace TimberbornTerrainGenerator
         }
         private static List<Dictionary<String, System.Object>> GetRuins(int[,] map, int targetRuins, List<Dictionary<String, System.Object>> entitiesList)
         {
-            int xSize = mapSizeX;
-            int ySize = mapSizeY;
-            float[,] ruinsMap = new float[xSize, ySize];
-            //Place some mines!
+            float[,] ruinsMap = new float[mapSizeX, mapSizeY];
+            //Place some Ruins!
             int ruinsNum = 0;
-            ruinsMap = GenerateNoiseMap(xSize, ySize, 25, 1, 0.8f, FastNoiseLite.NoiseType.Perlin);
+            ruinsMap = GenerateNoiseMap(mapSizeX, mapSizeY, 25, 1, 0.8f, FastNoiseLite.NoiseType.Perlin);
 
             float maxH = Utilities.GetFloatArrayMax(ruinsMap);
             float modifier = 1.00f;
@@ -257,9 +262,9 @@ namespace TimberbornTerrainGenerator
                 prevalence = maxH * modifier;
                 int xCounter = 0;
                 int yCounter = 0;
-                while (xCounter < xSize)
+                while (xCounter < mapSizeX)
                 {
-                    while (yCounter < ySize)
+                    while (yCounter < mapSizeY)
                     {
                         if (ruinsMap[yCounter, xCounter] > prevalence)
                         {
@@ -270,7 +275,7 @@ namespace TimberbornTerrainGenerator
                             Dictionary<String, System.Object> ruinProperty = new Dictionary<String, System.Object>();
                             Dictionary<String, System.Object> ruinComponentsDictionary = new Dictionary<String, System.Object>();
                             Dictionary<String, System.Object> ruinBlockComponentsDictionary = new Dictionary<String, System.Object>();
-                            Dictionary<String, int> ruinCoordinatesDictionary = new Dictionary<String, int>();
+                            Dictionary<String, int> ruinBlockCoordinatesDictionary = new Dictionary<String, int>();
                             Dictionary<String, bool> ruinIsDryDictionary = new Dictionary<String, bool>();
                             Dictionary<String, System.Object> ruinYieldDictionary = new Dictionary<String, System.Object>();
                             Dictionary<String, System.Object> ruinYieldGoodDictionary = new Dictionary<String, System.Object>();
@@ -294,10 +299,10 @@ namespace TimberbornTerrainGenerator
                             ruinYieldGoodDictionary.Add("Good", ruinYieldGoodIdDictionary);
                             ruinYieldGoodDictionary.Add("Amount", (int)ruinYield);
                             ruinYieldDictionary.Add("Yield", ruinYieldGoodDictionary);
-                            ruinCoordinatesDictionary.Add("X", xCounter);
-                            ruinCoordinatesDictionary.Add("Y", yCounter);
-                            ruinCoordinatesDictionary.Add("Z", z);
-                            ruinBlockComponentsDictionary.Add("Coordinates", ruinCoordinatesDictionary);
+                            ruinBlockCoordinatesDictionary.Add("X", xCounter);
+                            ruinBlockCoordinatesDictionary.Add("Y", yCounter);
+                            ruinBlockCoordinatesDictionary.Add("Z", z);
+                            ruinBlockComponentsDictionary.Add("Coordinates", ruinBlockCoordinatesDictionary);
                             ruinComponentsDictionary.Add("BlockObject", ruinBlockComponentsDictionary);
                             ruinComponentsDictionary.Add("Yielder:Ruin", ruinYieldDictionary);
                             ruinComponentsDictionary.Add("RuinModels", ruinModelsDictionary);
@@ -320,31 +325,120 @@ namespace TimberbornTerrainGenerator
             }
             return entitiesList;
         }
-        private static List<Dictionary<String, System.Object>> GetPineTrees(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        private static List<Dictionary<String, System.Object>> GetPineTrees(int[,] map, int targetPineTrees, List<Dictionary<String, System.Object>> entitiesList)
+        {
+            float[,] pineTreesMap = new float[mapSizeX, mapSizeY];
+            //Place some PineTrees!
+            int pineTreesNum = 0;
+            pineTreesMap = GenerateNoiseMap(mapSizeX, mapSizeY, 25, 1, 0.8f, FastNoiseLite.NoiseType.Perlin);
+
+            float maxH = Utilities.GetFloatArrayMax(pineTreesMap);
+            float modifier = 1.00f;
+            float prevalence;
+            while (pineTreesNum < targetPineTrees)
+            {
+                pineTreesNum = 0;
+                modifier -= 0.01f;
+                prevalence = maxH * modifier;
+                int xCounter = 0;
+                int yCounter = 0;
+                while (xCounter < mapSizeX)
+                {
+                    while (yCounter < mapSizeY)
+                    {
+                        if (pineTreesMap[yCounter, xCounter] > prevalence)
+                        {
+                            int z = map[yCounter, xCounter];
+                            Dictionary<String, System.Object> pineTreeProperty = new Dictionary<String, System.Object>();
+                            Dictionary<String, System.Object> pineTreeComponentsDictionary = new Dictionary<String, System.Object>();
+                            Dictionary<String, System.Object> pineTreeBlockComponentsDictionary = new Dictionary<String, System.Object>();
+                            Dictionary<String, int> pineTreeBlockCoordinatesDictionary = new Dictionary<String, int>();
+                            Dictionary<String, bool> pineTreeIsDryDictionary = new Dictionary<String, bool>();
+                            Dictionary<String, float> pineTreeGrowableDictionary = new Dictionary<String, float>();
+                            Dictionary<String, float> pineTreeNaturalRandomizerDictionary = new Dictionary<String, float>();
+                            Dictionary<String, System.Object> pineTreeCoordinatesOffseterCoordinatesOffsetDictionary = new Dictionary<String, System.Object>();
+                            Dictionary<String, float> pineTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary = new Dictionary<String, float>();
+                            Dictionary<String, System.Object> pineTreeYielderCuttableYieldDictionary = new Dictionary<String, System.Object>();
+                            Dictionary<String, System.Object> pineTreeYielderCuttableYieldGoodDictionary = new Dictionary<String, System.Object>();
+                            Dictionary<String, String> pineTreeYielderCuttableYieldGoodIdDictionary = new Dictionary<String, String>();
+                            Dictionary<String, float> pineTreeGatherableYieldGrowerGrowthDictionary = new Dictionary<String, float>();
+                            Dictionary<String, System.Object> pineTreeYielderGatherableYieldDictionary = new Dictionary<String, System.Object>();
+                            Dictionary<String, System.Object> pineTreeYielderGatherableYieldGoodDictionary = new Dictionary<String, System.Object>();
+                            Dictionary<String, String> pineTreeYielderGatherableYieldGoodIdDictionary = new Dictionary<String, String>();
+                            Dictionary<String, System.Object> pineTreeLivingNaturalResourceDictionary = new Dictionary<String, System.Object>();
+                            Dictionary<String, bool> pineTreeLivingNaturalResourceIsDeadDictionary = new Dictionary<String, bool>();
+
+                            pineTreeIsDryDictionary.Add("IsDry", false);
+                            pineTreeLivingNaturalResourceIsDeadDictionary.Add("IsDead", false);
+                            pineTreeYielderGatherableYieldGoodIdDictionary.Add("Id", "PineResin");
+                            pineTreeGatherableYieldGrowerGrowthDictionary.Add("GrowthProgress", (float)rand.NextDouble());
+                            pineTreeYielderCuttableYieldGoodIdDictionary.Add("Id", "Log");
+                            pineTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary.Add("X", (float)rand.NextDouble() - 0.5f);
+                            pineTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary.Add("Y", (float)rand.NextDouble() - 0.5f);
+                            pineTreeNaturalRandomizerDictionary.Add("Rotation", (float)(rand.Next(0, 360) + rand.NextDouble()));
+                            pineTreeNaturalRandomizerDictionary.Add("DiameterScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
+                            pineTreeNaturalRandomizerDictionary.Add("HeightScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
+                            pineTreeGrowableDictionary.Add("GrowthProgress", 1.0f);
+                            pineTreeBlockCoordinatesDictionary.Add("X",xCounter);
+                            pineTreeBlockCoordinatesDictionary.Add("Y",yCounter);
+                            pineTreeBlockCoordinatesDictionary.Add("Z", z);
+                            pineTreeLivingNaturalResourceDictionary.Add("LivingNaturalResource", pineTreeLivingNaturalResourceIsDeadDictionary);
+                            pineTreeYielderGatherableYieldGoodDictionary.Add("Good", pineTreeYielderCuttableYieldGoodIdDictionary);
+                            pineTreeYielderGatherableYieldGoodDictionary.Add("Amount", 2);
+                            pineTreeYielderGatherableYieldDictionary.Add("Yield", pineTreeYielderGatherableYieldGoodDictionary);
+                            pineTreeYielderCuttableYieldGoodDictionary.Add("Good", pineTreeYielderCuttableYieldGoodIdDictionary);
+                            pineTreeYielderCuttableYieldGoodDictionary.Add("Amount", 2);
+                            pineTreeYielderCuttableYieldDictionary.Add("Yield", pineTreeYielderCuttableYieldGoodDictionary);
+                            pineTreeCoordinatesOffseterCoordinatesOffsetDictionary.Add("CoordinatesOffset", pineTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary);
+                            pineTreeBlockComponentsDictionary.Add("Coordinates", pineTreeBlockCoordinatesDictionary);
+                            pineTreeComponentsDictionary.Add("BlockObject", pineTreeBlockComponentsDictionary);
+                            pineTreeComponentsDictionary.Add("Growable", pineTreeGrowableDictionary);
+                            pineTreeComponentsDictionary.Add("NaturalResourceModelRandomizer", pineTreeNaturalRandomizerDictionary);
+                            pineTreeComponentsDictionary.Add("CoordinatesOffseter", pineTreeCoordinatesOffseterCoordinatesOffsetDictionary);
+                            pineTreeComponentsDictionary.Add("Yielder:Cuttable", pineTreeYielderCuttableYieldDictionary);
+                            pineTreeComponentsDictionary.Add("GatherableYieldGrower", pineTreeGatherableYieldGrowerGrowthDictionary);
+                            pineTreeComponentsDictionary.Add("Yielder:Gatherable", pineTreeYielderGatherableYieldDictionary);
+                            pineTreeComponentsDictionary.Add("DryObject", pineTreeIsDryDictionary);
+                            pineTreeComponentsDictionary.Add("LivingNaturalResource", pineTreeLivingNaturalResourceIsDeadDictionary);
+                            pineTreeProperty.Add("Id", Guid.NewGuid().ToString());
+                            pineTreeProperty.Add("Template", "Pine");
+                            pineTreeProperty.Add("Components", pineTreeComponentsDictionary);
+                            entitiesList.Add(pineTreeProperty);
+                            pineTreesNum += 1;
+                            if (pineTreesNum >= targetPineTrees)
+                            {
+                                return entitiesList;
+                            }
+                        }
+                        yCounter++;
+                    }
+                    yCounter = 0;
+                    xCounter++;
+                }
+            }
+            return entitiesList;
+        }
+        private static List<Dictionary<String, System.Object>> GetBirchTrees(int[,] map, int count, List<Dictionary<String, System.Object>> entitiesList)
         {
             return entitiesList;
         }
-        private static List<Dictionary<String, System.Object>> GetBirchTrees(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        private static List<Dictionary<String, System.Object>> GetChestnutTrees(int[,] map, int count, List<Dictionary<String, System.Object>> entitiesList)
         {
             return entitiesList;
         }
-        private static List<Dictionary<String, System.Object>> GetChestnutTrees(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        private static List<Dictionary<String, System.Object>> GetMapleTrees(int[,] map, int count, List<Dictionary<String, System.Object>> entitiesList)
         {
             return entitiesList;
         }
-        private static List<Dictionary<String, System.Object>> GetMapleTrees(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        private static List<Dictionary<String, System.Object>> GetBlueberries(int[,] map, int count, List<Dictionary<String, System.Object>> entitiesList)
         {
             return entitiesList;
         }
-        private static List<Dictionary<String, System.Object>> GetBlueberries(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        private static List<Dictionary<String, System.Object>> GetDandelions(int[,] map, int count, List<Dictionary<String, System.Object>> entitiesList)
         {
             return entitiesList;
         }
-        private static List<Dictionary<String, System.Object>> GetDandelions(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
-        {
-            return entitiesList;
-        }
-        private static List<Dictionary<String, System.Object>> GetSlopes(int[,] map, int MinesCount, List<Dictionary<String, System.Object>> entitiesList)
+        private static List<Dictionary<String, System.Object>> GetSlopes(int[,] map, int count, List<Dictionary<String, System.Object>> entitiesList)
         {
             return entitiesList;
         }
