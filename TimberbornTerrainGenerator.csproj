@@ -35,10 +35,16 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="HardyHills.ini" />
     <None Remove="icon.png" />
     <None Remove="LICENSE" />
     <None Remove="manifest.json" />
+    <None Remove="NuGet.Config" />
+    <None Remove="PlentifulPlains.ini" />
+    <None Remove="README.md" />
+    <None Remove="settings.ini" />
     <None Remove="SettingsReadme.txt" />
+    <None Remove="timings.txt" />
   </ItemGroup>
 
   <ItemGroup>
