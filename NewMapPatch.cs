@@ -123,7 +123,7 @@ namespace TimberbornTerrainGenerator
             float[,] finalFloatMap = GenerateFinalRiverMap(ReturnMeanedMap(floatMapCombiner, false), out jsonEntities, MapSizeX, MapSizeY, RiverNodes, RiverWindiness, RiverWidth, RiverElevation);
             int[,] normalizedMap = new int[MapSizeX, MapSizeY];
             normalizedMap = ConvertMap(finalFloatMap, TerrainMinHeight, TerrainMaxHeight);
-            jsonEntities = PlaceEntities(normalizedMap, jsonEntities);
+            //jsonEntities = PlaceEntities(normalizedMap, jsonEntities);
             SaveTerrainMap(normalizedMap, MapSizeX, MapSizeY, jsonEntities);
             //now load the file
             while (!File.Exists(PluginPath + "/newMap.json"))
@@ -427,18 +427,6 @@ namespace TimberbornTerrainGenerator
             //Get the noise.
             return noise.GetNoise(x, y);
 
-        }
-    }
-
-    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", PluginVersion)]
-    public class TimberbornTerrainGeneratorPlugin : BaseUnityPlugin
-    {
-        public void Awake()
-        {
-            var maxsize = typeof(NewMapBox).GetField("MaxMapSize", BindingFlags.Static | BindingFlags.NonPublic);
-            var minsize = typeof(NewMapBox).GetField("MinMapSize", BindingFlags.Static | BindingFlags.NonPublic);
-            maxsize.SetValue(null, (int)int.MaxValue);
-            minsize.SetValue(null, (int)int.MinValue);
         }
     }
 }

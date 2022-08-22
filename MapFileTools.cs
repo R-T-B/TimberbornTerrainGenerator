@@ -18,55 +18,71 @@ namespace TimberbornTerrainGenerator
             MapFileFormat mapFile = new MapFileFormat();
             mapFile.GameVersion = "0.2.4.1-9edd51d-xsw";
             mapFile.Timestamp = "2022-08-12 18:46:19";
-            Dictionary<string, object> mapSizeDictLevel1;
-            //Now we start building our world header
-            mapSizeDictLevel1 = new Dictionary<string, object>();
+            //Lets declare this dictionary mess.
+            Dictionary<string, object> mapSizeDictLevel1 = new Dictionary<string, object>();
             Dictionary<string, int> mapSizeVector2 = new Dictionary<string, int>();
+            Dictionary<string, object> TerrainMapDictLevel1 = new Dictionary<string, object>();
+            Dictionary<string, string> heightArrayMapDict = new Dictionary<string, string>();
+            Dictionary<string, object> soilMoistureDictLevel1 = new Dictionary<string, object>();
+            Dictionary<string, string> moistureArrayMapDict = new Dictionary<string, string>();
+            Dictionary<string, object> cameraDictLevel1 = new Dictionary<string, object>();
+            Dictionary<string, object> cameraArrayMapDict = new Dictionary<string, object>();
+            Dictionary<string, double> cameraVector3 = new Dictionary<string, double>();
+            Dictionary<string, object> waterDepthsDictLevel1 = new Dictionary<string, object>();
+            Dictionary<string, string> waterDepthsArrayDict = new Dictionary<string, string>();
+            Dictionary<string, string> waterOutflowsDict = new Dictionary<string, string>();
+            //Now we start building our world header
             mapSizeVector2.Add("X", x);
             mapSizeVector2.Add("Y", y);
             mapSizeDictLevel1.Add("Size", mapSizeVector2);
-            mapFile.Singletons.Add("MapSize", mapSizeDictLevel1);
             //Now TerrainMap Heights
-            mapSizeDictLevel1 = new Dictionary<string, object>();
-            Dictionary<string, object> arrayMapDict;
-            arrayMapDict = new Dictionary<string, object>();
-            arrayMapDict.Add("Array", heightMap.ToString());
-            mapSizeDictLevel1.Add("Heights", arrayMapDict);
-            mapFile.Singletons.Add("TerrainMap", mapSizeDictLevel1);
+            heightArrayMapDict.Add("Array", heightMap);
+            TerrainMapDictLevel1.Add("Heights", heightArrayMapDict);
             //Now we work on SoilMoistureSimulator
-            mapSizeDictLevel1 = new Dictionary<string, object>();
-            arrayMapDict = new Dictionary<string, object>();
-            arrayMapDict.Add("Array", scalarMap.ToString());
-            mapSizeDictLevel1.Add("MoistureLevels", arrayMapDict);
-            mapFile.Singletons.Add("SoilMoistureSimulator", mapSizeDictLevel1);
+            moistureArrayMapDict.Add("Array", scalarMap);
+            soilMoistureDictLevel1.Add("MoistureLevels", moistureArrayMapDict);
+
             //Now we work on CameraStateRestorer
-            mapSizeDictLevel1 = new Dictionary<string, object>();
-            arrayMapDict = new Dictionary<string, object>();
-            Dictionary<string, double> cameraVector3 = new Dictionary<string, double>();
+
             cameraVector3.Add("X", 0.0f);
             cameraVector3.Add("Y", 0.0f);
             cameraVector3.Add("Z", 0.0f);
-            arrayMapDict.Add("Target", cameraVector3);
-            arrayMapDict.Add("ZoomLevel", 0.0f);
-            arrayMapDict.Add("HorizontalAngle", 30.0f);
-            arrayMapDict.Add("VerticalAngle", 70.0f);
-            mapSizeDictLevel1.Add("SavedCameraState", arrayMapDict);
-            mapFile.Singletons.Add("CameraStateRestorer", mapSizeDictLevel1);
+            cameraArrayMapDict.Add("Target", cameraVector3);
+            cameraArrayMapDict.Add("ZoomLevel", 0.0f);
+            cameraArrayMapDict.Add("HorizontalAngle", 30.0f);
+            cameraArrayMapDict.Add("VerticalAngle", 70.0f);
+            cameraDictLevel1.Add("SavedCameraState", cameraArrayMapDict);
+
             //Now we work on WaterMap WaterDepths
-            mapSizeDictLevel1 = new Dictionary<string, object>();
-            arrayMapDict = new Dictionary<string, object>();
-            arrayMapDict.Add("Array", scalarMap.ToString());
-            mapSizeDictLevel1.Add("WaterDepths", arrayMapDict);
-            arrayMapDict = new Dictionary<string, object>();
-            arrayMapDict.Add("Array", flowMap.ToString());
-            mapSizeDictLevel1.Add("Outflows", arrayMapDict);
-            mapFile.Singletons.Add("WaterMap", mapSizeDictLevel1);
+            waterDepthsArrayDict.Add("Array", scalarMap);
+            waterDepthsDictLevel1.Add("WaterDepths", waterDepthsArrayDict);
+            waterOutflowsDict.Add("Array", flowMap);
+            waterDepthsDictLevel1.Add("Outflows", waterOutflowsDict);
+
+            mapFile.Singletons.Add("MapSize", mapSizeDictLevel1);
+            mapFile.Singletons.Add("TerrainMap", TerrainMapDictLevel1);
+            mapFile.Singletons.Add("SoilMoistureSimulator", soilMoistureDictLevel1);
+            mapFile.Singletons.Add("CameraStateRestorer", cameraDictLevel1);
+            mapFile.Singletons.Add("WaterMap", waterDepthsDictLevel1);
             mapFile.Entities = jsonEntities;
             //Now we work on Entities, with a new variable in the class to manage them.
-            mapSizeDictLevel1 = new Dictionary<string, object>();
             // serialize JSON to a string and then write string to a file
 
             File.WriteAllText(PluginPath + "/newMap.json", Newtonsoft.Json.JsonConvert.SerializeObject(mapFile));
+            //cleanup
+            mapSizeDictLevel1 = null;
+            mapSizeVector2 = null;
+            TerrainMapDictLevel1 = null;
+            heightArrayMapDict = null;
+            soilMoistureDictLevel1 = null;
+            moistureArrayMapDict = null;
+            cameraDictLevel1 = null;
+            cameraArrayMapDict = null;
+            cameraVector3 = null;
+            waterDepthsDictLevel1 = null;
+            waterDepthsArrayDict = null;
+            waterOutflowsDict = null;
+
             return;
         }
         public static void GenerateArrayStrings(int[,] map, int mapSize, out string heightMap, out string scalarMap, out string flowMap)

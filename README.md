@@ -20,8 +20,6 @@ That said yes we consider performance a priority issue.  See this ticket:
 In order to install the mod follow the instructions from BepInEx website:
 https://docs.bepinex.dev/articles/user_guide/installation/index.html
 
-Mac users additionally need to install the latest 3.x series Python and run in terminal/console the command "pip3 install numpy"
-
 Changelog:
 
 v0.1.0: Initial Release.
@@ -53,6 +51,8 @@ v0.3.3: More mac fixes.
 v0.3.4: Improved erosion processing. Still supports same seeds.
 
 v0.9.0: Ported mod to C#.  Obviously a seed breaking release, be advised.  Old maps will still load fine, as always.
+
+v0.9.1: Seed compatible optimization run.  Up to 180% generation time improvements.  No changes or new features otherwise. Will continue to work on speed!
 
 # Feedback
 

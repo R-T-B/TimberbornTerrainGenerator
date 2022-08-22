@@ -16,19 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="IronPython34\**" />
-    <Compile Remove="NewtonsoftJson\**" />
-    <Compile Remove="NumSharp\**" />
     <Compile Remove="TimberbornMapGeneratorHistoricalPythonSrc\**" />
     <Compile Remove="TimberbornMapGeneratorPythonSrc\**" />
-    <EmbeddedResource Remove="IronPython34\**" />
-    <EmbeddedResource Remove="NewtonsoftJson\**" />
-    <EmbeddedResource Remove="NumSharp\**" />
     <EmbeddedResource Remove="TimberbornMapGeneratorHistoricalPythonSrc\**" />
     <EmbeddedResource Remove="TimberbornMapGeneratorPythonSrc\**" />
-    <None Remove="IronPython34\**" />
-    <None Remove="NewtonsoftJson\**" />
-    <None Remove="NumSharp\**" />
     <None Remove="TimberbornMapGeneratorHistoricalPythonSrc\**" />
     <None Remove="TimberbornMapGeneratorPythonSrc\**" />
   </ItemGroup>
@@ -51,6 +42,7 @@
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
     <PackageReference Include="BepInEx.Core" Version="5.4.21" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
+    <PackageReference Include="TimberAPI" Version="0.4.4" />
   </ItemGroup>
   
 <ItemGroup>
