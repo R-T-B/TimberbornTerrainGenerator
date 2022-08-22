@@ -58,9 +58,7 @@ v0.9.0: Ported mod to C#.  Obviously a seed breaking release, be advised.  Old m
 
 If you have any feedback, please reach out to me at github or on Timberborn Discord in the modding channel.
 
-  
 # Authors
-
-- [@MSterczewski (aka Informati)](https://github.com/MSterczewski) (initial plugin code), Caps_Errors (initial python code), reddit user u/savanik (updated with river handling), R-T-B (additions of new plant life, interation to the game as a plugin, and such).
+R-T-B
 
   
