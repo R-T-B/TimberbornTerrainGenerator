@@ -82,7 +82,8 @@ namespace TimberbornTerrainGenerator
             waterDepthsDictLevel1 = null;
             waterDepthsArrayDict = null;
             waterOutflowsDict = null;
-
+            mapFile.Entities = null;
+            mapFile.Singletons = null;
             return;
         }
         public static void GenerateArrayStrings(int[,] map, int mapSize, out string heightMap, out string scalarMap, out string flowMap)

@@ -123,7 +123,7 @@ namespace TimberbornTerrainGenerator
             float[,] finalFloatMap = GenerateFinalRiverMap(ReturnMeanedMap(floatMapCombiner, false), out jsonEntities, MapSizeX, MapSizeY, RiverNodes, RiverWindiness, RiverWidth, RiverElevation);
             int[,] normalizedMap = new int[MapSizeX, MapSizeY];
             normalizedMap = ConvertMap(finalFloatMap, TerrainMinHeight, TerrainMaxHeight);
-            //jsonEntities = PlaceEntities(normalizedMap, jsonEntities);
+            jsonEntities = PlaceEntities(normalizedMap, jsonEntities);
             SaveTerrainMap(normalizedMap, MapSizeX, MapSizeY, jsonEntities);
             //now load the file
             while (!File.Exists(PluginPath + "/newMap.json"))
