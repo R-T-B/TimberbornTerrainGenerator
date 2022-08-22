@@ -61,7 +61,7 @@ namespace TimberbornTerrainGenerator
             }
             return result;
         }
-        public static float[,] ReturnMeanedMap(List<float[,]> MList)
+        public static float[,] ReturnMeanedMap(List<float[,]> MList, bool excludeZeroes)
         {
             float[,] result;
             int xSize;
@@ -87,10 +87,21 @@ namespace TimberbornTerrainGenerator
                 while (yCounter < ySize)
                 {
                     float resultingMeanedValue = 0;
-                    int divisor = MList.Count();
+                    int divisor = 0;
                     foreach (float[,] map in MList)
                     {
                         resultingMeanedValue += map[xCounter, yCounter];
+                        if (!excludeZeroes)
+                        {
+                            divisor++;
+                        }
+                        else
+                        {
+                            if (map[xCounter, yCounter] != 0)
+                            {
+                                divisor++;
+                            }
+                        }
                     }
                     resultingMeanedValue = resultingMeanedValue / divisor;
                     if (resultingMeanedValue > 1)

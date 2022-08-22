@@ -30,10 +30,13 @@ namespace TimberbornTerrainGenerator
         public static FastNoiseLite.NoiseType TerrainNoiseType = FastNoiseLite.NoiseType.Perlin;
         public static float TerrainAmplitude = 2.5f;
         public static int TerrainFrequencyMult = 10;
-        public static int RiverNodes = 3;
+        public static float TerrainSlopeLevel = 0.0025f;
+        public static int RiverNodes = 2;
+        public static float RiverSourceStrength = 1.5f;
         public static float RiverWindiness = 0.4125f;
         public static int RiverWidth = 4;
-        public static float RiverDepth = 0.2f;
+        public static float RiverElevation = -0.7125f;
+        public static int RiverMapWeight = 5;
         public static int MaxMineCount = 4;
         public static int MinMineCount = 0;
         public static int RuinCount = 500;
@@ -72,10 +75,13 @@ namespace TimberbornTerrainGenerator
                 }
                 TerrainAmplitude = float.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainAmplitude"));
                 TerrainFrequencyMult = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainFrequencyMult"));
+                TerrainSlopeLevel = float.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainSlopeLevel"));
                 RiverNodes = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverNodes"));
+                RiverSourceStrength = float.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverSourceStrength"));
                 RiverWindiness = float.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverWindiness"));
                 RiverWidth = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverWidth"));
-                RiverDepth = float.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverDepth"));
+                RiverElevation = float.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverElevation"));
+                RiverMapWeight = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverMapWeight"));
                 MaxMineCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "MaxMineCount"));
                 MinMineCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "MinMineCount"));
                 RuinCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RuinCount"));
@@ -108,8 +114,8 @@ namespace TimberbornTerrainGenerator
             List<Dictionary<String, System.Object>> jsonEntities = new List<Dictionary<String, System.Object>>();
             List<float[,]> floatMapCombiner = new List<float[,]>();
             floatMapCombiner.Add(GenerateBaseLayerNoise(mapSizeX, mapSizeY, TerrainAmplitude, seed));
-            floatMapCombiner.Add(GenerateSlopeMap(mapSizeX, mapSizeY, 0.8f));
-            float[,] finalFloatMap = GenerateFinalRiverSlopeMap(Utilities.ReturnMeanedMap(floatMapCombiner), out jsonEntities, mapSizeX, mapSizeY, RiverNodes, RiverWindiness, RiverWidth, RiverDepth);
+            floatMapCombiner.Add(GenerateSlopeMap(mapSizeX, mapSizeY, TerrainSlopeLevel));
+            float[,] finalFloatMap = GenerateFinalRiverSlopeMap(Utilities.ReturnMeanedMap(floatMapCombiner, false), out jsonEntities, mapSizeX, mapSizeY, RiverNodes, RiverWindiness, RiverWidth, RiverElevation);
             int[,] normalizedMap = new int[mapSizeX, mapSizeY];
             normalizedMap = ConvertMap(finalFloatMap, TerrainMinHeight, TerrainMaxHeight);
             jsonEntities = PlaceEntities(normalizedMap, jsonEntities);
@@ -442,7 +448,7 @@ namespace TimberbornTerrainGenerator
         {
             return entitiesList;
         }
-        private static float[,] GenerateFinalRiverSlopeMap(float[,] map, out List<Dictionary<String, System.Object>> jsonEntities, int xSize, int ySize, int nodes, float windiness, float width, float depth)
+        private static float[,] GenerateFinalRiverSlopeMap(float[,] map, out List<Dictionary<String, System.Object>> jsonEntities, int xSize, int ySize, int nodes, float windiness, float width, float elevation)
         {
             float scaledWidth = width * (xSize / 256);
             if (scaledWidth < 2)
@@ -463,28 +469,6 @@ namespace TimberbornTerrainGenerator
             float center = 0.5f * MathF.Sin(omega1 * 1) * windiness + 0.3f * MathF.Sin(omega2 * 3) * windiness + 0.1f * MathF.Sin(omega3 * 5) * windiness;
             center = center * ySize / 2 + ySize / 2;
             jsonEntities = new List<Dictionary<String, System.Object>>();
-            int counter = 0;
-            while (counter < xSize)
-            {
-                Dictionary<String, System.Object> riverSourceProperty = new Dictionary<String, System.Object>();
-                Dictionary<String, System.Object> riverSourceComponentsDictionary = new Dictionary<String, System.Object>();
-                Dictionary<String, System.Object> waterSourceComponentsDictionary = new Dictionary<String, System.Object>();
-                Dictionary<String, System.Object> waterBlockComponentsDictionary = new Dictionary<String, System.Object>();
-                Dictionary<String, int> riverSourceCoordinates = new Dictionary<String, int>();
-                riverSourceProperty.Add("Id", Guid.NewGuid().ToString());
-                riverSourceProperty.Add("Template", "WaterSource");
-                waterSourceComponentsDictionary.Add("SpecifiedStrength", 3.25f);
-                waterSourceComponentsDictionary.Add("CurrentStrength", 3.25f);
-                riverSourceCoordinates.Add("X", counter);
-                riverSourceCoordinates.Add("Y", Y);
-                riverSourceCoordinates.Add("Z", (int)Utilities.ReturnScaledIntFromFloat(map[Y, counter] - depth));
-                waterBlockComponentsDictionary.Add("Coordinates", riverSourceCoordinates);
-                riverSourceComponentsDictionary.Add("WaterSource", waterSourceComponentsDictionary);
-                riverSourceComponentsDictionary.Add("BlockObject", waterBlockComponentsDictionary);
-                riverSourceProperty.Add("Components", riverSourceComponentsDictionary);
-                jsonEntities.Add(riverSourceProperty);
-                counter++;
-            }
             float x = 0f;
             while (x < xSize)
             {
@@ -536,16 +520,49 @@ namespace TimberbornTerrainGenerator
                             {
                                 continue;
                             }
-                            riverMap[x2, y] = depth * (-1);
+                            riverMap[x2, y] = RiverElevation;
                         }
                     }
                 }
                 x += 0.2f;
             }
-            List<float[,]> addingList = new List<float[,]>();
-            addingList.Add(map);
-            addingList.Add(riverMap);
-            return Utilities.ReturnAdditiveMap(addingList);
+            List<float[,]> computeList = new List<float[,]>();
+            computeList.Add(map);
+            int counter = 0;
+            while (counter < RiverMapWeight) //We weight the river map over the terrain map according to the ini parameter.
+            {
+                computeList.Add(riverMap);
+                counter++;
+            }
+            float[,] finalMap = Utilities.ReturnMeanedMap(computeList, true);
+            counter = 0;
+            while (counter < xSize)
+            {
+                int origZ = Utilities.ReturnScaledIntFromFloat(map[Y, counter]);
+                int targetZ = Utilities.ReturnScaledIntFromFloat(finalMap[Y, counter]);
+                if (origZ != targetZ) //The map differs!  We must be in the river bed.
+                {
+                    Dictionary<String, System.Object> riverSourceProperty = new Dictionary<String, System.Object>();
+                    Dictionary<String, System.Object> riverSourceComponentsDictionary = new Dictionary<String, System.Object>();
+                    Dictionary<String, System.Object> waterSourceComponentsDictionary = new Dictionary<String, System.Object>();
+                    Dictionary<String, System.Object> waterBlockComponentsDictionary = new Dictionary<String, System.Object>();
+                    Dictionary<String, int> riverSourceCoordinates = new Dictionary<String, int>();
+                    riverSourceProperty.Add("Id", Guid.NewGuid().ToString());
+                    riverSourceProperty.Add("Template", "WaterSource");
+                    waterSourceComponentsDictionary.Add("SpecifiedStrength", RiverSourceStrength);
+                    waterSourceComponentsDictionary.Add("CurrentStrength", RiverSourceStrength);
+                    riverSourceCoordinates.Add("X", counter);
+                    riverSourceCoordinates.Add("Y", Y);
+                    riverSourceCoordinates.Add("Z", targetZ);
+                    waterBlockComponentsDictionary.Add("Coordinates", riverSourceCoordinates);
+                    riverSourceComponentsDictionary.Add("WaterSource", waterSourceComponentsDictionary);
+                    riverSourceComponentsDictionary.Add("BlockObject", waterBlockComponentsDictionary);
+                    riverSourceProperty.Add("Components", riverSourceComponentsDictionary);
+                    jsonEntities.Add(riverSourceProperty);
+                }
+                counter++;
+            }
+            return finalMap;
         }
         private static float[,] GenerateSlopeMap(int xSize, int ySize, float slope)
         {
