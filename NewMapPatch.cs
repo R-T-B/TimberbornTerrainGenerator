@@ -40,14 +40,15 @@ namespace TimberbornTerrainGenerator
         public static int MaxMineCount = 4;
         public static int MinMineCount = 0;
         public static int RuinCount = 500;
-        public static int PineTreeCount = 1200;
-        public static int BirchTreeCount = 400;
-        public static int ChestnutTreeCount = 500;
-        public static int MapleTreeCount = 300;
-        public static int BlueberryBushCount = 320;
-        public static int DandelionBushCount = 160;
+        public static int PineTreeCount = 3600;
+        public static int BirchTreeCount = 1200;
+        public static int ChestnutTreeCount = 1500;
+        public static int MapleTreeCount = 900;
+        public static int BlueberryBushCount = 500;
+        public static int DandelionBushCount = 250;
         public static int SlopeCount = 128;
         public static bool[,] RiverMapper = new bool[32,32];
+        public static bool[,] EntityMapper = new bool[32, 32];
         //END EXTERNAL LOADABLE INI SETTINGS
         public static bool Prefix(Vector2Int mapSize, MapEditorSceneLoader __instance)
         {
@@ -112,6 +113,7 @@ namespace TimberbornTerrainGenerator
                 rand = new System.Random(seed);
             }
             RiverMapper = new bool[mapSizeX, mapSizeY];
+            EntityMapper = new bool[mapSizeX, mapSizeY];
             noise = new FastNoiseLite(seed);
             List<Dictionary<string, object>> jsonEntities = new List<Dictionary<string, object>>();
             List<float[,]> floatMapCombiner = new List<float[,]>();
@@ -279,9 +281,8 @@ namespace TimberbornTerrainGenerator
             int lastTargetZ = Int32.MinValue;
             while (counter < xSize)
             {
-                int origZ = Utilities.ReturnScaledIntFromFloat(map[Y, counter]);
                 int targetZ = Utilities.ReturnScaledIntFromFloat(finalMap[Y, counter]);
-                if ((origZ != targetZ) || (lastTargetZ == targetZ)) //The map differs!  (Or it's the same height as an adjacent block we just placed that had a riversource tile) We must be in the river bed.
+                if (RiverMapper[Y,counter] || (lastTargetZ == targetZ)) //We are in the riverbed!  (Or it's the same height as an adjacent block we just placed that had a riversource tile) Either way, place a source block.
                 {
                     Dictionary<string, object> riverSourceProperty = new Dictionary<string, object>();
                     Dictionary<string, object> riverSourceComponentsDictionary = new Dictionary<string, object>();
