@@ -951,7 +951,6 @@ namespace TimberbornTerrainGenerator
                 slopeComponentsDictionary.Add("BlockObject", slopeBlockComponentsDictionary);
                 slopeComponentsDictionary.Add("Constructible", slopeBlockComponentsConstructibleFinishedDictionary);
                 slopeComponentsDictionary.Add("ConstructionSite", slopeBlockComponentsConstructionSiteBuildTimeDictionary);
-                slopeProperty.Add("Components", slopeComponentsDictionary);
                 slopeProperty.Add("Id", Guid.NewGuid().ToString());
                 slopeProperty.Add("Template", "Slope");
                 slopeProperty.Add("Components", slopeComponentsDictionary);
