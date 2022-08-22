@@ -473,9 +473,9 @@ def getSlopes(map, targetSlopes,seed):
                     break
                 testValue += 1
         if HorizontalOrVertical == 0:
-            x += testValue;
+            x += testValue
         if HorizontalOrVertical == 1:
-            y += testValue;
+            y += testValue
         endingZ = map[y,x] # Record our ending z
         if (startingZ > endingZ and ((startingZ - endingZ) > 1)) or (startingZ < endingZ and ((endingZ - startingZ) > 1)): #Slope is impossibly steep
             tryAnotherLocation = 1

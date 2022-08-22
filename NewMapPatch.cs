@@ -10,9 +10,10 @@ using Timberborn.MapSystemUI;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using Timberborn.Core;
 using static FastNoiseLite;
-
+using static TimberbornTerrainGenerator.MapFileTools;
+using static TimberbornTerrainGenerator.Utilities;
+using static TimberbornTerrainGenerator.Statics;
 namespace TimberbornTerrainGenerator
 {
     [HarmonyPatch]
@@ -21,8 +22,8 @@ namespace TimberbornTerrainGenerator
     {
         public static System.Random rand = new System.Random();
         public static FastNoiseLite noise = new FastNoiseLite();
-        public static int mapSizeX;
-        public static int mapSizeY;
+        public static int MapSizeX;
+        public static int MapSizeY;
         public static int seed;
         //BEGIN EXTERNAL LOADABLE INI SETTINGS
         public static int TerrainMinHeight = 10;
@@ -55,7 +56,7 @@ namespace TimberbornTerrainGenerator
             //Try load .ini settings
             try
             {
-                IniParser iniParser = new IniParser(Statics.PluginPath + "/settings.ini");
+                IniParser iniParser = new IniParser(PluginPath + "/settings.ini");
                 TerrainMinHeight = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainMinHeight"));
                 TerrainMaxHeight = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainMaxHeight"));
                 if (iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainNoiseType").ToLower().Equals("perlin"))
@@ -100,10 +101,10 @@ namespace TimberbornTerrainGenerator
                 Debug.LogWarning("Unable to load settings file, using default parameters!"); //Fail?
             }
             //Woo I hope that went ok!
-            mapSizeX = mapSize.x;
-            mapSizeY = mapSize.x;
+            MapSizeX = mapSize.x;
+            MapSizeY = mapSize.x;
             seed = mapSize.y;
-            if (mapSizeX != mapSize.y)
+            if (MapSizeX != mapSize.y)
             {
                 rand = new System.Random(seed);
             }
@@ -112,32 +113,32 @@ namespace TimberbornTerrainGenerator
                 seed = UnityEngine.Random.Range(-8192, 8192);
                 rand = new System.Random(seed);
             }
-            RiverMapper = new bool[mapSizeX, mapSizeY];
-            EntityMapper = new bool[mapSizeX, mapSizeY];
+            RiverMapper = new bool[MapSizeX, MapSizeY];
+            EntityMapper = new bool[MapSizeX, MapSizeY];
             noise = new FastNoiseLite(seed);
             List<Dictionary<string, object>> jsonEntities = new List<Dictionary<string, object>>();
             List<float[,]> floatMapCombiner = new List<float[,]>();
-            floatMapCombiner.Add(GenerateBaseLayerNoise(mapSizeX, mapSizeY, TerrainAmplitude, seed));
-            floatMapCombiner.Add(GenerateSlopeMap(mapSizeX, mapSizeY, TerrainSlopeLevel));
-            float[,] finalFloatMap = GenerateFinalRiverMap(Utilities.ReturnMeanedMap(floatMapCombiner, false), out jsonEntities, mapSizeX, mapSizeY, RiverNodes, RiverWindiness, RiverWidth, RiverElevation);
-            int[,] normalizedMap = new int[mapSizeX, mapSizeY];
+            floatMapCombiner.Add(GenerateBaseLayerNoise(MapSizeX, MapSizeY, TerrainAmplitude, seed));
+            floatMapCombiner.Add(GenerateSlopeMap(MapSizeX, MapSizeY, TerrainSlopeLevel));
+            float[,] finalFloatMap = GenerateFinalRiverMap(ReturnMeanedMap(floatMapCombiner, false), out jsonEntities, MapSizeX, MapSizeY, RiverNodes, RiverWindiness, RiverWidth, RiverElevation);
+            int[,] normalizedMap = new int[MapSizeX, MapSizeY];
             normalizedMap = ConvertMap(finalFloatMap, TerrainMinHeight, TerrainMaxHeight);
             jsonEntities = PlaceEntities(normalizedMap, jsonEntities);
-            MapFileTools.SaveTerrainMap(normalizedMap, mapSizeX, mapSizeY, jsonEntities);
+            SaveTerrainMap(normalizedMap, MapSizeX, MapSizeY, jsonEntities);
             //now load the file
-            while (!File.Exists(Statics.PluginPath + "/newMap.json"))
+            while (!File.Exists(PluginPath + "/newMap.json"))
             {
                 Thread.Sleep(500);
             }
             Statics.Logger.LogInfo("Loading randomised map");
-            MapFileReference mapFileReference = MapFileReference.FromDisk(Statics.PluginPath + "/newMap");
+            MapFileReference mapFileReference = MapFileReference.FromDisk(PluginPath + "/newMap");
             __instance.LoadMap(mapFileReference);
             Statics.Logger.LogInfo("Finished loading");
             return false;
         }
         public static List<Dictionary<string, object>> PlaceEntities(int[,] map, List<Dictionary<string, object>> entitiesList)
         {
-            float mapScaler = (mapSizeX * mapSizeX) / 65536f;
+            float mapScaler = MapSizeX * MapSizeX / 65536f;
             float mineMapScaler = mapScaler;
             if ((mineMapScaler < 0.255) && (!(mineMapScaler < 0.23))) //This deals with float imprecision cheating 128x128 players out of their own default mine.
             {
@@ -275,13 +276,13 @@ namespace TimberbornTerrainGenerator
                 computeList.Add(riverMap);
                 counter++;
             }
-            float[,] finalMap = Utilities.ReturnMeanedMap(computeList, true);
+            float[,] finalMap = ReturnMeanedMap(computeList, true);
             counter = 0;
             //Now add water sources
             int lastTargetZ = Int32.MinValue;
             while (counter < xSize)
             {
-                int targetZ = Utilities.ReturnScaledIntFromFloat(finalMap[Y, counter]);
+                int targetZ = ReturnScaledIntFromFloat(finalMap[Y, counter]);
                 if (RiverMapper[Y,counter] || (lastTargetZ == targetZ)) //We are in the riverbed!  (Or it's the same height as an adjacent block we just placed that had a riversource tile) Either way, place a source block.
                 {
                     Dictionary<string, object> riverSourceProperty = new Dictionary<string, object>();
@@ -429,7 +430,7 @@ namespace TimberbornTerrainGenerator
         }
     }
 
-    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", "0.4.0")]
+    [BepInPlugin("org.bepinex.plugins.timberbornterraingenerator", "TimberbornTerrainGenerator", PluginVersion)]
     public class TimberbornTerrainGeneratorPlugin : BaseUnityPlugin
     {
         public void Awake()

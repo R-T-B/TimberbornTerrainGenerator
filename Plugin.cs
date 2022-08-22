@@ -1,9 +1,10 @@
 ﻿using BepInEx;
 using HarmonyLib;
+using static TimberbornTerrainGenerator.Statics;
 
 namespace TimberbornTerrainGenerator
 {
-    [BepInPlugin("TimberbornTerrainGenerator", "TimberbornTerrainGenerator", "0.4.0")]
+    [BepInPlugin("TimberbornTerrainGenerator", "TimberbornTerrainGenerator", PluginVersion)]
     [BepInProcess("Timberborn.exe")]
     public class Plugin : BaseUnityPlugin
     {

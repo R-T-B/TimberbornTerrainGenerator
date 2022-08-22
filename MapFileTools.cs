@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using static TimberbornTerrainGenerator.Statics;
 
 namespace TimberbornTerrainGenerator
 {
@@ -13,7 +14,7 @@ namespace TimberbornTerrainGenerator
             string scalarMap = "";
             string flowMap = "";
             GenerateArrayStrings(map, x, out heightMap, out scalarMap, out flowMap);
-            string fileName = Statics.PluginPath + "/newMap.json";
+            string fileName = PluginPath + "/newMap.json";
             MapFileFormat mapFile = new MapFileFormat();
             mapFile.GameVersion = "0.2.4.1-9edd51d-xsw";
             mapFile.Timestamp = "2022-08-12 18:46:19";
@@ -65,7 +66,7 @@ namespace TimberbornTerrainGenerator
             mapSizeDictLevel1 = new Dictionary<string, object>();
             // serialize JSON to a string and then write string to a file
 
-            File.WriteAllText(Statics.PluginPath + "/newMap.json", Newtonsoft.Json.JsonConvert.SerializeObject(mapFile));
+            File.WriteAllText(PluginPath + "/newMap.json", Newtonsoft.Json.JsonConvert.SerializeObject(mapFile));
             return;
         }
         public static void GenerateArrayStrings(int[,] map, int mapSize, out string heightMap, out string scalarMap, out string flowMap)

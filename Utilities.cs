@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using static TimberbornTerrainGenerator.NewMapPatch;
 
 namespace TimberbornTerrainGenerator
 {
@@ -11,7 +12,7 @@ namespace TimberbornTerrainGenerator
     {
         public static int ReturnScaledIntFromFloat(float flt)
         {
-            return (int)Math.Round((flt * (NewMapPatch.TerrainMaxHeight - NewMapPatch.TerrainMinHeight)) + NewMapPatch.TerrainMinHeight);
+            return (int)Math.Round((flt * (TerrainMaxHeight - TerrainMinHeight)) + TerrainMinHeight);
         }
         public static float[,] ReturnAdditiveMap(List<float[,]> MList)
         {
@@ -26,9 +27,9 @@ namespace TimberbornTerrainGenerator
             }
             catch
             {
-                result = new float[NewMapPatch.mapSizeX, NewMapPatch.mapSizeY];
-                xSize = NewMapPatch.mapSizeX;
-                ySize = NewMapPatch.mapSizeY;
+                result = new float[MapSizeX, MapSizeY];
+                xSize = MapSizeX;
+                ySize = MapSizeY;
 
             }
             int xCounter = 0;
@@ -74,9 +75,9 @@ namespace TimberbornTerrainGenerator
             }
             catch
             {
-                result = new float[NewMapPatch.mapSizeX, NewMapPatch.mapSizeY];
-                xSize = NewMapPatch.mapSizeX;
-                ySize = NewMapPatch.mapSizeY;
+                result = new float[MapSizeX, MapSizeY];
+                xSize = MapSizeX;
+                ySize = MapSizeY;
 
             }
             result = new float[xSize, ySize];
@@ -137,9 +138,9 @@ namespace TimberbornTerrainGenerator
             }
             catch
             {
-                result = new float[NewMapPatch.mapSizeX, NewMapPatch.mapSizeY];
-                xSize = NewMapPatch.mapSizeX;
-                ySize = NewMapPatch.mapSizeY;
+                result = new float[MapSizeX, MapSizeY];
+                xSize = MapSizeX;
+                ySize = MapSizeY;
 
             }
             result = new float[xSize, ySize];
@@ -185,9 +186,9 @@ namespace TimberbornTerrainGenerator
             }
             catch
             {
-                result = new float[NewMapPatch.mapSizeX, NewMapPatch.mapSizeY];
-                xSize = NewMapPatch.mapSizeX;
-                ySize = NewMapPatch.mapSizeY;
+                result = new float[MapSizeX, MapSizeY];
+                xSize = MapSizeX;
+                ySize = MapSizeY;
 
             }
             result = new float[xSize, ySize];
@@ -256,9 +257,9 @@ namespace TimberbornTerrainGenerator
             }
             catch
             {
-                result = new float[NewMapPatch.mapSizeX, NewMapPatch.mapSizeY];
-                xSize = NewMapPatch.mapSizeX;
-                ySize = NewMapPatch.mapSizeY;
+                result = new float[MapSizeX, MapSizeY];
+                xSize = MapSizeX;
+                ySize = MapSizeY;
 
             }
             result = new float[xSize, ySize];
