@@ -845,32 +845,61 @@ namespace TimberbornTerrainGenerator
                 //First off, where?  Lets wander and find a potential spot.
                 int startingZ = map[y, x];
                 bool HorizontalOrVertical = false;
+                bool whichWay = false;
                 if (rand.Next(0,2) == 0)
                 {
                     HorizontalOrVertical = true;
                 }
-                if (!HorizontalOrVertical)
+                if (rand.Next(0, 2) == 0)
+                {
+                    whichWay = true;
+                }
+                    if (!HorizontalOrVertical)
                 {
                     while (startingZ == map[y, x + testValue])
                     {
-                        if (x + testValue >= (MapSizeX - 1)) //We've walked off the map...
+                        if (whichWay)
                         {
-                            tryAnotherLocation = true;
-                            break;
+                            testValue += 1;
+                            if (x + testValue >= (MapSizeX - 1)) //We've walked off the map...
+                            {
+                                tryAnotherLocation = true;
+                                break;
+                            }
                         }
-                        testValue += 1;
+                        else
+                        {
+                            testValue -= 1;
+                            if (x + testValue <= 0) //We've walked off the map...
+                            {
+                                tryAnotherLocation = true;
+                                break;
+                            }
+                        }
                     }
                 }
                 else
                 {
                     while (startingZ == map[y + testValue, x])
                     {
-                        if (y + testValue >= (MapSizeY - 1)) //We've walked off the map...
+                        if (whichWay)
                         {
-                            tryAnotherLocation = true;
-                            break;
+                            testValue += 1;
+                            if (y + testValue >= (MapSizeY - 1)) //We've walked off the map...
+                            {
+                                tryAnotherLocation = true;
+                                break;
+                            }
                         }
-                        testValue += 1;
+                        else
+                        {
+                            testValue -= 1;
+                            if (y + testValue <= 0) //We've walked off the map...
+                            {
+                                tryAnotherLocation = true;
+                                break;
+                            }
+                        }
                     }
                 }
                 if (!HorizontalOrVertical)
@@ -912,21 +941,43 @@ namespace TimberbornTerrainGenerator
                 }
                 //Okay, the coords are established!  We are ready!  First what way does the slope spin?
                 string slopeDirection = "NOROTATION"; ; //this is kept only if it doesn't need rotation data.
-                if ((!HorizontalOrVertical) && (startingZ > endingZ))
+                if (whichWay) //There are two rotation logics that we need...  They are inverts of each other.
                 {
-                    slopeDirection = "Cw90";
+                    if ((!HorizontalOrVertical) && (startingZ > endingZ))
+                    {
+                        slopeDirection = "Cw90";
+                    }
+                    else if ((!HorizontalOrVertical) && (startingZ < endingZ))
+                    {
+                        slopeDirection = "Cw270";
+                    }
+                    else if (HorizontalOrVertical && (startingZ > endingZ))
+                    {
+                        slopeDirection = "NOROTATION"; //Dummy Entry to keep the logical flow, no rotation needed.
+                    }
+                    else if (HorizontalOrVertical && (startingZ < endingZ))
+                    {
+                        slopeDirection = "Cw180";
+                    }
                 }
-                else if ((!HorizontalOrVertical) && (startingZ < endingZ))
+                else
                 {
-                    slopeDirection = "Cw270";
-                }
-                else if (HorizontalOrVertical && (startingZ > endingZ))
-                {
-                    slopeDirection = "NOROTATION"; //Dummy Entry to keep the logical flow, no rotation needed.
-                }
-                else if (HorizontalOrVertical && (startingZ < endingZ))
-                {
-                    slopeDirection = "Cw180";
+                    if ((!HorizontalOrVertical) && (startingZ > endingZ))
+                    {
+                        slopeDirection = "Cw270";
+                    }
+                    else if ((!HorizontalOrVertical) && (startingZ < endingZ))
+                    {
+                        slopeDirection = "Cw90";
+                    }
+                    else if (HorizontalOrVertical && (startingZ > endingZ))
+                    {
+                        slopeDirection = "Cw180"; //Dummy Entry to keep the logical flow, no rotation needed.
+                    }
+                    else if (HorizontalOrVertical && (startingZ < endingZ))
+                    {
+                        slopeDirection = "NOROTATION";
+                    }
                 }
                 //Write the slope!
                 Dictionary<string, object> slopeProperty = new Dictionary<string, object>();
