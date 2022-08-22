@@ -56,6 +56,8 @@ v0.9.1: Seed compatible optimization run.  Up to 180% generation time improvemen
 
 v0.9.2: Hotfix for entities not spawning due to a debug flag.  Performance improvements are still present, but may be less than anticipated because of this, sorry.  We are reevaluating the benchmarks and will update them soon.
 
+v0.9.3: Small slope bugfix (they were experiencing reduced spawns in one orientation).  Also, performance rebenched properly.  We don't QUITE have a 180% increase but the increase is still healthy average of ~72% improvement.  See the timings doc listed above under "Performance" for the benches.  We will of course always be optimizing.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github or on Timberborn Discord in the modding channel.

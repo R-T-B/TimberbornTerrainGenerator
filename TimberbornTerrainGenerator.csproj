@@ -34,7 +34,9 @@
     <None Remove="PlentifulPlains.ini" />
     <None Remove="README.md" />
     <None Remove="settings.ini" />
+    <None Remove="SettingsReadme.md" />
     <None Remove="SettingsReadme.txt" />
+    <None Remove="timings.md" />
     <None Remove="timings.txt" />
   </ItemGroup>
 

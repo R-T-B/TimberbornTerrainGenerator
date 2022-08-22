@@ -932,11 +932,25 @@ namespace TimberbornTerrainGenerator
                 {
                     if (!HorizontalOrVertical)
                     {
-                        x--;
+                        if (whichWay)
+                        {
+                            x--;
+                        }
+                        else
+                        {
+                            x++;
+                        }
                     }
                     else
                     {
-                        y--;
+                        if (whichWay)
+                        {
+                            y--;
+                        }
+                        else
+                        {
+                            y++;
+                        }
                     }
                 }
                 //Okay, the coords are established!  We are ready!  First what way does the slope spin?
@@ -972,11 +986,11 @@ namespace TimberbornTerrainGenerator
                     }
                     else if (HorizontalOrVertical && (startingZ > endingZ))
                     {
-                        slopeDirection = "Cw180"; //Dummy Entry to keep the logical flow, no rotation needed.
+                        slopeDirection = "Cw180";
                     }
                     else if (HorizontalOrVertical && (startingZ < endingZ))
                     {
-                        slopeDirection = "NOROTATION";
+                        slopeDirection = "NOROTATION"; //Dummy Entry to keep the logical flow, no rotation needed.
                     }
                 }
                 //Write the slope!
