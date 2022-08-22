@@ -845,7 +845,7 @@ namespace TimberbornTerrainGenerator
                 //First off, where?  Lets wander and find a potential spot.
                 int startingZ = map[y, x];
                 bool HorizontalOrVertical = false;
-                if (rand.Next(1) == 0)
+                if (rand.Next(0,2) == 0)
                 {
                     HorizontalOrVertical = true;
                 }
