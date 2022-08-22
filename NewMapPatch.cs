@@ -47,6 +47,7 @@ namespace TimberbornTerrainGenerator
         public static int BlueberryBushCount = 3200;
         public static int DandelionBushCount = 1600;
         public static int SlopeCount = 128;
+        public static bool[,] RiverMapper;
         //END EXTERNAL LOADABLE INI SETTINGS
         public static bool Prefix(Vector2Int mapSize, MapEditorSceneLoader __instance)
         {
@@ -110,6 +111,7 @@ namespace TimberbornTerrainGenerator
                 seed = UnityEngine.Random.Range(-8192, 8192);
                 rand = new System.Random(seed);
             }
+            RiverMapper = new bool[mapSizeX, mapSizeY];
             noise = new FastNoiseLite(seed);
             List<Dictionary<String, System.Object>> jsonEntities = new List<Dictionary<String, System.Object>>();
             List<float[,]> floatMapCombiner = new List<float[,]>();
@@ -201,7 +203,7 @@ namespace TimberbornTerrainGenerator
                 Boolean tryAnotherLocation = false;
                 while (testY <= bufferZone)
                 {
-                    if ((z != map[y + testY, x + testX]) || mineMap[y + testY, x + testX])
+                    if ((z != map[y + testY, x + testX]) || mineMap[y + testY, x + testX] || RiverMapper[y + testY, x + testX])
                     {
                         tryAnotherLocation = true;
                     }
@@ -272,7 +274,7 @@ namespace TimberbornTerrainGenerator
                 {
                     while (yCounter < mapSizeY)
                     {
-                        if (ruinsMap[yCounter, xCounter] > prevalence)
+                        if  ((ruinsMap[yCounter, xCounter] > prevalence) && (!RiverMapper[yCounter,xCounter]))
                         {
                             int ruinHeight = (int)Mathf.Max(Mathf.Min((ruinsMap[yCounter,xCounter] - prevalence) * 400, 8), 1);
                             int ruinYield = ruinHeight * 15;
@@ -352,7 +354,7 @@ namespace TimberbornTerrainGenerator
                 {
                     while (yCounter < mapSizeY)
                     {
-                        if (pineTreesMap[yCounter, xCounter] > prevalence)
+                        if ((pineTreesMap[yCounter, xCounter] > prevalence) && (!RiverMapper[yCounter, xCounter]))
                         {
                             int z = map[yCounter, xCounter];
                             Dictionary<String, System.Object> pineTreeProperty = new Dictionary<String, System.Object>();
@@ -460,7 +462,6 @@ namespace TimberbornTerrainGenerator
             float angle2 = (float)rand.NextDouble() * 2.0f * 3.14159f;
             float angle3 = (float)rand.NextDouble() * 2.0f * 3.14159f;
             float[,] riverMap = new float[xSize, ySize];
-            //Placing edge water features.
             // Calculate our X center for our map edge.
             int Y = ySize - 1;
             float omega1 = (Y / ySize * 2.0f * 3.14159f * nodes * 0.4f) + angle1;
@@ -521,6 +522,7 @@ namespace TimberbornTerrainGenerator
                                 continue;
                             }
                             riverMap[x2, y] = RiverElevation;
+                            RiverMapper[x2,y] = true; //gotta mark that rivermap
                         }
                     }
                 }
@@ -536,6 +538,7 @@ namespace TimberbornTerrainGenerator
             }
             float[,] finalMap = Utilities.ReturnMeanedMap(computeList, true);
             counter = 0;
+            //Now add water sources
             while (counter < xSize)
             {
                 int origZ = Utilities.ReturnScaledIntFromFloat(map[Y, counter]);
