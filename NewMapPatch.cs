@@ -1,12 +1,9 @@
-﻿using BepInEx;
-using HarmonyLib;
+﻿using HarmonyLib;
 using System;
 using System.IO;
-using System.Reflection;
 using System.Threading;
 using Timberborn.MapEditorSceneLoading;
 using Timberborn.MapSystem;
-using Timberborn.MapSystemUI;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +11,7 @@ using static FastNoiseLite;
 using static TimberbornTerrainGenerator.MapFileTools;
 using static TimberbornTerrainGenerator.Utilities;
 using static TimberbornTerrainGenerator.Statics;
+using static TimberbornTerrainGenerator.EntityManager;
 namespace TimberbornTerrainGenerator
 {
     [HarmonyPatch]
@@ -49,7 +47,6 @@ namespace TimberbornTerrainGenerator
         public static int DandelionBushCount = 250;
         public static int SlopeCount = 128;
         public static bool[,] RiverMapper = new bool[32,32];
-        public static bool[,] EntityMapper = new bool[32, 32];
         //END EXTERNAL LOADABLE INI SETTINGS
         public static bool Prefix(Vector2Int mapSize, MapEditorSceneLoader __instance)
         {
@@ -135,60 +132,6 @@ namespace TimberbornTerrainGenerator
             __instance.LoadMap(mapFileReference);
             Statics.Logger.LogInfo("Finished loading");
             return false;
-        }
-        public static List<Dictionary<string, object>> PlaceEntities(int[,] map, List<Dictionary<string, object>> entitiesList)
-        {
-            float mapScaler = MapSizeX * MapSizeX / 65536f;
-            float mineMapScaler = mapScaler;
-            if ((mineMapScaler < 0.255) && (!(mineMapScaler < 0.23))) //This deals with float imprecision cheating 128x128 players out of their own default mine.
-            {
-                mineMapScaler = 0.255f;
-            }
-            int minesQuantity = (int)Math.Round(MaxMineCount * mineMapScaler);
-            int scaledRuinsCount = (int)Math.Round(RuinCount * mapScaler);
-            int scaledPineTreeCount = (int)Math.Round(PineTreeCount * mapScaler);
-            int scaledBirchTreeCount = (int)Math.Round(BirchTreeCount * mapScaler);
-            int scaledChestnutTreeCount = (int)Math.Round(ChestnutTreeCount * mapScaler);
-            int scaledMapleTreeCount = (int)Math.Round(MapleTreeCount * mapScaler);
-            int scaledBlueberryBushCount = (int)Math.Round(BlueberryBushCount * mapScaler);
-            int scaledDandelionBushCount = (int)Math.Round(DandelionBushCount * mapScaler);
-            int scaledSlopeCount = (int)Math.Round(SlopeCount * mapScaler);
-
-
-            if (minesQuantity < MinMineCount)
-            {
-                minesQuantity = MinMineCount;
-            }
-            //Place all the stuff!
-            rand = new System.Random(seed);
-            entitiesList = EntityGetter.GetMines(map, minesQuantity, entitiesList);
-            rand = new System.Random(seed + 25);
-            noise.SetSeed(seed + 25);
-            entitiesList = EntityGetter.GetRuins(map, scaledRuinsCount, entitiesList);
-            rand = new System.Random(seed + 50);
-            noise.SetSeed(seed + 50);
-            entitiesList = EntityGetter.GetPineTrees(map, scaledPineTreeCount, entitiesList);
-            rand = new System.Random(seed + 75);
-            noise.SetSeed(seed + 75);
-            entitiesList = EntityGetter.GetBirchTrees(map, scaledBirchTreeCount, entitiesList);
-            rand = new System.Random(seed + 100);
-            noise.SetSeed(seed + 100);
-            entitiesList = EntityGetter.GetChestnutTrees(map, scaledChestnutTreeCount, entitiesList);
-            rand = new System.Random(seed + 125);
-            noise.SetSeed(seed + 125);
-            entitiesList = EntityGetter.GetMapleTrees(map, scaledMapleTreeCount, entitiesList);
-            rand = new System.Random(seed + 150);
-            noise.SetSeed(seed + 150);
-            entitiesList = EntityGetter.GetBlueberries(map, scaledBlueberryBushCount, entitiesList);
-            rand = new System.Random(seed + 175);
-            noise.SetSeed(seed + 175);
-            entitiesList = EntityGetter.GetDandelions(map, scaledDandelionBushCount, entitiesList);
-            rand = new System.Random(seed + 200);
-            noise.SetSeed(seed + 200);
-            entitiesList = EntityGetter.GetSlopes(map, scaledSlopeCount, entitiesList);
-                
-
-            return entitiesList;
         }
         public static float[,] GenerateFinalRiverMap(float[,] map, out List<Dictionary<string, object>> jsonEntities, int xSize, int ySize, int nodes, float windiness, float width, float elevation)
         {
