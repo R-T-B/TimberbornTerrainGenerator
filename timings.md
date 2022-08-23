@@ -8,11 +8,11 @@ RAM: 64GBs of DDR4-3200
 
 GPU: RTX 3090ti
 
-128x128 < 8 Seconds, ~125% improvement
+128x128 < 8 Seconds, ~125% improvement over v0.9.0 release.
 
-256x256 < 53 Seconds, ~75% improvement
+256x256 < 53 Seconds, ~75% improvement over v0.9.0 release.
 
-384x384 < 4 Minutes, 1 Second ~35% improvement
+384x384 < 4 Minutes, 1 Second ~35% improvement over v0.9.0 release.
 
 All times taken from fresh game launch with external android stopwatch for minimal game impact, on a Ryzen 5950x at 4.4Ghz (allcore).  YMMV.
 
@@ -26,9 +26,9 @@ GPU: Potato.
 
 This PC struggles far more to load the map than to generate it.  Generation takes less than half the load time.  Times are complete however (generation + loading, menu click to map).
 
-128x128: < 50 Seconds, ~74% improvement
+128x128: < 50 Seconds, ~74% improvement over v0.9.0 release.
 
-256x256: < 3 Minutes 44 Seconds, ~50% improvement
+256x256: < 3 Minutes 44 Seconds, ~50% improvement over v0.9.0 release.
 
 384x384: Not attempted anymore with these specs.
 
