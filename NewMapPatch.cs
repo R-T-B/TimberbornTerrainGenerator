@@ -293,7 +293,14 @@ namespace TimberbornTerrainGenerator
                     {
                         intValue = upper;
                     }
-                    finalResult[xCounter, yCounter] = intValue;
+                    if (intValue != 0)
+                    {
+                        finalResult[xCounter, yCounter] = intValue;
+                    }
+                    else
+                    {
+                        finalResult[xCounter, yCounter] = 1;
+                    }
                     yCounter++;
                 }
                 yCounter = 0;
