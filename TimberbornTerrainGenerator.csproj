@@ -44,6 +44,10 @@
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
     <PackageReference Include="BepInEx.Core" Version="5.4.21" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
+    <PackageReference Include="Krafs.Publicizer" Version="1.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="TimberAPI" Version="0.4.4" />
   </ItemGroup>
   
@@ -163,4 +167,7 @@
       <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
   </ItemGroup>
+	<ItemGroup>
+		<Publicize Include="Timberborn.NewMapBox" />
+	</ItemGroup>
 </Project>

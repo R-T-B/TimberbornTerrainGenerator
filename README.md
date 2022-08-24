@@ -60,6 +60,8 @@ v0.9.3: Small slope bugfix (they were experiencing reduced spawns in one orienta
 
 v0.9.4: Fixed a bug where slope placement would occasionally cause a crash.  No seed or performance impacts.
 
+v0.9.5: Stopped terrain from being allowed to generate beneath map bottom ("holes").  No other changes, yet.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github or on Timberborn Discord in the modding channel.

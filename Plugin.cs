@@ -1,18 +1,20 @@
 ﻿using BepInEx;
+using Bindito.Core;
 using HarmonyLib;
 using System.Reflection;
 using Timberborn.MapSystemUI;
+using TimberbornAPI;
 using static TimberbornTerrainGenerator.Statics;
 
 namespace TimberbornTerrainGenerator
 {
     [BepInPlugin("TimberbornTerrainGenerator", "TimberbornTerrainGenerator", PluginVersion)]
-    [BepInProcess("Timberborn.exe")]
-    //[BepInDependency("com.timberapi.timberapi")]
+    [BepInDependency("com.timberapi.timberapi")]
     public class Plugin : BaseUnityPlugin
     {
         private void Awake()
         {
+            TimberAPI.DependencyRegistry.AddConfigurator(new TimberbornTerrainGeneratorConfigurator());
             Statics.Logger = Logger;
             Patcher.DoPatching();
         }
@@ -29,5 +31,10 @@ namespace TimberbornTerrainGenerator
             new Harmony("TimberbornTerrainGenerator").PatchAll();
         }
     }
-
+    public class TimberbornTerrainGeneratorConfigurator : IConfigurator
+    {
+        public void Configure(IContainerDefinition containerDefinition)
+        {
+        }
+    }
 }
