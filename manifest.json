@@ -5,6 +5,6 @@
   "description": "This mod allows you to generate modern procedural Timerborn style maps with a configurable settings file. For more information visit github page",
   "dependencies": [
     "BepInEx-BepInExPack_Timberborn-5.4.19",
-	"Timberborn_Central_TimberAPI-0.3.2"
+	"Timberborn_Central-TimberAPI-0.3.2"
   ]
 }
