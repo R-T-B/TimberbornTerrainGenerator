@@ -1,15 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SocialPlatforms;
+using UnityEngine;
 using static TimberbornTerrainGenerator.NewMapPatch;
+using static UnityEngine.UIElements.StylePropertyAnimationSystem;
 
 namespace TimberbornTerrainGenerator
 {
     public class Utilities
     {
-        public static int ReturnScaledIntFromFloat(float flt)
+        public static int ReturnScaledIntFromFloat(float value)
         {
-            return (int)Math.Round((flt * (TerrainMaxHeight - TerrainMinHeight)) + TerrainMinHeight);
+            int finalResult = TerrainMaxHeight - TerrainMinHeight; // I mean why not set a safe default?  Should never happen, but never say never...
+            int range = (TerrainMaxHeight - TerrainMinHeight) / 2; //We divide by two because to make TerrainMinHeight the absolute map floor, we need to prepare for the possibility that there may be negative values needing z space.  An even split makes sense.
+            if (value > 1)
+            {
+                value = 1;
+            }
+            else if (value < -1)
+            {
+                value = -1;
+            }
+            if (value > 0)
+            {
+                value = (TerrainMaxHeight - range) + (value * range);
+                int intValue = (int)Math.Round(value);
+                if (intValue > TerrainMaxHeight) //If we clip, we dip
+                {
+                    intValue--;
+                    finalResult = intValue;
+                }
+                else
+                {
+                    finalResult = intValue;
+                }
+            }
+            else
+            {
+                value = 1 - Mathf.Abs(value);
+                value = value * range + TerrainMinHeight;
+                int intValue = (int)Math.Round(value);
+                if (intValue < TerrainMinHeight) //If we clip...  assign the lowest possible value
+                {
+                    finalResult = TerrainMinHeight;
+                }
+                else
+                {
+                    finalResult = intValue;
+                }
+            }
+            return finalResult;
         }
         public static float[,] ReturnAdditiveMap(List<float[,]> MList)
         {

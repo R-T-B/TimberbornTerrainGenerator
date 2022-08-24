@@ -75,7 +75,7 @@ namespace TimberbornTerrainGenerator
             float blueberriesPrevalence;
             float dandelionsPrevalence;
 
-            //First place slopes and mines, they are their own thing as they don't need an expensive map loop:
+            //First place slopes and mines, they are their own thing as they don't need an expensive map loop.
             entitiesList = GetSlopes(map, scaledSlopeCount, entitiesList);
             entitiesList = GetMines(map, scaledMinesCount, entitiesList);
 
@@ -175,7 +175,8 @@ namespace TimberbornTerrainGenerator
         {
             //Lets place some slopes!
             int slopesNum = 0;
-            while (slopesNum < targetSlopes)
+            int attemptedTimes = 0;
+            while ((slopesNum < targetSlopes) && (attemptedTimes < MapSizeX * 4)) //If we couldn't produce in over 4 random walks of the map dimension, it ain't happening.  Abort.
             {
                 bool tryAnotherLocation = false;
                 int x = rand.Next(MapSizeX - 8);
@@ -208,11 +209,13 @@ namespace TimberbornTerrainGenerator
                         }
                         if (x + testValue >= (MapSizeX - 2)) //We've walked off the map...
                         {
+                            attemptedTimes++;
                             tryAnotherLocation = true;
                             break;
                         }
                         if (x + testValue <= 0) //We've walked off the map...
                         {
+                            attemptedTimes++;
                             tryAnotherLocation = true;
                             break;
                         }
@@ -232,11 +235,13 @@ namespace TimberbornTerrainGenerator
                         }
                         if (y + testValue >= (MapSizeY - 2)) //We've walked off the map...
                         {
+                            attemptedTimes++;
                             tryAnotherLocation = true;
                             break;
                         }
                         if (y + testValue <= 0) //We've walked off the map...
                         {
+                            attemptedTimes++;
                             tryAnotherLocation = true;
                             break;
                         }
@@ -252,23 +257,27 @@ namespace TimberbornTerrainGenerator
                 }
                 if (x >= (MapSizeY - 2)) //We've walked off the map...
                 {
+                    attemptedTimes++;
                     tryAnotherLocation = true;
-                    break;
+                    continue;
                 }
                 if (x <= 0) //We've walked off the map...
                 {
+                    attemptedTimes++;
                     tryAnotherLocation = true;
-                    break;
+                    continue;
                 }
                 if (y >= (MapSizeY - 2)) //We've walked off the map...
                 {
+                    attemptedTimes++;
                     tryAnotherLocation = true;
-                    break;
+                    continue;
                 }
                 if (y <= 0) //We've walked off the map...
                 {
+                    attemptedTimes++;
                     tryAnotherLocation = true;
-                    break;
+                    continue;
                 }
                 int endingZ = map[y, x];
                 if ((startingZ > endingZ && ((startingZ - endingZ) > 1)) || (startingZ < endingZ && ((endingZ - startingZ) > 1))) //Slope is impossibly steep
@@ -279,8 +288,13 @@ namespace TimberbornTerrainGenerator
                 {
                     tryAnotherLocation = true;
                 }
+                if (RiverMapper[y, x]) //Not in the river...
+                {
+                    tryAnotherLocation = true;
+                }
                 if (tryAnotherLocation) //Something went wrong, bail out and try again...
                 {
+                    attemptedTimes++;
                     continue;
                 }
                 //If we got this far, we can make a slope!  Hooray!  We want to start from the low ground, and go up
@@ -365,7 +379,7 @@ namespace TimberbornTerrainGenerator
                 slopeBlockComponentsConstructionSiteBuildTimeDictionary.Add("BuildTimeProgressInHoursKey", 1f);
                 slopeBlockCoordinatesDictionary.Add("X", x);
                 slopeBlockCoordinatesDictionary.Add("Y", y);
-                slopeBlockCoordinatesDictionary.Add("Z", z);
+                slopeBlockCoordinatesDictionary.Add("Z", map[y, x]);
                 slopeBlockComponentsDictionary.Add("Coordinates", slopeBlockCoordinatesDictionary);
                 slopeBlockComponentsConstructibleFinishedDictionary.Add("Finished", true);
                 if (!slopeDirection.Equals("NOROTATION"))
@@ -381,6 +395,7 @@ namespace TimberbornTerrainGenerator
                 slopeProperty.Add("Components", slopeComponentsDictionary);
                 entitiesList.Add(slopeProperty);
                 EntityMapper[y, x] = true; //Gotta register that entity...
+                attemptedTimes++;
                 slopesNum++;
             }
             return entitiesList;
@@ -389,7 +404,8 @@ namespace TimberbornTerrainGenerator
         {
             //Place some mines!
             int minesNum = 0;
-            while (minesNum < targetMines)
+            int attemptedTimes = 0;
+            while ((minesNum < targetMines) && (attemptedTimes < (MapSizeX * 4)))
             {
                 int bufferZone = 4; //this needs to be at least 4 to fit a mine
                 int x = rand.Next(0, MapSizeX - (bufferZone + 1));
@@ -415,7 +431,7 @@ namespace TimberbornTerrainGenerator
                 testY = 0;
                 if (tryAnotherLocation)
                 {
-                    tryAnotherLocation = false;
+                    attemptedTimes++;
                     continue;
                 }
                 Dictionary<string, object> mineProperty = new Dictionary<string, object>();

@@ -29,7 +29,8 @@ namespace TimberbornTerrainGenerator
         public static FastNoiseLite.NoiseType TerrainNoiseType = FastNoiseLite.NoiseType.Perlin;
         public static float TerrainAmplitude = 2.5f;
         public static int TerrainFrequencyMult = 10;
-        public static float TerrainSlopeLevel = 0.0025f;
+        public static bool TerrainSlopeEnabled = false;
+        public static float TerrainSlopeLevel = 0.8f;
         public static int RiverNodes = 2;
         public static float RiverSourceStrength = 1.5f;
         public static float RiverWindiness = 0.4125f;
@@ -75,6 +76,7 @@ namespace TimberbornTerrainGenerator
                 }
                 TerrainAmplitude = float.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainAmplitude"));
                 TerrainFrequencyMult = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainFrequencyMult"));
+                TerrainSlopeEnabled = bool.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainSlopeEnabled"));
                 TerrainSlopeLevel = float.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainSlopeLevel"));
                 RiverNodes = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverNodes"));
                 RiverSourceStrength = float.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverSourceStrength"));
@@ -115,11 +117,20 @@ namespace TimberbornTerrainGenerator
             noise = new FastNoiseLite(seed);
             List<Dictionary<string, object>> jsonEntities = new List<Dictionary<string, object>>();
             List<float[,]> floatMapCombiner = new List<float[,]>();
-            floatMapCombiner.Add(GenerateBaseLayerNoise(MapSizeX, MapSizeY, TerrainAmplitude, seed));
-            floatMapCombiner.Add(GenerateSlopeMap(MapSizeX, MapSizeY, TerrainSlopeLevel));
-            float[,] finalFloatMap = GenerateFinalRiverMap(ReturnMeanedMap(floatMapCombiner, false), out jsonEntities, MapSizeX, MapSizeY, RiverNodes, RiverWindiness, RiverWidth, RiverElevation);
+            float[,] riverlessMap;
+            if (TerrainSlopeEnabled)
+            {
+                floatMapCombiner.Add(GenerateBaseLayerNoise(MapSizeX, MapSizeY, TerrainAmplitude, seed));
+                floatMapCombiner.Add(GenerateSlopeMap(MapSizeX, MapSizeY, TerrainSlopeLevel));
+                riverlessMap = ReturnMeanedMap(floatMapCombiner, false);
+            }
+            else
+            {
+                riverlessMap = GenerateBaseLayerNoise(MapSizeX, MapSizeY, TerrainAmplitude, seed);
+            }
+                float[,] finalFloatMap = GenerateFinalRiverMap(riverlessMap, out jsonEntities, MapSizeX, MapSizeY, RiverNodes, RiverWindiness, RiverWidth, RiverElevation);
             int[,] normalizedMap = new int[MapSizeX, MapSizeY];
-            normalizedMap = ConvertMap(finalFloatMap, TerrainMinHeight, TerrainMaxHeight);
+            normalizedMap = ConvertMap(finalFloatMap);
             jsonEntities = PlaceEntities(normalizedMap, jsonEntities);
             SaveTerrainMap(normalizedMap, MapSizeX, MapSizeY, jsonEntities);
             //now load the file
@@ -275,31 +286,53 @@ namespace TimberbornTerrainGenerator
             }
             return slopeMap;
         }
-        public static int[,] ConvertMap(float[,] map, int lower, int upper)
-        {
+        public static int[,] ConvertMap(float[,] map)
+        { //When you update this method please please please update Utilities.ReturnScaledIntFromFloat to make the math match.
             int size = map.GetLength(0);
             int[,] finalResult = new int[size, size];
             int xCounter = 0;
             int yCounter = 0;
+            int range = (TerrainMaxHeight - TerrainMinHeight) / 2; //We divide by two because to make TerrainMinHeight the absolute map floor, we need to prepare for the possibility that there may be negative values needing z space.  An even split makes sense.
             while (xCounter < size)
             {
                 while (yCounter < size)
                 {
                     float value = map[xCounter, yCounter];
-                    int range = upper - lower;
-                    value = (value * range) + lower;
-                    int intValue = (int)Math.Round(value);
-                    if (intValue > upper)
+                    if (value > 1)
                     {
-                        intValue = upper;
+                        value = 1;
                     }
-                    if (intValue != 0)
+                    else if (value < -1)
                     {
-                        finalResult[xCounter, yCounter] = intValue;
+                        value = -1;
+                    }
+                    if (value > 0)
+                    {
+                        value = (TerrainMaxHeight - range) + (value * range);
+                        int intValue = (int)Math.Round(value);
+                        if (intValue > TerrainMaxHeight) //If we clip, we dip
+                        {
+                            intValue--;
+                            finalResult[xCounter, yCounter] = intValue;
+                        }
+                        else
+                        {
+                            finalResult[xCounter, yCounter] = intValue;
+                        }
                     }
                     else
                     {
-                        finalResult[xCounter, yCounter] = 1;
+                        value = 1 - Mathf.Abs(value);
+                        value = value * range + TerrainMinHeight;
+                        int intValue = (int)Math.Round(value);
+                        if (intValue < TerrainMinHeight) //If we clip...  assign the lowest possible value
+                        {
+                            finalResult[xCounter, yCounter] = TerrainMinHeight;
+                        }
+                        else
+                        {
+                            finalResult[xCounter, yCounter] = intValue;
+                        }
                     }
                     yCounter++;
                 }
