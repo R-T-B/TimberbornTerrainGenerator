@@ -87,7 +87,7 @@ namespace TimberbornTerrainGenerator
             LoadINISettings();
             seedBox.text = Seed.ToString();
             mapSizeBox.text = MapSizeX.ToString();
-            acceptButton.clicked += __instance.StartNewMap;
+            acceptButton.clicked += startButtonVoid;
             cancelButton.clicked += cancelButtonVoid;
             minHeightBox.text = TerrainMinHeight.ToString();
             maxHeightBox.text = TerrainMaxHeight.ToString();
@@ -222,7 +222,6 @@ namespace TimberbornTerrainGenerator
                 .BuildAndInitialize();
             __result.Clear();
             __result.Add(dialogBox);
-
             //after the fact map handling
             __instance._sizeXField.value = MapSizeX.ToString();
             __instance._sizeYField.value = MapSizeX.ToString();
@@ -235,6 +234,23 @@ namespace TimberbornTerrainGenerator
             try
             {
                 thisNewMapBox._panelStack.Pop(thisNewMapBox);
+                //unsubscribe
+                cancelButton.clicked -= thisNewMapBox.StartNewMap;
+
+            }
+            catch
+            {
+                //sometimes this is null and I don't care...
+            }
+        }
+        public static void startButtonVoid()
+        {
+            try
+            {
+                //unsubscribe
+                acceptButton.clicked -= thisNewMapBox.StartNewMap;
+                thisNewMapBox.StartNewMap();
+
             }
             catch
             {
