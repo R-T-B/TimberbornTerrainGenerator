@@ -28,6 +28,8 @@ v1.0.0:  Added an ingame GUI and validation logic to allow you to edit your sett
 
 v1.0.1:  Minor bugfix for the generator not saving or obeying the ingame noise setting.
 
+v1.0.2:  Fixed the wonky natural slope rotation that was often wrong or improper.  Seed compatible other than slopes being spun the right way, heh. Also stopped overwriting old settings with this release (sorry if this happened to you).
+
 As of 08/24/2022, we no longer track releases beyond two major subversions back in the main readme.  See the elder release notes here: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/HistoricalReleases.md
 
 # Feedback

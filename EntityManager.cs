@@ -284,7 +284,21 @@ namespace TimberbornTerrainGenerator
                 int endingZ = map[x, y];
                 if ((startingZ > endingZ && ((startingZ - endingZ) > 1)) || (startingZ < endingZ && ((endingZ - startingZ) > 1))) //Slope is impossibly steep
                 {
+                    attemptedTimes++;
                     tryAnotherLocation = true;
+                    continue;
+                }
+                if ((!HorizontalOrVertical) && (map[x - 1, y] != startingZ && map[x + 1, y] != startingZ))
+                {
+                    attemptedTimes++;
+                    tryAnotherLocation = true;
+                    continue;
+                }
+                else if ((HorizontalOrVertical) && (map[x, y - 1] != startingZ && map[x, y + 1] != startingZ))
+                {
+                    attemptedTimes++;
+                    tryAnotherLocation = true;
+                    continue;
                 }
                 if (EntityMapper[x, y]) //Something is already placed here...
                 {
@@ -333,38 +347,38 @@ namespace TimberbornTerrainGenerator
                 string slopeDirection = "NOROTATION"; ; //this is kept only if it doesn't need rotation data.
                 if (whichWay) //There are two rotation logics that we need...  They are inverts of each other.
                 {
-                    if ((!HorizontalOrVertical) && (startingZ > endingZ))
+                    if ((HorizontalOrVertical) && (startingZ > endingZ))
                     {
                         slopeDirection = "Cw90";
                     }
-                    else if ((!HorizontalOrVertical) && (startingZ < endingZ))
+                    else if ((HorizontalOrVertical) && (startingZ < endingZ))
                     {
                         slopeDirection = "Cw270";
                     }
-                    else if (HorizontalOrVertical && (startingZ > endingZ))
+                    else if (!HorizontalOrVertical && (startingZ > endingZ))
                     {
                         slopeDirection = "NOROTATION"; //Dummy Entry to keep the logical flow, no rotation needed.
                     }
-                    else if (HorizontalOrVertical && (startingZ < endingZ))
+                    else if (!HorizontalOrVertical && (startingZ < endingZ))
                     {
                         slopeDirection = "Cw180";
                     }
                 }
                 else
                 {
-                    if ((!HorizontalOrVertical) && (startingZ > endingZ))
+                    if ((HorizontalOrVertical) && (startingZ > endingZ))
                     {
                         slopeDirection = "Cw270";
                     }
-                    else if ((!HorizontalOrVertical) && (startingZ < endingZ))
+                    else if ((HorizontalOrVertical) && (startingZ < endingZ))
                     {
                         slopeDirection = "Cw90";
                     }
-                    else if (HorizontalOrVertical && (startingZ > endingZ))
+                    else if (!HorizontalOrVertical && (startingZ > endingZ))
                     {
                         slopeDirection = "Cw180";
                     }
-                    else if (HorizontalOrVertical && (startingZ < endingZ))
+                    else if (!HorizontalOrVertical && (startingZ < endingZ))
                     {
                         slopeDirection = "NOROTATION"; //Dummy Entry to keep the logical flow, no rotation needed.
                     }
