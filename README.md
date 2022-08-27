@@ -22,19 +22,9 @@ https://docs.bepinex.dev/articles/user_guide/installation/index.html
 
 Changelog:
 
-v0.9.0: Ported mod to C#.  Obviously a seed breaking release, be advised.  Old maps will still load fine, as always.
-
-v0.9.1: Seed compatible optimization run.  Up to 180% generation time improvements.  No changes or new features otherwise. Will continue to work on speed!
-
-v0.9.2: Hotfix for entities not spawning due to a debug flag.  Performance improvements are still present, but may be less than anticipated because of this, sorry.  We are reevaluating the benchmarks and will update them soon.
-
-v0.9.3: Small slope bugfix (they were experiencing reduced spawns in one orientation).  Also, performance rebenched properly.  We don't QUITE have a 180% increase but the increase is still healthy average of ~72% improvement.  See the timings doc listed above under "Performance" for the benches.  We will of course always be optimizing.
-
-v0.9.4: Fixed a bug where slope placement would occasionally cause a crash.  No seed or performance impacts.
-
-v0.9.5: Stopped terrain from being allowed to generate beneath map bottom ("holes").  No other changes, yet.
-
 v0.10.0:  Fixed a major bug that could cause infinite loops in the slope logic, as well as several severe flaws in the terrain generator itself that could cause crashes, map holes, and other issues.  Also added a parameter to disable map sloping (on by default, because slopes were kind of potato).  FYI, there were no releases planned until "1.0" (the release where I add an in game GUI) but I thought it best to fix these critical bugs.  Unfortunately, this IS a seed breaking release, but there really was no other way to fix it.  As always your old maps will still load fine.  Presets have furthermore been updated to compensate for the new logic.  There should be no performance differences (more to come there).
+
+v1.0.0:  Added an ingame GUI and validation logic to allow you to edit your settings in game.  Despite the major release, it should be seed compatible too!  Enjoy!
 
 As of 08/24/2022, we no longer track releases beyond two major subversions back in the main readme.  See the elder release notes here: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/HistoricalReleases.md
 

@@ -27,3 +27,15 @@ v0.3.2: Fix support on macs with Python 2 as default.
 v0.3.3: More mac fixes.
 
 v0.3.4: Improved erosion processing. Still supports same seeds.
+
+v0.9.0: Ported mod to C#.  Obviously a seed breaking release, be advised.  Old maps will still load fine, as always.
+
+v0.9.1: Seed compatible optimization run.  Up to 180% generation time improvements.  No changes or new features otherwise. Will continue to work on speed!
+
+v0.9.2: Hotfix for entities not spawning due to a debug flag.  Performance improvements are still present, but may be less than anticipated because of this, sorry.  We are reevaluating the benchmarks and will update them soon.
+
+v0.9.3: Small slope bugfix (they were experiencing reduced spawns in one orientation).  Also, performance rebenched properly.  We don't QUITE have a 180% increase but the increase is still healthy average of ~72% improvement.  See the timings doc listed above under "Performance" for the benches.  We will of course always be optimizing.
+
+v0.9.4: Fixed a bug where slope placement would occasionally cause a crash.  No seed or performance impacts.
+
+v0.9.5: Stopped terrain from being allowed to generate beneath map bottom ("holes").  No other changes, yet.

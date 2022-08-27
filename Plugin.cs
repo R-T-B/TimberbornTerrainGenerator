@@ -26,8 +26,8 @@ namespace TimberbornTerrainGenerator
         {
             var maxsize = typeof(NewMapBox).GetField("MaxMapSize", BindingFlags.Static | BindingFlags.NonPublic);
             var minsize = typeof(NewMapBox).GetField("MinMapSize", BindingFlags.Static | BindingFlags.NonPublic);
-            maxsize.SetValue(null, (int)int.MaxValue);
-            minsize.SetValue(null, (int)int.MinValue);
+            maxsize.SetValue(null, 384);
+            minsize.SetValue(null, 32);
             new Harmony("TimberbornTerrainGenerator").PatchAll();
         }
     }

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static TimberbornTerrainGenerator.NewMapPatch;
+using static TimberbornTerrainGenerator.TerrainGen;
 using static TimberbornTerrainGenerator.Utilities;
+using static TimberbornTerrainGenerator.SettingsUI;
 
 namespace TimberbornTerrainGenerator
 {
@@ -11,7 +12,7 @@ namespace TimberbornTerrainGenerator
         public static bool[,] EntityMapper = new bool[32, 32];
         public static List<Dictionary<string, object>> PlaceEntities(int[,] map, List<Dictionary<string, object>> entitiesList)
         {
-            float mapScaler = MapSizeX * MapSizeX / 65536f;
+            float mapScaler = MapSizeX * MapSizeY / 65536f;
             float mineMapScaler = mapScaler;
             int scaledSlopeCount = (int)Math.Round(SlopeCount * mapScaler);
             if ((mineMapScaler < 0.255) && (!(mineMapScaler < 0.23))) //This deals with float imprecision cheating 128x128 players out of their one default mine.
@@ -43,20 +44,20 @@ namespace TimberbornTerrainGenerator
             int xCounter = 0;
             int yCounter = 0;
             //Setup the noise maps with their own independent random data
-            noise.SetSeed(seed);
-            float[,] ruinsNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 1, 0.8f, FastNoiseLite.NoiseType.Perlin);
-            noise.SetSeed(seed + 25);
-            float[,] pineTreesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 1, 0.8f, FastNoiseLite.NoiseType.Perlin);
-            noise.SetSeed(seed + 50);
-            float[,] birchTreesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 1, 0.8f, FastNoiseLite.NoiseType.Perlin);
-            noise.SetSeed(seed + 75);
-            float[,] chestnutTreesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 1, 0.8f, FastNoiseLite.NoiseType.Perlin);
-            noise.SetSeed(seed + 100);
-            float[,] mapleTreesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 1, 0.8f, FastNoiseLite.NoiseType.Perlin);
-            noise.SetSeed(seed + 125);
-            float[,] blueberriesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 100, 1, 0.8f, FastNoiseLite.NoiseType.Perlin); //Really speckled noise
-            noise.SetSeed(seed + 150);
-            float[,] dandelionsNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 100, 1, 0.8f, FastNoiseLite.NoiseType.Perlin); //Really speckled noise
+            noise.SetSeed(Seed);
+            float[,] ruinsNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 0.8f, FastNoiseLite.NoiseType.Perlin);
+            noise.SetSeed(Seed + 25);
+            float[,] pineTreesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 0.8f, FastNoiseLite.NoiseType.Perlin);
+            noise.SetSeed(Seed + 50);
+            float[,] birchTreesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 0.8f, FastNoiseLite.NoiseType.Perlin);
+            noise.SetSeed(Seed + 75);
+            float[,] chestnutTreesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 0.8f, FastNoiseLite.NoiseType.Perlin);
+            noise.SetSeed(Seed + 100);
+            float[,] mapleTreesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 0.8f, FastNoiseLite.NoiseType.Perlin);
+            noise.SetSeed(Seed + 125);
+            float[,] blueberriesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 100, 0.8f, FastNoiseLite.NoiseType.Perlin); //Really speckled noise
+            noise.SetSeed(Seed + 150);
+            float[,] dandelionsNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 100, 0.8f, FastNoiseLite.NoiseType.Perlin); //Really speckled noise
             //Setup the other misc variables
             float ruinsMaxH = GetFloatArrayMax(ruinsNoiseMap);
             float pineTreesMaxH = GetFloatArrayMax(pineTreesNoiseMap);
@@ -176,7 +177,8 @@ namespace TimberbornTerrainGenerator
             //Lets place some slopes!
             int slopesNum = 0;
             int attemptedTimes = 0;
-            while ((slopesNum < targetSlopes) && (attemptedTimes < MapSizeX * 4)) //If we couldn't produce in over 4 random walks of the map dimension, it ain't happening.  Abort.
+            int abortTimeframe = ((MapSizeX + MapSizeY) / 2) * 4;
+            while ((slopesNum < targetSlopes) && (attemptedTimes < abortTimeframe))  //If we couldn't produce in over 4 random walks of the average of the map dimension, it ain't happening.  Abort.
             {
                 bool tryAnotherLocation = false;
                 int x = rand.Next(MapSizeX - 8);
@@ -184,7 +186,7 @@ namespace TimberbornTerrainGenerator
                 int z = 0; //we'll figure this out later.
                 int testValue = 0;
                 //First off, where?  Lets wander and find a potential spot.
-                int startingZ = map[y, x];
+                int startingZ = map[x, y];
                 bool HorizontalOrVertical = false;
                 bool whichWay = false;
                 if (rand.Next(0, 2) == 0)
@@ -197,8 +199,20 @@ namespace TimberbornTerrainGenerator
                 }
                 if (!HorizontalOrVertical)
                 {
-                    while (startingZ == map[y, x + testValue])
+                    while (startingZ == map[x + testValue, y])
                     {
+                        if (x + testValue >= (MapSizeX - 1)) //We've walked too close to map edge...
+                        {
+                            attemptedTimes++;
+                            tryAnotherLocation = true;
+                            break;
+                        }
+                        if (x + testValue <= 1) //We've walked too close to map edge...
+                        {
+                            attemptedTimes++;
+                            tryAnotherLocation = true;
+                            break;
+                        }
                         if (whichWay)
                         {
                             testValue += 1;
@@ -206,25 +220,25 @@ namespace TimberbornTerrainGenerator
                         else
                         {
                             testValue -= 1;
-                        }
-                        if (x + testValue >= (MapSizeX - 2)) //We've walked off the map...
-                        {
-                            attemptedTimes++;
-                            tryAnotherLocation = true;
-                            break;
-                        }
-                        if (x + testValue <= 0) //We've walked off the map...
-                        {
-                            attemptedTimes++;
-                            tryAnotherLocation = true;
-                            break;
                         }
                     }
                 }
                 else
                 {
-                    while (startingZ == map[y + testValue, x])
+                    while (startingZ == map[x, y + testValue])
                     {
+                        if (y + testValue >= (MapSizeY - 1)) //We've walked too close to map edge...
+                        {
+                            attemptedTimes++;
+                            tryAnotherLocation = true;
+                            break;
+                        }
+                        if (y + testValue <= 1) //We've walked too close to map edge...
+                        {
+                            attemptedTimes++;
+                            tryAnotherLocation = true;
+                            break;
+                        }
                         if (whichWay)
                         {
                             testValue += 1;
@@ -232,18 +246,6 @@ namespace TimberbornTerrainGenerator
                         else
                         {
                             testValue -= 1;
-                        }
-                        if (y + testValue >= (MapSizeY - 2)) //We've walked off the map...
-                        {
-                            attemptedTimes++;
-                            tryAnotherLocation = true;
-                            break;
-                        }
-                        if (y + testValue <= 0) //We've walked off the map...
-                        {
-                            attemptedTimes++;
-                            tryAnotherLocation = true;
-                            break;
                         }
                     }
                 }
@@ -255,40 +257,40 @@ namespace TimberbornTerrainGenerator
                 {
                     y += testValue;
                 }
-                if (x >= (MapSizeY - 2)) //We've walked off the map...
+                if (x >= (MapSizeX - 2)) //We've walked too close to map edge...
                 {
                     attemptedTimes++;
                     tryAnotherLocation = true;
                     continue;
                 }
-                if (x <= 0) //We've walked off the map...
+                if (x <= 0) //We've walked too close to map edge...
                 {
                     attemptedTimes++;
                     tryAnotherLocation = true;
                     continue;
                 }
-                if (y >= (MapSizeY - 2)) //We've walked off the map...
+                if (y >= (MapSizeY - 2)) //We've walked too close to map edge...
                 {
                     attemptedTimes++;
                     tryAnotherLocation = true;
                     continue;
                 }
-                if (y <= 0) //We've walked off the map...
+                if (y <= 0) //We've walked too close to map edge...
                 {
                     attemptedTimes++;
                     tryAnotherLocation = true;
                     continue;
                 }
-                int endingZ = map[y, x];
+                int endingZ = map[x, y];
                 if ((startingZ > endingZ && ((startingZ - endingZ) > 1)) || (startingZ < endingZ && ((endingZ - startingZ) > 1))) //Slope is impossibly steep
                 {
                     tryAnotherLocation = true;
                 }
-                if (EntityMapper[y, x]) //Something is already placed here...
+                if (EntityMapper[x, y]) //Something is already placed here...
                 {
                     tryAnotherLocation = true;
                 }
-                if (RiverMapper[y, x]) //Not in the river...
+                if (RiverMapper[x, y]) //Not in the river...
                 {
                     tryAnotherLocation = true;
                 }
@@ -377,9 +379,9 @@ namespace TimberbornTerrainGenerator
                 Dictionary<string, bool> slopeBlockComponentsConstructibleFinishedDictionary = new Dictionary<string, bool>();
                 Dictionary<string, float> slopeBlockComponentsConstructionSiteBuildTimeDictionary = new Dictionary<string, float>();
                 slopeBlockComponentsConstructionSiteBuildTimeDictionary.Add("BuildTimeProgressInHoursKey", 1f);
-                slopeBlockCoordinatesDictionary.Add("X", x);
-                slopeBlockCoordinatesDictionary.Add("Y", y);
-                slopeBlockCoordinatesDictionary.Add("Z", map[y, x]);
+                slopeBlockCoordinatesDictionary.Add("X", y);
+                slopeBlockCoordinatesDictionary.Add("Y", x);
+                slopeBlockCoordinatesDictionary.Add("Z", map[x, y]);
                 slopeBlockComponentsDictionary.Add("Coordinates", slopeBlockCoordinatesDictionary);
                 slopeBlockComponentsConstructibleFinishedDictionary.Add("Finished", true);
                 if (!slopeDirection.Equals("NOROTATION"))
@@ -394,7 +396,7 @@ namespace TimberbornTerrainGenerator
                 slopeProperty.Add("Template", "Slope");
                 slopeProperty.Add("Components", slopeComponentsDictionary);
                 entitiesList.Add(slopeProperty);
-                EntityMapper[y, x] = true; //Gotta register that entity...
+                EntityMapper[x, y] = true; //Gotta register that entity...
                 attemptedTimes++;
                 slopesNum++;
             }
@@ -405,18 +407,19 @@ namespace TimberbornTerrainGenerator
             //Place some mines!
             int minesNum = 0;
             int attemptedTimes = 0;
-            while ((minesNum < targetMines) && (attemptedTimes < (MapSizeX * 4)))
+            int abortTimeframe = ((MapSizeX + MapSizeY) / 2) * 4;
+            while ((minesNum < targetMines) && (attemptedTimes < abortTimeframe))
             {
                 int bufferZone = 4; //this needs to be at least 4 to fit a mine
                 int x = rand.Next(0, MapSizeX - (bufferZone + 1));
                 int y = rand.Next(0, MapSizeY - (bufferZone + 1));
-                int z = map[y, x];
+                int z = map[x, y];
                 int testX = 0;
                 int testY = 0;
                 bool tryAnotherLocation = false;
                 while (testY <= bufferZone)
                 {
-                    if ((z != map[y + testY, x + testX]) || EntityMapper[y + testY, x + testX] || RiverMapper[y + testY, x + testX])
+                    if ((z != map[x + testX,y + testY]) || EntityMapper[x + testX, y + testY] || RiverMapper[x + testX, y + testY])
                     {
                         tryAnotherLocation = true;
                     }
@@ -439,8 +442,8 @@ namespace TimberbornTerrainGenerator
                 Dictionary<string, object> mineBlockComponentsDictionary = new Dictionary<string, object>();
                 Dictionary<string, int> mineBlockCoordinatesDictionary = new Dictionary<string, int>();
                 Dictionary<string, bool> mineIsDryDictionary = new Dictionary<string, bool>();
-                mineBlockCoordinatesDictionary.Add("X", x);
-                mineBlockCoordinatesDictionary.Add("Y", y);
+                mineBlockCoordinatesDictionary.Add("X", y);
+                mineBlockCoordinatesDictionary.Add("Y", x);
                 mineBlockCoordinatesDictionary.Add("Z", z);
                 mineBlockComponentsDictionary.Add("Coordinates", mineBlockCoordinatesDictionary);
                 mineComponentsDictionary.Add("BlockObject", mineBlockComponentsDictionary);
@@ -453,7 +456,7 @@ namespace TimberbornTerrainGenerator
                 testY = 0;
                 while (testY <= bufferZone)
                 {
-                    EntityMapper[y + testY, x + testX] = true;
+                    EntityMapper[x + testX, y + testY] = true;
                     testX++;
                     if (testX > bufferZone)
                     {
@@ -462,19 +465,19 @@ namespace TimberbornTerrainGenerator
                     }
                 }
                 entitiesList.Add(mineProperty);
-                EntityMapper[y, x] = true; //Gotta register that entity...
+                EntityMapper[x, y] = true; //Gotta register that entity...
                 minesNum++;
             }
             return entitiesList;
         }
         public static List<Dictionary<string, object>> GetRuins(int[,] map, List<Dictionary<string, object>> entitiesList, int xCounter, int yCounter, float[,] ruinsMap, float prevalence)
         {
-            if ((ruinsMap[yCounter, xCounter] > prevalence) && (!RiverMapper[yCounter, xCounter]) && (!EntityMapper[yCounter, xCounter]))
+            if ((ruinsMap[xCounter, yCounter] > prevalence) && (!RiverMapper[xCounter, yCounter]) && (!EntityMapper[xCounter, yCounter]))
             {
-                int ruinHeight = (int)Mathf.Max(Mathf.Min((ruinsMap[yCounter, xCounter] - prevalence) * 400, 8), 1);
+                int ruinHeight = (int)Mathf.Max(Mathf.Min((ruinsMap[xCounter, yCounter] - prevalence) * 400, 8), 1);
                 int ruinYield = ruinHeight * 15;
                 int variantInt = rand.Next(1, 6);
-                int z = map[yCounter, xCounter];
+                int z = map[xCounter, yCounter];
                 Dictionary<string, object> ruinProperty = new Dictionary<string, object>();
                 Dictionary<string, object> ruinComponentsDictionary = new Dictionary<string, object>();
                 Dictionary<string, object> ruinBlockComponentsDictionary = new Dictionary<string, object>();
@@ -511,8 +514,8 @@ namespace TimberbornTerrainGenerator
                 ruinYieldGoodDictionary.Add("Good", ruinYieldGoodIdDictionary);
                 ruinYieldGoodDictionary.Add("Amount", (int)ruinYield);
                 ruinYieldDictionary.Add("Yield", ruinYieldGoodDictionary);
-                ruinBlockCoordinatesDictionary.Add("X", xCounter);
-                ruinBlockCoordinatesDictionary.Add("Y", yCounter);
+                ruinBlockCoordinatesDictionary.Add("X", yCounter);
+                ruinBlockCoordinatesDictionary.Add("Y", xCounter);
                 ruinBlockCoordinatesDictionary.Add("Z", z);
                 ruinBlockComponentsDictionary.Add("Coordinates", ruinBlockCoordinatesDictionary);
                 ruinComponentsDictionary.Add("BlockObject", ruinBlockComponentsDictionary);
@@ -523,15 +526,15 @@ namespace TimberbornTerrainGenerator
                 ruinProperty.Add("Template", "RuinColumnH" + ruinHeight.ToString());
                 ruinProperty.Add("Components", ruinComponentsDictionary);
                 entitiesList.Add(ruinProperty);
-                EntityMapper[yCounter, xCounter] = true; //Gotta register that entity...
+                EntityMapper[xCounter, yCounter] = true; //Gotta register that entity...
             }
             return entitiesList;
         }
         public static List<Dictionary<string, object>> GetPineTrees(int[,] map, List<Dictionary<string, object>> entitiesList, int xCounter, int yCounter, float[,] pineTreesMap, float prevalence)
         {
-            if ((pineTreesMap[yCounter, xCounter] > prevalence) && (!RiverMapper[yCounter, xCounter]) && (!EntityMapper[yCounter, xCounter]))
+            if ((pineTreesMap[xCounter, yCounter] > prevalence) && (!RiverMapper[xCounter, yCounter]) && (!EntityMapper[xCounter, yCounter]))
             {
-                int z = map[yCounter, xCounter];
+                int z = map[xCounter, yCounter];
                 Dictionary<string, object> pineTreeProperty = new Dictionary<string, object>();
                 Dictionary<string, object> pineTreeComponentsDictionary = new Dictionary<string, object>();
                 Dictionary<string, object> pineTreeBlockComponentsDictionary = new Dictionary<string, object>();
@@ -561,8 +564,8 @@ namespace TimberbornTerrainGenerator
                 pineTreeNaturalRandomizerDictionary.Add("DiameterScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
                 pineTreeNaturalRandomizerDictionary.Add("HeightScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
                 pineTreeGrowableDictionary.Add("GrowthProgress", 1.0f);
-                pineTreeBlockCoordinatesDictionary.Add("X", xCounter);
-                pineTreeBlockCoordinatesDictionary.Add("Y", yCounter);
+                pineTreeBlockCoordinatesDictionary.Add("X", yCounter);
+                pineTreeBlockCoordinatesDictionary.Add("Y", xCounter);
                 pineTreeBlockCoordinatesDictionary.Add("Z", z);
                 pineTreeYielderCuttableYieldGoodDictionary.Add("Amount", 2);
                 pineTreeYielderGatherableYieldGoodDictionary.Add("Amount", 2);
@@ -586,15 +589,15 @@ namespace TimberbornTerrainGenerator
                 pineTreeProperty.Add("Template", "Pine");
                 pineTreeProperty.Add("Components", pineTreeComponentsDictionary);
                 entitiesList.Add(pineTreeProperty);
-                EntityMapper[yCounter, xCounter] = true; //Gotta register that entity...
+                EntityMapper[xCounter, yCounter] = true; //Gotta register that entity...
             }
             return entitiesList;
         }
         public static List<Dictionary<string, object>> GetBirchTrees(int[,] map, List<Dictionary<string, object>> entitiesList, int xCounter, int yCounter, float[,] birchTreesMap, float prevalence)
         {
-            if ((birchTreesMap[yCounter, xCounter] > prevalence) && (!RiverMapper[yCounter, xCounter]) && (!EntityMapper[yCounter, xCounter]))
+            if ((birchTreesMap[xCounter, yCounter] > prevalence) && (!RiverMapper[xCounter, yCounter]) && (!EntityMapper[xCounter, yCounter]))
             {
-                int z = map[yCounter, xCounter];
+                int z = map[xCounter, yCounter];
                 Dictionary<string, object> birchTreeProperty = new Dictionary<string, object>();
                 Dictionary<string, object> birchTreeComponentsDictionary = new Dictionary<string, object>();
                 Dictionary<string, object> birchTreeBlockComponentsDictionary = new Dictionary<string, object>();
@@ -618,8 +621,8 @@ namespace TimberbornTerrainGenerator
                 birchTreeNaturalRandomizerDictionary.Add("DiameterScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
                 birchTreeNaturalRandomizerDictionary.Add("HeightScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
                 birchTreeGrowableDictionary.Add("GrowthProgress", 1.0f);
-                birchTreeBlockCoordinatesDictionary.Add("X", xCounter);
-                birchTreeBlockCoordinatesDictionary.Add("Y", yCounter);
+                birchTreeBlockCoordinatesDictionary.Add("X", yCounter);
+                birchTreeBlockCoordinatesDictionary.Add("Y", xCounter);
                 birchTreeBlockCoordinatesDictionary.Add("Z", z);
                 birchTreeYielderCuttableYieldGoodDictionary.Add("Amount", 1);
                 birchTreeLivingNaturalResourceDictionary.Add("LivingNaturalResource", birchTreeLivingNaturalResourceIsDeadDictionary);
@@ -638,15 +641,15 @@ namespace TimberbornTerrainGenerator
                 birchTreeProperty.Add("Template", "Birch");
                 birchTreeProperty.Add("Components", birchTreeComponentsDictionary);
                 entitiesList.Add(birchTreeProperty);
-                EntityMapper[yCounter, xCounter] = true; //Gotta register that entity...
+                EntityMapper[xCounter, yCounter] = true; //Gotta register that entity...
             }
             return entitiesList;
         }
         public static List<Dictionary<string, object>> GetChestnutTrees(int[,] map, List<Dictionary<string, object>> entitiesList, int xCounter, int yCounter, float[,] chestnutTreesMap, float prevalence)
         {
-            if ((chestnutTreesMap[yCounter, xCounter] > prevalence) && (!RiverMapper[yCounter, xCounter]) && (!EntityMapper[yCounter, xCounter]))
+            if ((chestnutTreesMap[xCounter, yCounter] > prevalence) && (!RiverMapper[xCounter, yCounter]) && (!EntityMapper[xCounter, yCounter]))
             {
-                int z = map[yCounter, xCounter];
+                int z = map[xCounter, yCounter];
                 Dictionary<string, object> chestnutTreeProperty = new Dictionary<string, object>();
                 Dictionary<string, object> chestnutTreeComponentsDictionary = new Dictionary<string, object>();
                 Dictionary<string, object> chestnutTreeBlockComponentsDictionary = new Dictionary<string, object>();
@@ -676,8 +679,8 @@ namespace TimberbornTerrainGenerator
                 chestnutTreeNaturalRandomizerDictionary.Add("DiameterScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
                 chestnutTreeNaturalRandomizerDictionary.Add("HeightScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
                 chestnutTreeGrowableDictionary.Add("GrowthProgress", 1.0f);
-                chestnutTreeBlockCoordinatesDictionary.Add("X", xCounter);
-                chestnutTreeBlockCoordinatesDictionary.Add("Y", yCounter);
+                chestnutTreeBlockCoordinatesDictionary.Add("X", yCounter);
+                chestnutTreeBlockCoordinatesDictionary.Add("Y", xCounter);
                 chestnutTreeBlockCoordinatesDictionary.Add("Z", z);
                 chestnutTreeYielderCuttableYieldGoodDictionary.Add("Amount", 4);
                 chestnutTreeYielderGatherableYieldGoodDictionary.Add("Amount", 3);
@@ -701,15 +704,15 @@ namespace TimberbornTerrainGenerator
                 chestnutTreeProperty.Add("Template", "ChestnutTree");
                 chestnutTreeProperty.Add("Components", chestnutTreeComponentsDictionary);
                 entitiesList.Add(chestnutTreeProperty);
-                EntityMapper[yCounter, xCounter] = true; //Gotta register that entity...
+                EntityMapper[xCounter, yCounter] = true; //Gotta register that entity...
             }
             return entitiesList;
         }
         public static List<Dictionary<string, object>> GetMapleTrees(int[,] map, List<Dictionary<string, object>> entitiesList, int xCounter, int yCounter, float[,] mapleTreesMap, float prevalence)
         {
-            if ((mapleTreesMap[yCounter, xCounter] > prevalence) && (!RiverMapper[yCounter, xCounter]) && (!EntityMapper[yCounter, xCounter]))
+            if ((mapleTreesMap[xCounter, yCounter] > prevalence) && (!RiverMapper[xCounter, yCounter]) && (!EntityMapper[xCounter, yCounter]))
             {
-                int z = map[yCounter, xCounter];
+                int z = map[xCounter, yCounter];
                 Dictionary<string, object> mapleTreeProperty = new Dictionary<string, object>();
                 Dictionary<string, object> mapleTreeComponentsDictionary = new Dictionary<string, object>();
                 Dictionary<string, object> mapleTreeBlockComponentsDictionary = new Dictionary<string, object>();
@@ -739,8 +742,8 @@ namespace TimberbornTerrainGenerator
                 mapleTreeNaturalRandomizerDictionary.Add("DiameterScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
                 mapleTreeNaturalRandomizerDictionary.Add("HeightScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
                 mapleTreeGrowableDictionary.Add("GrowthProgress", 1.0f);
-                mapleTreeBlockCoordinatesDictionary.Add("X", xCounter);
-                mapleTreeBlockCoordinatesDictionary.Add("Y", yCounter);
+                mapleTreeBlockCoordinatesDictionary.Add("X", yCounter);
+                mapleTreeBlockCoordinatesDictionary.Add("Y", xCounter);
                 mapleTreeBlockCoordinatesDictionary.Add("Z", z);
                 mapleTreeYielderCuttableYieldGoodDictionary.Add("Amount", 8);
                 mapleTreeYielderGatherableYieldGoodDictionary.Add("Amount", 3);
@@ -764,13 +767,13 @@ namespace TimberbornTerrainGenerator
                 mapleTreeProperty.Add("Template", "Maple");
                 mapleTreeProperty.Add("Components", mapleTreeComponentsDictionary);
                 entitiesList.Add(mapleTreeProperty);
-                EntityMapper[yCounter, xCounter] = true; //Gotta register that entity...
+                EntityMapper[xCounter, yCounter] = true; //Gotta register that entity...
             }
             return entitiesList;
         }
         public static List<Dictionary<string, object>> GetBlueberries(int[,] map, List<Dictionary<string, object>> entitiesList, int xCounter, int yCounter, float[,] blueberriesNoiseMap, float prevalence)
         {
-            if (RiverMapper[yCounter, xCounter] && (blueberriesNoiseMap[yCounter, xCounter] > prevalence))
+            if (RiverMapper[xCounter, yCounter] && (blueberriesNoiseMap[xCounter, yCounter] > prevalence))
             {
                 //Ok!  We are in the riverbed.  We are allowed to place a cluster of upto 1 blueberry nearby, but where?  First we need to find land.  Reference the global river map.
                 int walkAboutX = xCounter;
@@ -796,15 +799,15 @@ namespace TimberbornTerrainGenerator
                             walkAboutRange = walkAboutRange * (-1);
                         }
                     }
-                    if (((walkAboutX + walkAboutRange) >= MapSizeX) || ((walkAboutY + walkAboutRange) >= MapSizeY) || ((walkAboutX + walkAboutRange) < 0) || ((walkAboutY + walkAboutRange) < 0))
+                    if (((walkAboutX + walkAboutRange) >= MapSizeY) || ((walkAboutY + walkAboutRange) >= MapSizeX) || ((walkAboutX + walkAboutRange) < 0) || ((walkAboutY + walkAboutRange) < 0))
                     {
                         //We are too close to the border to plant blueberries, Charlie Brown.  Beyond here be dragons...
                         abortPlanting = true;
                         break;
                     }
-                    if ((!RiverMapper[walkAboutY + walkAboutRange, walkAboutX]) && ((walkAboutY + walkAboutRange) < MapSizeY) && ((walkAboutY + walkAboutRange) >= 0))  //Are we there yet?
+                    if ((!RiverMapper[walkAboutX + walkAboutRange, walkAboutY]) && ((walkAboutY + walkAboutRange) < MapSizeX) && ((walkAboutY + walkAboutRange) >= 0))  //Are we there yet?
                     {
-                        if (EntityMapper[walkAboutY + walkAboutRange, walkAboutX])
+                        if (EntityMapper[walkAboutX + walkAboutRange, walkAboutY])
                         {
                             //We've been here before you dummy. We have to keep looking!
                             triedAtLeastOnce = true;
@@ -813,9 +816,9 @@ namespace TimberbornTerrainGenerator
                         walkAboutY += walkAboutRange;
                         break;  //I always knew we'd make it!
                     }
-                    if ((!RiverMapper[walkAboutY, walkAboutX + walkAboutRange]) && ((walkAboutX + walkAboutRange) < MapSizeX) && ((walkAboutX + walkAboutRange) >= 0))  //Are we there yet?
+                    if ((!RiverMapper[walkAboutX + walkAboutRange,walkAboutY]) && ((walkAboutX + walkAboutRange) < MapSizeY) && ((walkAboutX + walkAboutRange) >= 0))  //Are we there yet?
                     {
-                        if (EntityMapper[walkAboutY, walkAboutX + walkAboutRange])
+                        if (EntityMapper[walkAboutX + walkAboutRange,walkAboutY])
                         {
                             //We've been here before you dummy. We have to keep looking!
                             triedAtLeastOnce = true;
@@ -841,8 +844,8 @@ namespace TimberbornTerrainGenerator
                 if (!abortPlanting)
                 {
                     //At this point, Charlie Brown has perished and we are going to plant some blueberries.  Let's proceed.
-                    EntityMapper[walkAboutY, walkAboutX] = true;
-                    int z = map[walkAboutY, walkAboutX];
+                    EntityMapper[walkAboutX, walkAboutY] = true;
+                    int z = map[walkAboutX, walkAboutY];
                     Dictionary<string, object> blueberryProperty = new Dictionary<string, object>();
                     Dictionary<string, object> blueberryComponentsDictionary = new Dictionary<string, object>();
                     Dictionary<string, object> blueberryBlockComponentsDictionary = new Dictionary<string, object>();
@@ -868,8 +871,8 @@ namespace TimberbornTerrainGenerator
                     blueberryNaturalRandomizerDictionary.Add("DiameterScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
                     blueberryNaturalRandomizerDictionary.Add("HeightScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
                     blueberryGrowableDictionary.Add("GrowthProgress", 1.0f);
-                    blueberryBlockCoordinatesDictionary.Add("X", walkAboutX);
-                    blueberryBlockCoordinatesDictionary.Add("Y", walkAboutY);
+                    blueberryBlockCoordinatesDictionary.Add("X", walkAboutY);
+                    blueberryBlockCoordinatesDictionary.Add("Y", walkAboutX);
                     blueberryBlockCoordinatesDictionary.Add("Z", z);
                     blueberryYielderGatherableYieldGoodDictionary.Add("Amount", 3);
                     blueberryLivingNaturalResourceDictionary.Add("LivingNaturalResource", blueberryLivingNaturalResourceIsDeadDictionary);
@@ -889,14 +892,14 @@ namespace TimberbornTerrainGenerator
                     blueberryProperty.Add("Template", "BlueberryBush");
                     blueberryProperty.Add("Components", blueberryComponentsDictionary);
                     entitiesList.Add(blueberryProperty);
-                    EntityMapper[yCounter, xCounter] = true; //Gotta register that entity...
+                    EntityMapper[walkAboutX, walkAboutY] = true; //Gotta register that entity...
                 }
             }
             return entitiesList;
         }
         public static List<Dictionary<string, object>> GetDandelions(int[,] map, List<Dictionary<string, object>> entitiesList, int xCounter, int yCounter, float[,] dandelionsNoiseMap, float prevalence)
         {
-            if (RiverMapper[yCounter, xCounter] && (dandelionsNoiseMap[yCounter, xCounter] > prevalence))
+            if (RiverMapper[xCounter, yCounter] && (dandelionsNoiseMap[xCounter, yCounter] > prevalence))
             {
                 //Ok!  We are in the riverbed.  We are allowed to place a cluster of upto 1 dandelion nearby, but where?  First we need to find land.  Reference the global river map.
                 int walkAboutX = xCounter;
@@ -928,9 +931,9 @@ namespace TimberbornTerrainGenerator
                         abortPlanting = true;
                         break;
                     }
-                    if ((!RiverMapper[walkAboutY + walkAboutRange, walkAboutX]) && ((walkAboutY + walkAboutRange) < MapSizeY) && ((walkAboutY + walkAboutRange) >= 0))  //Are we there yet?
+                    if ((!RiverMapper[walkAboutX + walkAboutRange, walkAboutY]) && ((walkAboutY + walkAboutRange) < MapSizeY) && ((walkAboutY + walkAboutRange) >= 0))  //Are we there yet?
                     {
-                        if (EntityMapper[walkAboutY + walkAboutRange, walkAboutX])
+                        if (EntityMapper[walkAboutX + walkAboutRange, walkAboutY])
                         {
                             //We've been here before you dummy. We have to keep looking!
                             triedAtLeastOnce = true;
@@ -939,9 +942,9 @@ namespace TimberbornTerrainGenerator
                         walkAboutY += walkAboutRange;
                         break;  //I always knew we'd make it!
                     }
-                    if ((!RiverMapper[walkAboutY, walkAboutX + walkAboutRange]) && ((walkAboutX + walkAboutRange) < MapSizeX) && ((walkAboutX + walkAboutRange) >= 0))  //Are we there yet?
+                    if ((!RiverMapper[walkAboutX + walkAboutRange,walkAboutY]) && ((walkAboutX + walkAboutRange) < MapSizeX) && ((walkAboutX + walkAboutRange) >= 0))  //Are we there yet?
                     {
-                        if (EntityMapper[walkAboutY, walkAboutX + walkAboutRange])
+                        if (EntityMapper[walkAboutX + walkAboutRange,walkAboutY])
                         {
                             //We've been here before you dummy. We have to keep looking!
                             triedAtLeastOnce = true;
@@ -950,9 +953,9 @@ namespace TimberbornTerrainGenerator
                         walkAboutX += walkAboutRange;
                         break; //I always knew we'd make it!
                     }
-                    if (!RiverMapper[walkAboutY + walkAboutRange, walkAboutX + walkAboutRange])  //Are we there yet?
+                    if (!RiverMapper[walkAboutX + walkAboutRange, walkAboutY + walkAboutRange])  //Are we there yet?
                     {
-                        if (EntityMapper[walkAboutY + walkAboutRange, walkAboutX + walkAboutRange])
+                        if (EntityMapper[walkAboutX + walkAboutRange, walkAboutY + walkAboutRange])
                         {
                             //We've been here before you dummy. We have to keep looking!
                             triedAtLeastOnce = true;
@@ -967,8 +970,8 @@ namespace TimberbornTerrainGenerator
                 if (!abortPlanting)
                 {
                     //At this point, Charlie Brown has perished and we are going to plant some dandelions.  Let's proceed.
-                    EntityMapper[walkAboutY, walkAboutX] = true;
-                    int z = map[walkAboutY, walkAboutX];
+                    EntityMapper[walkAboutX, walkAboutY] = true;
+                    int z = map[walkAboutX, walkAboutY];
                     Dictionary<string, object> dandelionProperty = new Dictionary<string, object>();
                     Dictionary<string, object> dandelionComponentsDictionary = new Dictionary<string, object>();
                     Dictionary<string, object> dandelionBlockComponentsDictionary = new Dictionary<string, object>();
@@ -994,8 +997,8 @@ namespace TimberbornTerrainGenerator
                     dandelionNaturalRandomizerDictionary.Add("DiameterScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
                     dandelionNaturalRandomizerDictionary.Add("HeightScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
                     dandelionGrowableDictionary.Add("GrowthProgress", 1.0f);
-                    dandelionBlockCoordinatesDictionary.Add("X", walkAboutX);
-                    dandelionBlockCoordinatesDictionary.Add("Y", walkAboutY);
+                    dandelionBlockCoordinatesDictionary.Add("X", walkAboutY);
+                    dandelionBlockCoordinatesDictionary.Add("Y", walkAboutX);
                     dandelionBlockCoordinatesDictionary.Add("Z", z);
                     dandelionYielderGatherableYieldGoodDictionary.Add("Amount", 1);
                     dandelionLivingNaturalResourceDictionary.Add("LivingNaturalResource", dandelionLivingNaturalResourceIsDeadDictionary);
@@ -1015,7 +1018,7 @@ namespace TimberbornTerrainGenerator
                     dandelionProperty.Add("Template", "Dandelion");
                     dandelionProperty.Add("Components", dandelionComponentsDictionary);
                     entitiesList.Add(dandelionProperty);
-                    EntityMapper[yCounter, xCounter] = true; //Gotta register that entity...
+                    EntityMapper[walkAboutX, walkAboutY] = true; //Gotta register that entity...
                 }
             }
             return entitiesList;

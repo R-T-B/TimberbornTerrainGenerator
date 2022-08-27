@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using static TimberbornTerrainGenerator.Statics;
+using static TimberbornTerrainGenerator.TerrainGen;
+using static TimberbornTerrainGenerator.SettingsUI;
 
 namespace TimberbornTerrainGenerator
 {
@@ -12,7 +14,7 @@ namespace TimberbornTerrainGenerator
             string heightMap = "";
             string scalarMap = "";
             string flowMap = "";
-            GenerateArrayStrings(map, x, out heightMap, out scalarMap, out flowMap);
+            GenerateArrayStrings(map, out heightMap, out scalarMap, out flowMap);
             string fileName = PluginPath + "/newMap.json";
             MapFileFormat mapFile = new MapFileFormat();
             mapFile.GameVersion = "0.2.4.1-9edd51d-xsw";
@@ -30,9 +32,9 @@ namespace TimberbornTerrainGenerator
             Dictionary<string, object> waterDepthsDictLevel1 = new Dictionary<string, object>();
             Dictionary<string, string> waterDepthsArrayDict = new Dictionary<string, string>();
             Dictionary<string, string> waterOutflowsDict = new Dictionary<string, string>();
-            //Now we start building our world header
-            mapSizeVector2.Add("X", x);
-            mapSizeVector2.Add("Y", y);
+            //Now we start building our world header, inverted of course...
+            mapSizeVector2.Add("X", y);
+            mapSizeVector2.Add("Y", x);
             mapSizeDictLevel1.Add("Size", mapSizeVector2);
             //Now TerrainMap Heights
             heightArrayMapDict.Add("Array", heightMap);
@@ -85,25 +87,25 @@ namespace TimberbornTerrainGenerator
             mapFile.Singletons = null;
             return;
         }
-        public static void GenerateArrayStrings(int[,] map, int mapSize, out string heightMap, out string scalarMap, out string flowMap)
+        public static void GenerateArrayStrings(int[,] map, out string heightMap, out string scalarMap, out string flowMap)
         {
             heightMap = "";
             scalarMap = "";
             flowMap = "";
             int x = 0;
             int y = 0;
-            while (y < mapSize)
+            while (y < MapSizeY)
             {
-                while (x < mapSize)
+                while (x < MapSizeX)
                 {
                     heightMap = heightMap + map[x, y].ToString() + " ";
                     scalarMap = scalarMap + "0 ";
                     flowMap = flowMap + "0:0:0:0 ";
                     y++;
-                    if (y == mapSize)
+                    if (y == MapSizeY)
                     {
                         x++;
-                        if (x == mapSize)
+                        if (x == MapSizeX)
                         {
                             continue;
                         }

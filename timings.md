@@ -1,4 +1,4 @@
-Version: v0.9.2/v0.9.3/v0.9.4 (v0.9.1 was a bugged release with no Entity spawns, not benched).  v0.9.2/v0.9.3/v0.9.4 bugfixes should perform equally.
+Version: v0.9.2/v0.9.3/v0.9.4/v0.10.0 (v0.9.1 was a bugged release with no Entity spawns, not benched).  v0.9.2/v0.9.3/v0.9.4/v0.10.0/v1.0.0 updates should perform equally (same core code), so also not benched.
 
 PC Codename: Supreme
 

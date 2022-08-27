@@ -28,9 +28,11 @@
     <None Remove=".gitignore" />
     <None Remove="CavernousCanyons.ini" />
     <None Remove="HardyHills.ini" />
+    <None Remove="HistoricalReleases.md" />
     <None Remove="icon.png" />
     <None Remove="LICENSE" />
     <None Remove="manifest.json" />
+    <None Remove="MegaMesas.ini" />
     <None Remove="NuGet.Config" />
     <None Remove="PlentifulPlains.ini" />
     <None Remove="README.md" />
@@ -170,5 +172,8 @@
   </ItemGroup>
 	<ItemGroup>
 		<Publicize Include="Timberborn.NewMapBox" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Properties\" />
 	</ItemGroup>
 </Project>

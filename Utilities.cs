@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.SocialPlatforms;
 using UnityEngine;
-using static TimberbornTerrainGenerator.NewMapPatch;
-using static UnityEngine.UIElements.StylePropertyAnimationSystem;
+using static TimberbornTerrainGenerator.SettingsUI;
 
 namespace TimberbornTerrainGenerator
 {
