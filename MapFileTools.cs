@@ -4,6 +4,8 @@ using System.IO;
 using static TimberbornTerrainGenerator.Statics;
 using static TimberbornTerrainGenerator.TerrainGen;
 using static TimberbornTerrainGenerator.SettingsUI;
+using System.Text;
+using System.Linq;
 
 namespace TimberbornTerrainGenerator
 {
@@ -89,18 +91,17 @@ namespace TimberbornTerrainGenerator
         }
         public static void GenerateArrayStrings(int[,] map, out string heightMap, out string scalarMap, out string flowMap)
         {
+            var stringBuilder = new StringBuilder();
             heightMap = "";
-            scalarMap = "";
-            flowMap = "";
+            scalarMap = string.Concat(Enumerable.Repeat("0 ", map.Length));
+            flowMap = string.Concat(Enumerable.Repeat("0:0:0:0 ", map.Length)); ;
             int x = 0;
             int y = 0;
             while (y < MapSizeY)
             {
                 while (x < MapSizeX)
                 {
-                    heightMap = heightMap + map[x, y].ToString() + " ";
-                    scalarMap = scalarMap + "0 ";
-                    flowMap = flowMap + "0:0:0:0 ";
+                    stringBuilder.Append(map[x, y].ToString() + " ");
                     y++;
                     if (y == MapSizeY)
                     {
@@ -113,12 +114,14 @@ namespace TimberbornTerrainGenerator
                     }
                 }
             }
+            heightMap = stringBuilder.ToString();
             heightMap = heightMap.Remove(heightMap.Length - 1);
             scalarMap = scalarMap.Remove(scalarMap.Length - 1);
             flowMap = flowMap.Remove(flowMap.Length - 1);
             return;
         }
     }
+
     public class MapFileFormat
     {
         public string GameVersion;
