@@ -52,9 +52,9 @@ namespace TimberbornTerrainGenerator
         public static UIBuilder builder = TimberAPI.DependencyContainer.GetInstance<UIBuilder>();
         public static NineSliceTextField seedBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField mapSizeBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle perlinToggle = builder.Presets().Toggles().Checkbox("perlinCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Perlin");
-        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle openSimplex2Toggle = builder.Presets().Toggles().Checkbox("openSimplex2Checkbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "OpenSimplex2");
-        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle cellularToggle = builder.Presets().Toggles().Checkbox("cellularCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Cellular");
+        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle perlinToggle = builder.Presets().Toggles().Circle("perlinCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Perlin");
+        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle openSimplex2Toggle = builder.Presets().Toggles().Circle("openSimplex2Checkbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "OpenSimplex2");
+        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle cellularToggle = builder.Presets().Toggles().Circle("cellularCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Cellular");
         public static NineSliceTextField minHeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField maxHeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField terrainAmplitudeBox = builder.Presets().TextFields().InGameTextField(100, 25);
