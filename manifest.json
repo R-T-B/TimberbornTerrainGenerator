@@ -1,6 +1,6 @@
 ﻿{
   "name": "TimberbornTerrainGenerator",
-  "version_number": "1.0.6",
+  "version_number": "1.1.0",
   "website_url": "https://github.com/R-T-B/TimberbornTerrainGenerator",
   "description": "This mod allows you to generate modern procedural Timerborn style maps with a configurable settings file. For more information visit github page",
   "dependencies": [

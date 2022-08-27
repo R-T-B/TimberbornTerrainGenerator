@@ -36,6 +36,10 @@ v1.0.4:  Some minor cosmetic upgrades and fixes to the GUI, most noticable for l
 
 v1.0.5:  Added support for reading euro decimals (appologies to our euro users). We really need full localization support, though.  That is forthcoming.
 
+v1.0.6:  Squashed a pretty major bug, if you didn't already have a settings.ini the mod failed to make a new one, leading to settings not being saved. Thanks to Discord user Todor Alin for the last few reports. :)
+
+v1.1.0:  Another optimization run with very good improvements, thanks to github user @hytonhan! See this doc for latest benchmarks: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/SettingsReadme.md
+
 As of 08/24/2022, we no longer track releases beyond two major subversions back in the main readme.  See the elder release notes here: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/HistoricalReleases.md
 
 # Feedback
