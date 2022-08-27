@@ -109,6 +109,32 @@ namespace TimberbornTerrainGenerator
             blueberryBushCountBox.text = BlueberryBushCount.ToString();
             dandelionBushCountBox.text = DandelionBushCount.ToString();
             slopeCountBox.text = SlopeCount.ToString();
+            if (TerrainNoiseType.Equals(FastNoiseLite.NoiseType.Perlin))
+            {
+                perlinToggle.value = true;
+                openSimplex2Toggle.value = false;
+                cellularToggle.value = false;
+            }
+            else if (TerrainNoiseType.Equals(FastNoiseLite.NoiseType.OpenSimplex2))
+            {
+                perlinToggle.value = false;
+                openSimplex2Toggle.value = true;
+                cellularToggle.value = false;
+            }
+            else if (TerrainNoiseType.Equals(FastNoiseLite.NoiseType.Cellular))
+            {
+                perlinToggle.value = false;
+                openSimplex2Toggle.value = false;
+                cellularToggle.value = true;
+            }
+            if (TerrainSlopeEnabled)
+            {
+                terrainSlopeEnabledToggle.value = true;
+            }
+            else
+            {
+                terrainSlopeEnabledToggle.value = false;
+            }
             VisualElement dialogBox = builder.CreateBoxBuilder()
                 .AddHeader(text: "Timberborn Terrain Generator Settings")
                 .AddComponent(builder => builder
