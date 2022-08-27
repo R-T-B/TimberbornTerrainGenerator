@@ -13,6 +13,7 @@ using Timberborn.CoreUI;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using System.Threading;
+using System.IO;
 
 namespace TimberbornTerrainGenerator
 {
@@ -77,8 +78,8 @@ namespace TimberbornTerrainGenerator
         public static NineSliceTextField blueberryBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField dandelionBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField slopeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame("Accept", default, default, default, default, default, default, "acceptButton", "Accept");
-        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame("Cancel", default, default, default, default, default, default, "cancelButton", "Cancel");
+        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(null, default, default, default, default, default, default, "acceptButton", "Accept");
+        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(null, default, default, default, default, default, default, "cancelButton", "Cancel");
         public static NewMapBox thisNewMapBox;
         private static void Postfix(NewMapBox __instance, VisualElement __result)
         {
@@ -245,7 +246,11 @@ namespace TimberbornTerrainGenerator
             //Try load .ini settings
             try
             {
-                IniParser iniParser = new IniParser(PluginPath + "/settings.ini");
+                if (!File.Exists(PluginPath + "/settings.ini"))
+                {
+                    File.Copy(PluginPath + "/PlentifulPlains.ini", PluginPath + "/settings.ini");
+                }
+                IniParser iniParser = iniParser = new IniParser(PluginPath + "/settings.ini");
                 MapSizeX = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "MapSizeX"));
                 MapSizeY = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "MapSizeY"));
                 Seed = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "Seed"));
@@ -299,6 +304,10 @@ namespace TimberbornTerrainGenerator
             //Try save .ini settings
             try
             {
+                if (!File.Exists(PluginPath + "/settings.ini"))
+                {
+                    File.Copy(PluginPath + "/PlentifulPlains.ini", PluginPath + "/settings.ini");
+                }
                 IniParser iniParser = new IniParser(PluginPath + "/settings.ini");
                 iniParser.AddSetting("TimberbornTerrainGenerator", "MapSizeX", MapSizeX.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "MapSizeY", MapSizeY.ToString());
