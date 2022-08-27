@@ -147,15 +147,15 @@ namespace TimberbornTerrainGenerator
                     .SetFlexWrap(Wrap.Wrap)
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("Seed:")))
                     .AddPreset(factory => seedBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|(A seed of -1 means a completely random map, any other integer will be the same each run)   " + '\u2800')))
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|A seed of -1 means a completely random map, any other integer will be the same each run     " + '\u2800')))
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("MapSizeXY:")))
                     .AddPreset(factory => mapSizeBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|(The size of the map.  Only square maps are supported, between 32x32 and 384x384)           " + '\u2800')))
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|The size of the map.  Only square maps are supported, between 32x32 and 384x384             " + '\u2800')))
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("TerrainNoiseType:")))
                     .AddPreset(factory => perlinToggle)
                     .AddPreset(factory => openSimplex2Toggle)
                     .AddPreset(factory => cellularToggle)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Determines the noise used by the generator. Experts only.)                " + '\u2800'))) //needs less spaces because object is larger
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Determines the noise used by the generator. Experts only.                 " + '\u2800'))) //needs less spaces because object is larger
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("TerrainMinHeight:")))
                     .AddPreset(factory => minHeightBox)
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Bottom of gen'd terrain. Must be integer greater than 0 and < TerrainMaxHeight.             " + '\u2800')))
