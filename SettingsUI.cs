@@ -215,7 +215,7 @@ namespace TimberbornTerrainGenerator
                     .AddPreset(factory => slopeCountBox)
                     .AddPreset(factory => factory.Labels().Label(text: ("All counts are scaled to a 256^2 map.")))
                     .AddPreset(factory => acceptButton)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("                                                                                                                                           " + '\u2800'))) //Larger Spacer needed for proper button seperation
+                    .AddPreset(factory => factory.Labels().DefaultBold(text: ('\u2800' + " REMEMBER MAPGENS CAN TAKE BETWEEN 1-15 MINUTES DEPENDING ON MAPSIZE " + '\u2800'))) //Larger Spacer needed for proper button seperation
                     .AddPreset(factory => cancelButton)
                 )
                 .BuildAndInitialize();

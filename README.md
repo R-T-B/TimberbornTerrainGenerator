@@ -30,6 +30,8 @@ v1.0.1:  Minor bugfix for the generator not saving or obeying the ingame noise s
 
 v1.0.2:  Fixed the wonky natural slope rotation that was often wrong or improper.  Seed compatible other than slopes being spun the right way, heh. Also stopped overwriting old settings with this release (sorry if this happened to you).
 
+v1.0.3:  A (hopefully final) hotfix for pathetically low blueberry and dandelion spawns.
+
 As of 08/24/2022, we no longer track releases beyond two major subversions back in the main readme.  See the elder release notes here: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/HistoricalReleases.md
 
 # Feedback

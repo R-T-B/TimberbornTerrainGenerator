@@ -96,10 +96,28 @@ namespace TimberbornTerrainGenerator
                 {
                     while (yCounter < MapSizeY - 1)
                     {
-                        //NOTE: Order of placement priority in the event of a conflict is as follows: Slopes (already placed), Mines (already placed),Ruins, Pines, Birches, Chestnuts,Maples, Blueberries, and Dandelions.  We may want to sort this by quantity someday.
+                        //NOTE: Order of placement priority in the event of a conflict is as follows: Slopes (already placed), Mines (already placed), Blueberries,Dandelions,Ruins,Pines,Birches,Chestnuts,and Maples,.  We may want to sort this by quantity someday.
                         yCounter++;
                         //We need to count if we spawned something or not, so we track how many entities there are and compare later.
                         int entitiesListCounter = entitiesList.Count;
+                        if (!(blueberriesNum >= scaledBlueberriesCount))
+                        {
+                            entitiesList = EntityManager.GetBlueberries(map, entitiesList, xCounter, yCounter, blueberriesNoiseMap, blueberriesPrevalence);
+                            if (entitiesListCounter < entitiesList.Count) //The count changes, we obviously spawned something!
+                            {
+                                entitiesListCounter = entitiesList.Count;
+                                blueberriesNum++;
+                            }
+                        }
+                        if (!(dandelionsNum >= scaledDandelionsCount))
+                        {
+                            entitiesList = EntityManager.GetDandelions(map, entitiesList, xCounter, yCounter, dandelionsNoiseMap, dandelionsPrevalence);
+                            if (entitiesListCounter < entitiesList.Count) //The count changes, we obviously spawned something!
+                            {
+                                entitiesListCounter = entitiesList.Count;
+                                dandelionsNum++;
+                            }
+                        }
                         if (!(ruinsNum >= scaledRuinsCount))
                         {
                             entitiesList = EntityManager.GetRuins(map, entitiesList, xCounter, yCounter, ruinsNoiseMap, ruinsPrevalence);
@@ -143,23 +161,6 @@ namespace TimberbornTerrainGenerator
                             {
                                 entitiesListCounter = entitiesList.Count;
                                 mapleTreesNum++;
-                            }
-                        }
-                        if (!(blueberriesNum >= scaledBlueberriesCount))
-                        {
-                            entitiesList = EntityManager.GetBlueberries(map, entitiesList, xCounter, yCounter, blueberriesNoiseMap, blueberriesPrevalence);
-                            if (entitiesListCounter < entitiesList.Count) //The count changes, we obviously spawned something!
-                            {
-                                entitiesListCounter = entitiesList.Count;
-                                blueberriesNum++;
-                            }
-                        }
-                        if (!(dandelionsNum >= scaledDandelionsCount))
-                        {
-                            entitiesList = EntityManager.GetDandelions(map, entitiesList, xCounter, yCounter, dandelionsNoiseMap, dandelionsPrevalence);
-                            if (entitiesListCounter < entitiesList.Count) //The count changes, we obviously spawned something!
-                            {
-                                dandelionsNum++;
                             }
                         }
                         yCounter++;
@@ -813,13 +814,13 @@ namespace TimberbornTerrainGenerator
                             walkAboutRange = walkAboutRange * (-1);
                         }
                     }
-                    if (((walkAboutX + walkAboutRange) >= MapSizeY) || ((walkAboutY + walkAboutRange) >= MapSizeX) || ((walkAboutX + walkAboutRange) < 0) || ((walkAboutY + walkAboutRange) < 0))
+                    if (((walkAboutX + walkAboutRange) >= MapSizeX) || ((walkAboutY + walkAboutRange) >= MapSizeY) || ((walkAboutX + walkAboutRange) < 0) || ((walkAboutY + walkAboutRange) < 0))
                     {
                         //We are too close to the border to plant blueberries, Charlie Brown.  Beyond here be dragons...
                         abortPlanting = true;
                         break;
                     }
-                    if ((!RiverMapper[walkAboutX + walkAboutRange, walkAboutY]) && ((walkAboutY + walkAboutRange) < MapSizeX) && ((walkAboutY + walkAboutRange) >= 0))  //Are we there yet?
+                    if ((!RiverMapper[walkAboutX + walkAboutRange, walkAboutY]) && ((walkAboutX + walkAboutRange) < MapSizeX) && ((walkAboutX + walkAboutRange) >= 0))  //Are we there yet?
                     {
                         if (EntityMapper[walkAboutX + walkAboutRange, walkAboutY])
                         {
@@ -827,23 +828,23 @@ namespace TimberbornTerrainGenerator
                             triedAtLeastOnce = true;
                             continue;
                         }
-                        walkAboutY += walkAboutRange;
+                        walkAboutX += walkAboutRange;
                         break;  //I always knew we'd make it!
                     }
-                    if ((!RiverMapper[walkAboutX + walkAboutRange,walkAboutY]) && ((walkAboutX + walkAboutRange) < MapSizeY) && ((walkAboutX + walkAboutRange) >= 0))  //Are we there yet?
+                    if ((!RiverMapper[walkAboutX, walkAboutY + walkAboutRange]) && ((walkAboutY + walkAboutRange) < MapSizeY) && ((walkAboutY + walkAboutRange) >= 0))  //Are we there yet?
                     {
-                        if (EntityMapper[walkAboutX + walkAboutRange,walkAboutY])
+                        if (EntityMapper[walkAboutX,walkAboutY + walkAboutRange])
                         {
                             //We've been here before you dummy. We have to keep looking!
                             triedAtLeastOnce = true;
                             continue;
                         }
-                        walkAboutX += walkAboutRange;
+                        walkAboutY += walkAboutRange;
                         break; //I always knew we'd make it!
                     }
-                    if (!RiverMapper[walkAboutY + walkAboutRange, walkAboutX + walkAboutRange])  //Are we there yet?
+                    if (!RiverMapper[walkAboutX + walkAboutRange, walkAboutY + walkAboutRange])  //Are we there yet?
                     {
-                        if (EntityMapper[walkAboutY + walkAboutRange, walkAboutX + walkAboutRange])
+                        if (EntityMapper[walkAboutX + walkAboutRange, walkAboutY + walkAboutRange])
                         {
                             //We've been here before you dummy. We have to keep looking!
                             triedAtLeastOnce = true;
@@ -945,7 +946,7 @@ namespace TimberbornTerrainGenerator
                         abortPlanting = true;
                         break;
                     }
-                    if ((!RiverMapper[walkAboutX + walkAboutRange, walkAboutY]) && ((walkAboutY + walkAboutRange) < MapSizeY) && ((walkAboutY + walkAboutRange) >= 0))  //Are we there yet?
+                    if ((!RiverMapper[walkAboutX + walkAboutRange, walkAboutY]) && ((walkAboutX + walkAboutRange) < MapSizeX) && ((walkAboutX + walkAboutRange) >= 0))  //Are we there yet?
                     {
                         if (EntityMapper[walkAboutX + walkAboutRange, walkAboutY])
                         {
@@ -953,18 +954,18 @@ namespace TimberbornTerrainGenerator
                             triedAtLeastOnce = true;
                             continue;
                         }
-                        walkAboutY += walkAboutRange;
+                        walkAboutX += walkAboutRange;
                         break;  //I always knew we'd make it!
                     }
-                    if ((!RiverMapper[walkAboutX + walkAboutRange,walkAboutY]) && ((walkAboutX + walkAboutRange) < MapSizeX) && ((walkAboutX + walkAboutRange) >= 0))  //Are we there yet?
+                    if ((!RiverMapper[walkAboutX, walkAboutY + walkAboutRange]) && ((walkAboutY + walkAboutRange) < MapSizeY) && ((walkAboutY + walkAboutRange) >= 0))  //Are we there yet?
                     {
-                        if (EntityMapper[walkAboutX + walkAboutRange,walkAboutY])
+                        if (EntityMapper[walkAboutX, walkAboutY + walkAboutRange])
                         {
                             //We've been here before you dummy. We have to keep looking!
                             triedAtLeastOnce = true;
                             continue;
                         }
-                        walkAboutX += walkAboutRange;
+                        walkAboutY += walkAboutRange;
                         break; //I always knew we'd make it!
                     }
                     if (!RiverMapper[walkAboutX + walkAboutRange, walkAboutY + walkAboutRange])  //Are we there yet?
