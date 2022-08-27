@@ -139,7 +139,7 @@ namespace TimberbornTerrainGenerator
                 .AddHeader(text: "Timberborn Terrain Generator Settings")
                 .AddComponent(builder => builder
                     .SetWidth(new Length(960, Pixel))
-                    .SetHeight(new Length(555, Pixel))
+                    .SetHeight(new Length(560, Pixel))
                     .SetFlexDirection(FlexDirection.Row)
                     .SetBackgroundColor(new StyleColor(new Color(0.33f, 0.31f, 0.18f, 0.5f)))
                     .SetAlignItems(Align.FlexStart)
