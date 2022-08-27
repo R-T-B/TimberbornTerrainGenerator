@@ -229,7 +229,7 @@ namespace TimberbornTerrainGenerator
             __result.RegisterCallback<FocusOutEvent>(UIInputValidation.OnFocusOutEvent);
             return;
         }
-        private static void cancelButtonVoid()
+        public static void cancelButtonVoid()
         {
             try
             {
@@ -323,15 +323,15 @@ namespace TimberbornTerrainGenerator
                     iniParser.AddSetting("TimberbornTerrainGenerator", "TerrainNoiseType", "Perlin");
                     Debug.LogWarning("Unable to determine noise settings, proceeding to save with default Perlin Noise.");
                 }
-                iniParser.AddSetting("TimberbornTerrainGenerator", "TerrainAmplitude", TerrainAmplitude.ToString());
+                iniParser.AddSetting("TimberbornTerrainGenerator", "TerrainAmplitude", TerrainAmplitude.ToString().Replace(",", "."));
                 iniParser.AddSetting("TimberbornTerrainGenerator", "TerrainFrequencyMult", TerrainFrequencyMult.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "TerrainSlopeEnabled", TerrainSlopeEnabled.ToString());
-                iniParser.AddSetting("TimberbornTerrainGenerator", "TerrainSlopeLevel", TerrainSlopeLevel.ToString());
+                iniParser.AddSetting("TimberbornTerrainGenerator", "TerrainSlopeLevel", TerrainSlopeLevel.ToString().Replace(",", "."));
                 iniParser.AddSetting("TimberbornTerrainGenerator", "RiverNodes", RiverNodes.ToString());
-                iniParser.AddSetting("TimberbornTerrainGenerator", "RiverSourceStrength", RiverSourceStrength.ToString());
-                iniParser.AddSetting("TimberbornTerrainGenerator", "RiverWindiness", RiverWindiness.ToString());
+                iniParser.AddSetting("TimberbornTerrainGenerator", "RiverSourceStrength", RiverSourceStrength.ToString().Replace(",", "."));
+                iniParser.AddSetting("TimberbornTerrainGenerator", "RiverWindiness", RiverWindiness.ToString().Replace(",", "."));
                 iniParser.AddSetting("TimberbornTerrainGenerator", "RiverWidth", RiverWidth.ToString());
-                iniParser.AddSetting("TimberbornTerrainGenerator", "RiverElevation", RiverElevation.ToString());
+                iniParser.AddSetting("TimberbornTerrainGenerator", "RiverElevation", RiverElevation.ToString().Replace(",", "."));
                 iniParser.AddSetting("TimberbornTerrainGenerator", "RiverMapWeight", RiverMapWeight.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "MaxMineCount", MaxMineCount.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "MinMineCount", MinMineCount.ToString());

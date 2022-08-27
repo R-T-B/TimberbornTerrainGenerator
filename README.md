@@ -34,6 +34,8 @@ v1.0.3:  A (hopefully final) hotfix for pathetically low blueberry and dandelion
 
 v1.0.4:  Some minor cosmetic upgrades and fixes to the GUI, most noticable for low res users. No generation or seed changes.
 
+v1.0.5:  Added support for reading euro decimals (appologies to our euro users). We really need full localization support, though.  That is forthcoming.
+
 As of 08/24/2022, we no longer track releases beyond two major subversions back in the main readme.  See the elder release notes here: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/HistoricalReleases.md
 
 # Feedback
