@@ -19,8 +19,8 @@ namespace TimberbornTerrainGenerator
             GenerateArrayStrings(map, out heightMap, out scalarMap, out flowMap);
             string fileName = PluginPath + "/newMap.json";
             MapFileFormat mapFile = new MapFileFormat();
-            mapFile.GameVersion = "0.2.4.1-9edd51d-xsw";
-            mapFile.Timestamp = "2022-08-12 18:46:19";
+            mapFile.GameVersion = Timberborn.Versioning.Versions.VersionNumber;
+            mapFile.Timestamp = DateTime.UtcNow.ToString().Replace("/","-"); //"2022-08-12 18:46:19"; style note, hence the replace for the slashes.  Time is UTC.
             //Lets declare this dictionary mess.
             Dictionary<string, object> mapSizeDictLevel1 = new Dictionary<string, object>();
             Dictionary<string, int> mapSizeVector2 = new Dictionary<string, int>();
