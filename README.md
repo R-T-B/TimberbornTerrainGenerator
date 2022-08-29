@@ -40,7 +40,7 @@ v1.0.6:  Squashed a pretty major bug, if you didn't already have a settings.ini 
 
 v1.1.0:  Another optimization run with very good improvements, thanks to github user @hytonhan! See this doc for latest benchmarks: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/SettingsReadme.md
 
-v1.1.1:  Fix an edge case involving the custom dialog getting a bit fiesty and taking over the main menu.
+v1.1.1:  Fix an edge case involving the custom dialog getting a bit fiesty and taking over the main menu, and then crashing, when using the cancel button too many times.
 
 As of 08/24/2022, we no longer track releases beyond two major subversions back in the main readme.  See the elder release notes here: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/HistoricalReleases.md
 

@@ -78,15 +78,14 @@ namespace TimberbornTerrainGenerator
         public static NineSliceTextField blueberryBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField dandelionBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField slopeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(null, default, default, default, default, default, default, "acceptButton", "Accept");
-        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(null, default, default, default, default, default, default, "cancelButton", "Cancel");
         public static NewMapBox thisNewMapBox;
         private static void Postfix(NewMapBox __instance, VisualElement __result)
         {
-            thisNewMapBox = __instance;
             LoadINISettings();
             seedBox.text = Seed.ToString();
             mapSizeBox.text = MapSizeX.ToString();
+            TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(null, default, default, default, default, default, default, "acceptButton", "Accept");
+            TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(null, default, default, default, default, default, default, "cancelButton", "Cancel");
             acceptButton.clicked += startButtonVoid;
             cancelButton.clicked += cancelButtonVoid;
             minHeightBox.text = TerrainMinHeight.ToString();
@@ -227,35 +226,15 @@ namespace TimberbornTerrainGenerator
             __instance._sizeYField.value = MapSizeX.ToString();
             __result.RegisterCallback<ChangeEvent<bool>>(UIInputValidation.OnBoolChangedEvent); ;
             __result.RegisterCallback<FocusOutEvent>(UIInputValidation.OnFocusOutEvent);
-            return;
+            thisNewMapBox = __instance;
         }
         public static void cancelButtonVoid()
         {
-            try
-            {
-                thisNewMapBox._panelStack.Pop(thisNewMapBox);
-                //unsubscribe
-                cancelButton.clicked -= thisNewMapBox.StartNewMap;
-
-            }
-            catch
-            {
-                //sometimes this is null and I don't care...
-            }
+            thisNewMapBox._panelStack.Pop(thisNewMapBox);
         }
         public static void startButtonVoid()
         {
-            try
-            {
-                //unsubscribe
-                acceptButton.clicked -= thisNewMapBox.StartNewMap;
-                thisNewMapBox.StartNewMap();
-
-            }
-            catch
-            {
-                //sometimes this is null and I don't care...
-            }
+            thisNewMapBox.StartNewMap();
         }
         public static void LoadINISettings()
         {
