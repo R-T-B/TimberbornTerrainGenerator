@@ -22,8 +22,6 @@ https://docs.bepinex.dev/articles/user_guide/installation/index.html
 
 Changelog:
 
-v0.10.0:  Fixed a major bug that could cause infinite loops in the slope logic, as well as several severe flaws in the terrain generator itself that could cause crashes, map holes, and other issues. Also added a parameter to disable map sloping (on by default, because slopes were kind of potato). FYI, there were no releases planned until "1.0" (the release where I add an in game GUI) but I thought it best to fix these critical bugs. Unfortunately, this IS a seed breaking release, but there really was no other way to fix it. As always your old maps will still load fine. Presets have furthermore been updated to compensate for the new logic. There should be no performance differences (more to come there).
-
 v1.0.0:  Added an ingame GUI and validation logic to allow you to edit your settings in game. Despite the major release, it should be seed compatible too!  Enjoy!
 
 v1.0.1:  Minor bugfix for the generator not saving or obeying the ingame noise setting.

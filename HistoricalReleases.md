@@ -39,3 +39,5 @@ v0.9.3: Small slope bugfix (they were experiencing reduced spawns in one orienta
 v0.9.4: Fixed a bug where slope placement would occasionally cause a crash.  No seed or performance impacts.
 
 v0.9.5: Stopped terrain from being allowed to generate beneath map bottom ("holes").  No other changes, yet.
+
+v0.10.0:  Fixed a major bug that could cause infinite loops in the slope logic, as well as several severe flaws in the terrain generator itself that could cause crashes, map holes, and other issues. Also added a parameter to disable map sloping (on by default, because slopes were kind of potato). FYI, there were no releases planned until "1.0" (the release where I add an in game GUI) but I thought it best to fix these critical bugs. Unfortunately, this IS a seed breaking release, but there really was no other way to fix it. As always your old maps will still load fine. Presets have furthermore been updated to compensate for the new logic. There should be no performance differences (more to come there).
