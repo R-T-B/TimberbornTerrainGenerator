@@ -5,7 +5,7 @@ using TimberbornAPI;
 using UnityEngine.UIElements;
 using UnityEngine;
 using System.Threading;
-using static TimberbornTerrainGenerator.SettingsUI;
+using static TimberbornTerrainGenerator.RandomMapSettingsBox;
 using Timberborn.CoreUI;
 using System;
 
@@ -15,14 +15,15 @@ namespace TimberbornTerrainGenerator
     [HarmonyPatch(typeof(NewMapBox), "TryParseSize")]
     public static class UIInputValidation
     {
+        public static DialogBoxShower _dialogBoxShower = TimberAPI.DependencyContainer.GetInstance<DialogBoxShower>();
+
         static int resultX = 0;
         static int resultY = 0;
-        private static bool Prefix(string text, out int size)
+        public static bool Validate()
         {
-            bool result = false;
-            result = (ValidateStrings() && ValidateBools());
+            var result = ValidateStrings();
+            ValidateBools();
             SaveINISettings();
-            size = MapSizeX;
             return result;
         }
         public static void OnBoolChangedEvent(ChangeEvent<bool> evt)
@@ -33,7 +34,7 @@ namespace TimberbornTerrainGenerator
         {
             ValidateStrings();
         }
-        public static bool ValidateBools()
+        private static void ValidateBools()
         {
             if ((perlinToggle.value) && (lastRadioButtonIndex != 0))
             {
@@ -57,9 +58,8 @@ namespace TimberbornTerrainGenerator
                 TerrainNoiseType = FastNoiseLite.NoiseType.Cellular;
             }
             TerrainSlopeEnabled = terrainSlopeEnabledToggle.value;
-            return true;
         }
-        public static bool ValidateStrings()
+        private static bool ValidateStrings()
         {
             try
             {
@@ -68,7 +68,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 seedBox.text = Seed.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
             }
             try
             {
@@ -86,7 +86,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 mapSizeBox.text = MapSizeX.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -107,7 +107,7 @@ namespace TimberbornTerrainGenerator
             {
                 minHeightBox.text = TerrainMinHeight.ToString();
                 maxHeightBox.text = TerrainMaxHeight.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -125,7 +125,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 terrainAmplitudeBox.text = TerrainAmplitude.ToString().Replace(",", ".");
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -143,7 +143,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 terrainFrequencyMultBox.text = TerrainFrequencyMult.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -161,7 +161,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 terrainSlopeLevelBox.text = TerrainSlopeLevel.ToString().Replace(",", ".");
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -179,7 +179,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 riverNodesBox.text = RiverNodes.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -197,7 +197,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 riverSourceStrengthBox.text = RiverSourceStrength.ToString().Replace(",", ".");
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -215,7 +215,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 riverWindinessBox.text = RiverWindiness.ToString().Replace(",", ".");
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -233,7 +233,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 riverWidthBox.text = RiverWidth.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -251,7 +251,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 riverElevationBox.text = RiverElevation.ToString().Replace(",", ".");
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -269,7 +269,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 riverMapWeightBox.text = RiverMapWeight.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -287,7 +287,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 maxMineCountBox.text = MaxMineCount.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -305,7 +305,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 minMineCountBox.text = MinMineCount.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -323,7 +323,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 ruinCountBox.text = RuinCount.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -341,7 +341,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 pineTreeCountBox.text = PineTreeCount.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -359,7 +359,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 birchTreeCountBox.text = BirchTreeCount.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -377,7 +377,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 chestnutTreeCountBox.text = ChestnutTreeCount.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -395,7 +395,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 mapleTreeCountBox.text = MapleTreeCount.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -413,7 +413,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 blueberryBushCountBox.text = BlueberryBushCount.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -431,7 +431,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 dandelionBushCountBox.text = DandelionBushCount.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             try
@@ -449,7 +449,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 slopeCountBox.text = SlopeCount.ToString();
-                thisNewMapBox._dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }
             return true;

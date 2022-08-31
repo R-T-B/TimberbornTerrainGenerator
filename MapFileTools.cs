@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using static TimberbornTerrainGenerator.Statics;
 using static TimberbornTerrainGenerator.TerrainGen;
-using static TimberbornTerrainGenerator.SettingsUI;
+using static TimberbornTerrainGenerator.RandomMapSettingsBox;
 using System.Text;
 using System.Linq;
 using UnityEngine;

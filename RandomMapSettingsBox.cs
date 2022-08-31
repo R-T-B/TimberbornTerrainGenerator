@@ -14,12 +14,12 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using System.Threading;
 using System.IO;
+using Timberborn.MapEditorSceneLoading;
 
 namespace TimberbornTerrainGenerator
 {
-    [HarmonyPatch]
-    [HarmonyPatch(typeof(NewMapBox), "GetPanel")]
-    public static class SettingsUI
+
+    public class RandomMapSettingsBox : IPanelController
     {
         //BEGIN EXTERNAL LOADABLE INI SETTINGS
         public static int MapSizeX;
@@ -78,16 +78,26 @@ namespace TimberbornTerrainGenerator
         public static NineSliceTextField blueberryBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField dandelionBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField slopeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NewMapBox thisNewMapBox;
-        private static void Postfix(NewMapBox __instance, VisualElement __result)
+        
+        private readonly PanelStack _panelStack;
+        private readonly MapEditorSceneLoader _mapEditorSceneLoader;
+
+        public RandomMapSettingsBox(PanelStack panelStack, MapEditorSceneLoader mapEditorSceneLoader)
+        {
+            _panelStack = panelStack;
+            _mapEditorSceneLoader = mapEditorSceneLoader;
+        }
+
+        public VisualElement GetPanel()
         {
             LoadINISettings();
             seedBox.text = Seed.ToString();
             mapSizeBox.text = MapSizeX.ToString();
-            TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(null, default, default, default, default, default, default, "acceptButton", "Accept");
-            TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(null, default, default, default, default, default, default, "cancelButton", "Cancel");
-            acceptButton.clicked += startButtonVoid;
-            cancelButton.clicked += cancelButtonVoid;
+            TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(name: "acceptButton", text: "Accept");
+            TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(name: "cancelButton", 
+                text: "Cancel");
+            acceptButton.clicked += () => OnUIConfirmed();
+            cancelButton.clicked += OnUICancelled;
             minHeightBox.text = TerrainMinHeight.ToString();
             maxHeightBox.text = TerrainMaxHeight.ToString();
             terrainAmplitudeBox.text = TerrainAmplitude.ToString();
@@ -219,24 +229,41 @@ namespace TimberbornTerrainGenerator
                     .AddPreset(factory => cancelButton)
                 )
                 .BuildAndInitialize();
-            __result.Clear();
-            __result.Add(dialogBox);
-            //after the fact map handling
-            __instance._sizeXField.value = MapSizeX.ToString();
-            __instance._sizeYField.value = MapSizeX.ToString();
-            __result.RegisterCallback<ChangeEvent<bool>>(UIInputValidation.OnBoolChangedEvent); ;
-            __result.RegisterCallback<FocusOutEvent>(UIInputValidation.OnFocusOutEvent);
-            thisNewMapBox = __instance;
+            
+            var wrapper = new VisualElement 
+            {
+                style = 
+                {
+                    flexGrow = 1,
+                    alignItems = Align.Center,
+                    justifyContent = Justify.Center,
+                    flexDirection = FlexDirection.Row,
+                }
+            };
+            wrapper.Add(dialogBox);
+
+            dialogBox.RegisterCallback<ChangeEvent<bool>>(UIInputValidation.OnBoolChangedEvent); ;
+            dialogBox.RegisterCallback<FocusOutEvent>(UIInputValidation.OnFocusOutEvent);
+
+            return wrapper;
         }
-        public static void cancelButtonVoid()
-        {
-            thisNewMapBox._panelStack.Pop(thisNewMapBox);
+        
+        public bool OnUIConfirmed() {
+            if (UIInputValidation.Validate())
+            {
+                var size = new Vector2Int(MapSizeX, MapSizeX);
+                _mapEditorSceneLoader.StartNewMap(size);
+                return true;
+            }
+
+            return false;
         }
-        public static void startButtonVoid()
-        {
-            thisNewMapBox.StartNewMap();
+        
+        public void OnUICancelled() {
+            _panelStack.Pop(this);
         }
-        public static void LoadINISettings()
+        
+        public void LoadINISettings()
         {
             //Try load .ini settings
             try

@@ -46,6 +46,8 @@ v1.1.2:  Instead of using static time and version in the save file header, we no
 
 v1.1.3:  Tweaked how version number of save was reported to include build number.  Again, this is unlikely to effect end users, and is more a forward facing change.
 
+v1.1.4:  Added buttons to original NewMapBox instead of overwriting it's VisualElement. Add settings as a separate dialog box.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github or on Timberborn Discord in the modding channel.

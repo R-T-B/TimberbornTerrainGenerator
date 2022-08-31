@@ -12,7 +12,7 @@ using static TimberbornTerrainGenerator.MapFileTools;
 using static TimberbornTerrainGenerator.Utilities;
 using static TimberbornTerrainGenerator.Statics;
 using static TimberbornTerrainGenerator.EntityManager;
-using static TimberbornTerrainGenerator.SettingsUI;
+using static TimberbornTerrainGenerator.RandomMapSettingsBox;
 namespace TimberbornTerrainGenerator
 {
     [HarmonyPatch]

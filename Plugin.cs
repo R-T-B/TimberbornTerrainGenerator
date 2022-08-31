@@ -1,9 +1,9 @@
 ﻿using BepInEx;
-using Bindito.Core;
 using HarmonyLib;
 using System.Reflection;
 using Timberborn.MapSystemUI;
 using TimberbornAPI;
+using TimberbornAPI.Common;
 using static TimberbornTerrainGenerator.Statics;
 
 namespace TimberbornTerrainGenerator
@@ -14,7 +14,8 @@ namespace TimberbornTerrainGenerator
     {
         private void Awake()
         {
-            TimberAPI.DependencyRegistry.AddConfigurator(new TimberbornTerrainGeneratorConfigurator());
+            TimberAPI.DependencyRegistry.AddConfigurator(new TimberbornTerrainGeneratorConfigurator(), 
+                SceneEntryPoint.MainMenu);
             Statics.Logger = Logger;
             Patcher.DoPatching();
         }
@@ -29,12 +30,6 @@ namespace TimberbornTerrainGenerator
             maxsize.SetValue(null, 384);
             minsize.SetValue(null, 32);
             new Harmony("TimberbornTerrainGenerator").PatchAll();
-        }
-    }
-    public class TimberbornTerrainGeneratorConfigurator : IConfigurator
-    {
-        public void Configure(IContainerDefinition containerDefinition)
-        {
         }
     }
 }

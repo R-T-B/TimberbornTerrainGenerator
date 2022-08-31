@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static TimberbornTerrainGenerator.SettingsUI;
+using static TimberbornTerrainGenerator.RandomMapSettingsBox;
 
 namespace TimberbornTerrainGenerator
 {
