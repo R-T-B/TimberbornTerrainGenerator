@@ -20,6 +20,8 @@ That said yes we consider performance a priority issue. See this ticket:  https:
 In order to install the mod follow the instructions from BepInEx website:
 https://docs.bepinex.dev/articles/user_guide/installation/index.html
 
+As of 08/24/2022, we no longer track releases beyond two major subversions back in the main readme. See the elder release notes here: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/HistoricalReleases.md
+
 Changelog:
 
 v1.0.0:  Added an ingame GUI and validation logic to allow you to edit your settings in game. Despite the major release, it should be seed compatible too!  Enjoy!
@@ -43,8 +45,6 @@ v1.1.1:  Fix an edge case involving the custom dialog getting a bit fiesty and t
 v1.1.2:  Instead of using static time and version in the save file header, we now fetch the actual time and game version. This should help as the game version updates through the future. No end user changes.
 
 v1.1.3:  Tweaked how version number of save was reported to include build number.  Again, this is unlikely to effect end users, and is more a forward facing change.
-
-As of 08/24/2022, we no longer track releases beyond two major subversions back in the main readme. See the elder release notes here: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/HistoricalReleases.md
 
 # Feedback
 
