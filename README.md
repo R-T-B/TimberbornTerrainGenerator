@@ -24,20 +24,6 @@ As of 08/24/2022, we no longer track releases beyond two major subversions back 
 
 Changelog:
 
-v1.0.0:  Added an ingame GUI and validation logic to allow you to edit your settings in game. Despite the major release, it should be seed compatible too!  Enjoy!
-
-v1.0.1:  Minor bugfix for the generator not saving or obeying the ingame noise setting.
-
-v1.0.2:  Fixed the wonky natural slope rotation that was often wrong or improper. Seed compatible other than slopes being spun the right way, heh. Also stopped overwriting old settings with this release (sorry if this happened to you).
-
-v1.0.3:  A (hopefully final) hotfix for pathetically low blueberry and dandelion spawns.
-
-v1.0.4:  Some minor cosmetic upgrades and fixes to the GUI, most noticable for low res users. No generation or seed changes.
-
-v1.0.5:  Added support for reading euro decimals (appologies to our euro users). We really need full localization support, though. That is forthcoming.
-
-v1.0.6:  Squashed a pretty major bug, if you didn't already have a settings.ini the mod failed to make a new one, leading to settings not being saved. Thanks to Discord user Todor Alin for the last few reports. :)
-
 v1.1.0:  Another optimization run with very good improvements, thanks to github user @hytonhan! See this doc for latest benchmarks: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/timings.md
 
 v1.1.1:  Fix an edge case involving the custom dialog getting a bit fiesty and taking over the main menu, and then crashing, when using the cancel button too many times.

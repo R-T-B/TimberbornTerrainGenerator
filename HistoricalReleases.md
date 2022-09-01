@@ -41,3 +41,17 @@ v0.9.4: Fixed a bug where slope placement would occasionally cause a crash.  No 
 v0.9.5: Stopped terrain from being allowed to generate beneath map bottom ("holes").  No other changes, yet.
 
 v0.10.0:  Fixed a major bug that could cause infinite loops in the slope logic, as well as several severe flaws in the terrain generator itself that could cause crashes, map holes, and other issues. Also added a parameter to disable map sloping (on by default, because slopes were kind of potato). FYI, there were no releases planned until "1.0" (the release where I add an in game GUI) but I thought it best to fix these critical bugs. Unfortunately, this IS a seed breaking release, but there really was no other way to fix it. As always your old maps will still load fine. Presets have furthermore been updated to compensate for the new logic. There should be no performance differences (more to come there).
+
+v1.0.0:  Added an ingame GUI and validation logic to allow you to edit your settings in game. Despite the major release, it should be seed compatible too!  Enjoy!
+
+v1.0.1:  Minor bugfix for the generator not saving or obeying the ingame noise setting.
+
+v1.0.2:  Fixed the wonky natural slope rotation that was often wrong or improper. Seed compatible other than slopes being spun the right way, heh. Also stopped overwriting old settings with this release (sorry if this happened to you).
+
+v1.0.3:  A (hopefully final) hotfix for pathetically low blueberry and dandelion spawns.
+
+v1.0.4:  Some minor cosmetic upgrades and fixes to the GUI, most noticable for low res users. No generation or seed changes.
+
+v1.0.5:  Added support for reading euro decimals (appologies to our euro users). We really need full localization support, though. That is forthcoming.
+
+v1.0.6:  Squashed a pretty major bug, if you didn't already have a settings.ini the mod failed to make a new one, leading to settings not being saved. Thanks to Discord user Todor Alin for the last few reports. :)
