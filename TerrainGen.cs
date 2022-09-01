@@ -13,58 +13,70 @@ using static TimberbornTerrainGenerator.Utilities;
 using static TimberbornTerrainGenerator.Statics;
 using static TimberbornTerrainGenerator.EntityManager;
 using static TimberbornTerrainGenerator.RandomMapSettingsBox;
+using Timberborn.SceneLoading;
+
 namespace TimberbornTerrainGenerator
 {
     [HarmonyPatch]
     [HarmonyPatch(typeof(MapEditorSceneLoader), nameof(MapEditorSceneLoader.StartNewMap))]
-    class TerrainGen
+    public class TerrainGen
     {
         public static System.Random rand = new System.Random();
         public static FastNoiseLite noise = new FastNoiseLite();
         public static bool[,] RiverMapper = new bool[32, 32];
-        public static bool Prefix(MapEditorSceneLoader __instance)
+        public static bool customMapEnabled = false;
+        public static bool Prefix(MapEditorSceneLoader __instance,Vector2Int mapSize)
         {
-            if (Seed == -1)
+            if (customMapEnabled)
             {
-                Seed = UnityEngine.Random.Range(-8192, 8192);
-                rand = new System.Random(Seed);
+                if (Seed == -1)
+                {
+                    Seed = UnityEngine.Random.Range(-8192, 8192);
+                    rand = new System.Random(Seed);
+                }
+                else
+                {
+                    rand = new System.Random(Seed);
+                }
+                RiverMapper = new bool[MapSizeX, MapSizeY];
+                EntityMapper = new bool[MapSizeX, MapSizeY];
+                noise = new FastNoiseLite(Seed);
+                List<Dictionary<string, object>> jsonEntities;
+                float[,] riverlessMap;
+                if (TerrainSlopeEnabled)
+                {
+                    List<float[,]> floatMapCombiner = new List<float[,]>();
+                    floatMapCombiner.Add(GenerateBaseLayerNoise(TerrainAmplitude, Seed));
+                    floatMapCombiner.Add(GenerateSlopeMap(MapSizeX, MapSizeY, TerrainSlopeLevel));
+                    riverlessMap = ReturnMeanedMap(floatMapCombiner, false);
+                }
+                else
+                {
+                    riverlessMap = GenerateBaseLayerNoise(TerrainAmplitude, Seed);
+                }
+                float[,] finalFloatMap = GenerateFinalRiverMap(riverlessMap, out jsonEntities, RiverNodes, RiverWindiness, RiverWidth, RiverElevation);
+                int[,] normalizedMap = new int[MapSizeX, MapSizeY];
+                normalizedMap = ConvertMapToIntArray(finalFloatMap);
+                jsonEntities = PlaceEntities(normalizedMap, jsonEntities);
+                SaveTerrainMap(normalizedMap, MapSizeX, MapSizeY, jsonEntities);
+                //now load the file
+                while (!File.Exists(PluginPath + "/newMap.json"))
+                {
+                    Thread.Sleep(100);
+                }
+                Thread.Sleep(500); //give slow HDD users time to completely serialize the file.
+                Statics.Logger.LogInfo("Loading randomised map");
+                MapFileReference mapFileReference = MapFileReference.FromDisk(PluginPath + "/newMap");
+                __instance.LoadMap(mapFileReference);
+                Statics.Logger.LogInfo("Finished loading");
+                customMapEnabled = false; //This flag must be reset.
+                return false;
             }
             else
             {
-                rand = new System.Random(Seed);
+                __instance._sceneLoader.LoadScene(MapEditorSceneLoader.MapEditorSceneIndex, MapEditorSceneLoader.ExtraWaitDuration, MapEditorSceneParameters.CreateNewMapParameters(mapSize), __instance.Tip());
+                return false;
             }
-            RiverMapper = new bool[MapSizeX, MapSizeY];
-            EntityMapper = new bool[MapSizeX, MapSizeY];
-            noise = new FastNoiseLite(Seed);
-            List<Dictionary<string, object>> jsonEntities;
-            float[,] riverlessMap;
-            if (TerrainSlopeEnabled)
-            {
-                List<float[,]> floatMapCombiner = new List<float[,]>();
-                floatMapCombiner.Add(GenerateBaseLayerNoise(TerrainAmplitude, Seed));
-                floatMapCombiner.Add(GenerateSlopeMap(MapSizeX, MapSizeY, TerrainSlopeLevel));
-                riverlessMap = ReturnMeanedMap(floatMapCombiner, false);
-            }
-            else
-            {
-                riverlessMap = GenerateBaseLayerNoise(TerrainAmplitude, Seed);
-            }
-            float[,] finalFloatMap = GenerateFinalRiverMap(riverlessMap, out jsonEntities, RiverNodes, RiverWindiness, RiverWidth, RiverElevation);
-            int[,] normalizedMap = new int[MapSizeX, MapSizeY];
-            normalizedMap = ConvertMapToIntArray(finalFloatMap);
-            jsonEntities = PlaceEntities(normalizedMap, jsonEntities);
-            SaveTerrainMap(normalizedMap, MapSizeX, MapSizeY, jsonEntities);
-            //now load the file
-            while (!File.Exists(PluginPath + "/newMap.json"))
-            {
-                Thread.Sleep(100);
-            }
-            Thread.Sleep(500); //give slow HDD users time to completely serialize the file.
-            Statics.Logger.LogInfo("Loading randomised map");
-            MapFileReference mapFileReference = MapFileReference.FromDisk(PluginPath + "/newMap");
-            __instance.LoadMap(mapFileReference);
-            Statics.Logger.LogInfo("Finished loading");
-            return false;
         }
         public static float[,] GenerateFinalRiverMap(float[,] map, out List<Dictionary<string, object>> jsonEntities, int nodes, float windiness, float width, float elevation) //this old ported python is preventing us from using nonsquare maps, needs improvement!
         {

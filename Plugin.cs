@@ -16,6 +16,8 @@ namespace TimberbornTerrainGenerator
         {
             TimberAPI.DependencyRegistry.AddConfigurator(new TimberbornTerrainGeneratorConfigurator(), 
                 SceneEntryPoint.MainMenu);
+            TimberAPI.DependencyRegistry.AddConfigurator(new TimberbornTerrainGeneratorConfigurator(),
+                SceneEntryPoint.MapEditor);
             Statics.Logger = Logger;
             Patcher.DoPatching();
         }

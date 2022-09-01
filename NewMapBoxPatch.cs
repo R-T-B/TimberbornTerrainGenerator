@@ -1,5 +1,6 @@
 ﻿using System;
 using HarmonyLib;
+using Timberborn.Core;
 using Timberborn.CoreUI;
 using Timberborn.MapEditorSceneLoading;
 using Timberborn.MapSystemUI;
@@ -28,11 +29,7 @@ namespace TimberbornTerrainGenerator
                     paddingTop = new StyleLength(8f)
                 }
             };
-
-            var generate = builder.Presets().Buttons().Button(name: "generate", text: "Generate random map");
-            var settings = builder.Presets().Buttons().Button(name: "settings", text: "Random map settings");
-
-            wrapper.Add(generate);
+            var settings = builder.Presets().Buttons().Button(null, text: "Random map");
             wrapper.Add(settings);
             
             var root = __result.Q<VisualElement>("NewMapPanel");
@@ -40,18 +37,8 @@ namespace TimberbornTerrainGenerator
             createButton.text = "Create New Empty Map";
             root.Add(wrapper);
             root.style.height = 240f;
-
-            generate.clicked += () => GenerateRandomMap(__instance);
             settings.clicked += ShowSettingsBox;
             
-        }
-
-        private static void GenerateRandomMap(NewMapBox newMapBox)
-        {
-            newMapBox._sizeYField.text = newMapBox._sizeXField.text;
-            var randomMapSettingsBox = TimberAPI.DependencyContainer.GetInstance<RandomMapSettingsBox>();
-            randomMapSettingsBox.LoadINISettings();
-            newMapBox.StartNewMap();
         }
 
         private static void ShowSettingsBox() 

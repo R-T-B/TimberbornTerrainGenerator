@@ -248,19 +248,21 @@ namespace TimberbornTerrainGenerator
             return wrapper;
         }
         
-        public bool OnUIConfirmed() {
+        public bool OnUIConfirmed() 
+        {
             if (UIInputValidation.Validate())
             {
+                TerrainGen.customMapEnabled = true;
                 SaveINISettings();
-                var size = new Vector2Int(MapSizeX, MapSizeX);
+                var size = new Vector2Int(MapSizeX, MapSizeY);
                 _mapEditorSceneLoader.StartNewMap(size);
                 return true;
             }
-
             return false;
         }
         
-        public void OnUICancelled() {
+        public void OnUICancelled() 
+        {
             _panelStack.Pop(this);
         }
         
