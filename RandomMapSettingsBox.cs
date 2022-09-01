@@ -251,6 +251,7 @@ namespace TimberbornTerrainGenerator
         public bool OnUIConfirmed() {
             if (UIInputValidation.Validate())
             {
+                SaveINISettings();
                 var size = new Vector2Int(MapSizeX, MapSizeX);
                 _mapEditorSceneLoader.StartNewMap(size);
                 return true;
@@ -321,7 +322,7 @@ namespace TimberbornTerrainGenerator
                 Debug.LogWarning("Unable to load settings file, using default parameters!"); //Fail?
             }
         }
-        public static void SaveINISettings()
+        public void SaveINISettings()
         {
             //Try save .ini settings
             try

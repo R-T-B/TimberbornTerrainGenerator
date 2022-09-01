@@ -8,7 +8,7 @@ namespace TimberbornTerrainGenerator
 	{
 		public static BepInEx.Logging.ManualLogSource Logger;
         private static string pluginPath;
-        public const string PluginVersion = "1.1.3";
+        public const string PluginVersion = "1.2.0";
         public static string PluginPath
         {
             get

@@ -23,7 +23,6 @@ namespace TimberbornTerrainGenerator
         {
             var result = ValidateStrings();
             ValidateBools();
-            SaveINISettings();
             return result;
         }
         public static void OnBoolChangedEvent(ChangeEvent<bool> evt)

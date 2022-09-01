@@ -36,6 +36,8 @@ namespace TimberbornTerrainGenerator
             wrapper.Add(settings);
             
             var root = __result.Q<VisualElement>("NewMapPanel");
+            var createButton = __result.Q<LocalizableButton>("StartButton");
+            createButton.text = "Create New Empty Map";
             root.Add(wrapper);
             root.style.height = 240f;
 
