@@ -55,3 +55,11 @@ v1.0.4:  Some minor cosmetic upgrades and fixes to the GUI, most noticable for l
 v1.0.5:  Added support for reading euro decimals (appologies to our euro users). We really need full localization support, though. That is forthcoming.
 
 v1.0.6:  Squashed a pretty major bug, if you didn't already have a settings.ini the mod failed to make a new one, leading to settings not being saved. Thanks to Discord user Todor Alin for the last few reports. :)
+
+v1.1.0:  Another optimization run with very good improvements, thanks to github user @hytonhan! See this doc for latest benchmarks: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/timings.md
+
+v1.1.1:  Fix an edge case involving the custom dialog getting a bit fiesty and taking over the main menu, and then crashing, when using the cancel button too many times.
+
+v1.1.2:  Instead of using static time and version in the save file header, we now fetch the actual time and game version. This should help as the game version updates through the future. No end user changes.
+
+v1.1.3:  Tweaked how version number of save was reported to include build number.  Again, this is unlikely to effect end users, and is more a forward facing change.

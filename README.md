@@ -24,14 +24,6 @@ As of 08/24/2022, we no longer track releases beyond two major subversions back 
 
 Changelog:
 
-v1.1.0:  Another optimization run with very good improvements, thanks to github user @hytonhan! See this doc for latest benchmarks: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/timings.md
-
-v1.1.1:  Fix an edge case involving the custom dialog getting a bit fiesty and taking over the main menu, and then crashing, when using the cancel button too many times.
-
-v1.1.2:  Instead of using static time and version in the save file header, we now fetch the actual time and game version. This should help as the game version updates through the future. No end user changes.
-
-v1.1.3:  Tweaked how version number of save was reported to include build number.  Again, this is unlikely to effect end users, and is more a forward facing change.
-
 v1.2.0:  Added buttons to original NewMapBox instead of overwriting it's VisualElement. Add settings as a separate dialog box. Now you can make the old blank maps too. Thanks to developer pmduda for help and community outreach here! More to come, including settings profiles, soon!
 
 v1.3.0:  A new release that adds a two settings related to riverbed sloping, feel free to check them out in the GUI!  Presets have also been updated to use these new settings, where applicable.  The river sloping logic is on by default,  so this is technically seedbreaking, but you can get the old flat beds by simply setting RiverSlopeEnabled=False.
