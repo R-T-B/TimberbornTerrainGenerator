@@ -57,6 +57,7 @@ namespace TimberbornTerrainGenerator
                 TerrainNoiseType = FastNoiseLite.NoiseType.Cellular;
             }
             TerrainSlopeEnabled = terrainSlopeEnabledToggle.value;
+            RiverSlopeEnabled = riverSlopeEnabledToggle.value;
         }
         private static bool ValidateStrings()
         {
@@ -160,6 +161,24 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 terrainSlopeLevelBox.text = TerrainSlopeLevel.ToString().Replace(",", ".");
+                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                return false;
+            }
+            try
+            {
+                float evalSlopeLevel = float.Parse(riverSlopeLevelBox.text.Replace(",", "."));
+                if ((evalSlopeLevel > 0.0f) && (evalSlopeLevel <= 1.0f))
+                {
+                    RiverSlopeLevel = evalSlopeLevel;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch
+            {
+                riverSlopeLevelBox.text = RiverSlopeLevel.ToString().Replace(",", ".");
                 _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
                 return false;
             }

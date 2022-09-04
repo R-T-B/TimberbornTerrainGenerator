@@ -47,7 +47,7 @@ namespace TimberbornTerrainGenerator
                 {
                     List<float[,]> floatMapCombiner = new List<float[,]>();
                     floatMapCombiner.Add(GenerateBaseLayerNoise(TerrainAmplitude, Seed));
-                    floatMapCombiner.Add(GenerateSlopeMap(MapSizeX, MapSizeY, TerrainSlopeLevel));
+                    floatMapCombiner.Add(GenerateSlopeMap(MapSizeX, MapSizeY, TerrainSlopeLevel, false));
                     riverlessMap = ReturnMeanedMap(floatMapCombiner, false);
                 }
                 else
@@ -157,6 +157,13 @@ namespace TimberbornTerrainGenerator
                 x += 0.2f;
             }
             List<float[,]> computeList = new List<float[,]>();
+            if (RiverSlopeEnabled)
+            {
+                computeList.Add(riverMap);
+                computeList.Add(GenerateSlopeMap(MapSizeX, MapSizeY, RiverSlopeLevel, false));
+                riverMap = ReturnMeanedMapUsingMask(computeList, RiverMapper);
+            }
+            computeList.Clear();
             computeList.Add(map);
             int counter = 0;
             while (counter < RiverMapWeight) //We weight the river map over the terrain map according to the ini parameter.
@@ -200,25 +207,48 @@ namespace TimberbornTerrainGenerator
             }
             return finalMap;
         }
-        public static float[,] GenerateSlopeMap(int MapSizeX, int MapSizeY, float slope)
+        public static float[,] GenerateSlopeMap(int MapSizeX, int MapSizeY, float slope, bool inverted)
         {
-            float[,] slopeMap = new float[MapSizeX, MapSizeY];
-            float value = 0;
-            int xCounter = 0;
-            int yCounter = 0;
-            while (xCounter < MapSizeX)
+            if (inverted)
             {
-                value = slope / MapSizeX * xCounter;
-                value = (value * 2) - 1;
-                while (yCounter < MapSizeY)
+                float[,] slopeMap = new float[MapSizeX, MapSizeY];
+                float value = 0;
+                int xCounter = 0;
+                int yCounter = 0;
+                while (xCounter < MapSizeX)
                 {
-                    slopeMap[xCounter, yCounter] = value;
-                    yCounter++;
+                    while (yCounter < MapSizeY)
+                    {
+                        value = slope / MapSizeY * (MapSizeY - yCounter);
+                        value = (value * 2) - 1;
+                        slopeMap[xCounter, yCounter] = value;
+                        yCounter++;
+                    }
+                    yCounter = 0;
+                    xCounter++;
                 }
-                yCounter = 0;
-                xCounter++;
+                return slopeMap;
             }
-            return slopeMap;
+            else
+            {
+                float[,] slopeMap = new float[MapSizeX, MapSizeY];
+                float value = 0;
+                int xCounter = 0;
+                int yCounter = 0;
+                while (xCounter < MapSizeX)
+                {
+                    while (yCounter < MapSizeY)
+                    {
+                        value = slope / MapSizeY * yCounter;
+                        value = (value * 2) - 1;
+                        slopeMap[xCounter, yCounter] = value;
+                        yCounter++;
+                    }
+                    yCounter = 0;
+                    xCounter++;
+                }
+                return slopeMap;
+            }
         }
         public static int[,] ConvertMapToIntArray(float[,] map)
         { //When you update this method please please please update Utilities.ReturnScaledIntFromFloat to make the math match.

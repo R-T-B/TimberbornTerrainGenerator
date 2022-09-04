@@ -32,6 +32,8 @@ namespace TimberbornTerrainGenerator
         public static int TerrainFrequencyMult = 10;
         public static bool TerrainSlopeEnabled = false;
         public static float TerrainSlopeLevel = 0.8f;
+        public static bool RiverSlopeEnabled = true;
+        public static float RiverSlopeLevel = 0.25f;
         public static int RiverNodes = 2;
         public static float RiverSourceStrength = 1.5f;
         public static float RiverWindiness = 0.4125f;
@@ -60,8 +62,10 @@ namespace TimberbornTerrainGenerator
         public static NineSliceTextField maxHeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField terrainAmplitudeBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField terrainFrequencyMultBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle terrainSlopeEnabledToggle = builder.Presets().Toggles().Checkbox("slopeCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), null);
+        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle terrainSlopeEnabledToggle = builder.Presets().Toggles().Checkbox("terrainSlopeCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), null);
+        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle riverSlopeEnabledToggle = builder.Presets().Toggles().Checkbox("riverSlopeCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), null);
         public static NineSliceTextField terrainSlopeLevelBox = builder.Presets().TextFields().InGameTextField(100, 25);
+        public static NineSliceTextField riverSlopeLevelBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField riverNodesBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField riverSourceStrengthBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField riverWindinessBox = builder.Presets().TextFields().InGameTextField(100, 25);
@@ -103,6 +107,7 @@ namespace TimberbornTerrainGenerator
             terrainAmplitudeBox.text = TerrainAmplitude.ToString();
             terrainFrequencyMultBox.text = TerrainFrequencyMult.ToString();
             terrainSlopeLevelBox.text = TerrainSlopeLevel.ToString();
+            riverSlopeLevelBox.text = RiverSlopeLevel.ToString();
             riverNodesBox.text = RiverNodes.ToString();
             riverSourceStrengthBox.text = RiverSourceStrength.ToString();
             riverWindinessBox.text = RiverWindiness.ToString();
@@ -145,11 +150,19 @@ namespace TimberbornTerrainGenerator
             {
                 terrainSlopeEnabledToggle.value = false;
             }
+            if (RiverSlopeEnabled)
+            {
+                riverSlopeEnabledToggle.value = true;
+            }
+            else
+            {
+                riverSlopeEnabledToggle.value = false;
+            }
             VisualElement dialogBox = builder.CreateBoxBuilder()
                 .AddHeader(text: "Timberborn Terrain Generator Settings")
                 .AddComponent(builder => builder
                     .SetWidth(new Length(960, Pixel))
-                    .SetHeight(new Length(560, Pixel))
+                    .SetHeight(new Length(610, Pixel))
                     .SetFlexDirection(FlexDirection.Row)
                     .SetBackgroundColor(new StyleColor(new Color(0.33f, 0.31f, 0.18f, 0.5f)))
                     .SetAlignItems(Align.FlexStart)
@@ -183,7 +196,13 @@ namespace TimberbornTerrainGenerator
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Whether or not Terrain is generated with a builtin slope angle.                                      " + '\u2800')))//needs more spaces because whitepsace is not the same kerning as letters
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("TerrainSlopeLevel:")))
                     .AddPreset(factory => terrainSlopeLevelBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|The angle of the generated slope, a decimal between 0.0 and 1.0.                            " + '\u2800')))
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|The angle of the generated terrain slope, a decimal between 0.0 and 1.0.                    " + '\u2800')))
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("RiverSlopeEnabled:")))
+                    .AddPreset(factory => riverSlopeEnabledToggle)
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Whether or not Riverbed is generated with a builtin slope angle.                                     " + '\u2800')))//needs more spaces because whitepsace is not the same kerning as letters
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("RiverSlopeLevel:")))
+                    .AddPreset(factory => riverSlopeLevelBox)
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|The angle of the generated river slope, a decimal between 0.0 and 1.0.                      " + '\u2800')))
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("RiverNodes:")))
                     .AddPreset(factory => riverNodesBox)
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("|An integer describing the number of bends in the river.                                              " + '\u2800'))) //needs more spaces because whitepsace is not the same kerning as letters
@@ -225,7 +244,7 @@ namespace TimberbornTerrainGenerator
                     .AddPreset(factory => slopeCountBox)
                     .AddPreset(factory => factory.Labels().Label(text: ("All counts are scaled to a 256^2 map.")))
                     .AddPreset(factory => acceptButton)
-                    .AddPreset(factory => factory.Labels().DefaultBold(text: ('\u2800' + "  REMEMBER MAPGEN CAN TAKE BETWEEN 1-2 MINUTES DEPENDING ON MAPSIZE  " + '\u2800'))) //Larger Spacer needed for proper button seperation
+                    .AddPreset(factory => factory.Labels().DefaultBold(text: ('\u2800' + "   REMEMBER MAPGEN CAN TAKE BETWEEN 1-2 MINUTES DEPENDING ON MAPSIZE   " + '\u2800'))) //Larger Spacer needed for proper button seperation
                     .AddPreset(factory => cancelButton)
                 )
                 .BuildAndInitialize();
@@ -302,6 +321,8 @@ namespace TimberbornTerrainGenerator
                 TerrainFrequencyMult = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainFrequencyMult"));
                 TerrainSlopeEnabled = bool.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainSlopeEnabled"));
                 TerrainSlopeLevel = float.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "TerrainSlopeLevel"));
+                RiverSlopeEnabled = bool.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverSlopeEnabled"));
+                RiverSlopeLevel = float.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverSlopeLevel"));
                 RiverNodes = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverNodes"));
                 RiverSourceStrength = float.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverSourceStrength"));
                 RiverWindiness = float.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverWindiness"));
@@ -361,6 +382,8 @@ namespace TimberbornTerrainGenerator
                 iniParser.AddSetting("TimberbornTerrainGenerator", "TerrainFrequencyMult", TerrainFrequencyMult.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "TerrainSlopeEnabled", TerrainSlopeEnabled.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "TerrainSlopeLevel", TerrainSlopeLevel.ToString().Replace(",", "."));
+                iniParser.AddSetting("TimberbornTerrainGenerator", "RiverSlopeEnabled", RiverSlopeEnabled.ToString());
+                iniParser.AddSetting("TimberbornTerrainGenerator", "RiverSlopeLevel", RiverSlopeLevel.ToString().Replace(",", "."));
                 iniParser.AddSetting("TimberbornTerrainGenerator", "RiverNodes", RiverNodes.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "RiverSourceStrength", RiverSourceStrength.ToString().Replace(",", "."));
                 iniParser.AddSetting("TimberbornTerrainGenerator", "RiverWindiness", RiverWindiness.ToString().Replace(",", "."));

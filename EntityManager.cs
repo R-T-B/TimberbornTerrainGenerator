@@ -7,6 +7,7 @@ using static TimberbornTerrainGenerator.RandomMapSettingsBox;
 
 namespace TimberbornTerrainGenerator
 {
+    //This class is a readability mess I have yet to fix.  Caveat Emptor.
     public class EntityManager
     {
         public static bool[,] EntityMapper = new bool[32, 32];

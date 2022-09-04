@@ -161,6 +161,61 @@ namespace TimberbornTerrainGenerator
             }
             return result;
         }
+        public static float[,] ReturnMeanedMapUsingMask(List<float[,]> MList, bool[,] maskMap)
+        {
+            float[,] result;
+            int xSize;
+            int ySize;
+            try
+            {
+                xSize = MList.FirstOrDefault().GetLength(0);
+                ySize = MList.FirstOrDefault().GetLength(1);
+                result = new float[xSize, ySize];
+            }
+            catch
+            {
+                result = new float[MapSizeX, MapSizeY];
+                xSize = MapSizeX;
+                ySize = MapSizeY;
+
+            }
+            result = new float[xSize, ySize];
+            int xCounter = 0;
+            int yCounter = 0;
+            while (xCounter < xSize)
+            {
+                while (yCounter < ySize)
+                {
+                    if (maskMap[xCounter, yCounter])
+                    {
+                        float resultingMeanedValue = 0;
+                        int divisor = 0;
+                        foreach (float[,] map in MList)
+                        {
+                            resultingMeanedValue += map[xCounter, yCounter];
+                            divisor++;
+                        }
+                        resultingMeanedValue = resultingMeanedValue / divisor;
+                        if (resultingMeanedValue > 1)
+                        {
+                            result[xCounter, yCounter] = 1;
+                        }
+                        else if (resultingMeanedValue < (-1))
+                        {
+                            result[xCounter, yCounter] = -1;
+                        }
+                        else
+                        {
+                            result[xCounter, yCounter] = resultingMeanedValue;
+                        }
+                    }
+                    yCounter++;
+                }
+                yCounter = 0;
+                xCounter++;
+            }
+            return result;
+        }
         public static float[,] ReturnMaximizedMap(List<float[,]> MList)
         {
             float[,] result;
