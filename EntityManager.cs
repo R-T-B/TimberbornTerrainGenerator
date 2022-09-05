@@ -93,12 +93,11 @@ namespace TimberbornTerrainGenerator
                 blueberriesPrevalence = blueberriesMaxH * modifier;
                 dandelionsPrevalence = dandelionsMaxH * modifier;
                 //Begin map loop
-                while (xCounter < MapSizeX - 1)
+                while (xCounter < MapSizeX)
                 {
-                    while (yCounter < MapSizeY - 1)
+                    while (yCounter < MapSizeY)
                     {
                         //NOTE: Order of placement priority in the event of a conflict is as follows: Slopes (already placed), Mines (already placed), Blueberries,Dandelions,Ruins,Pines,Birches,Chestnuts,and Maples,.  We may want to sort this by quantity someday.
-                        yCounter++;
                         //We need to count if we spawned something or not, so we track how many entities there are and compare later.
                         int entitiesListCounter = entitiesList.Count;
                         if (!(blueberriesNum >= scaledBlueberriesCount))

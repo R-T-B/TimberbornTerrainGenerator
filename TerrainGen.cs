@@ -13,7 +13,6 @@ using static TimberbornTerrainGenerator.Utilities;
 using static TimberbornTerrainGenerator.Statics;
 using static TimberbornTerrainGenerator.EntityManager;
 using static TimberbornTerrainGenerator.RandomMapSettingsBox;
-using Timberborn.SceneLoading;
 
 namespace TimberbornTerrainGenerator
 {

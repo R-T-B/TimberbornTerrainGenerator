@@ -1,18 +1,10 @@
-﻿using HarmonyLib;
-using Timberborn.MapSystemUI;
-using TimberbornAPI.UIBuilderSystem;
+﻿using TimberbornAPI.UIBuilderSystem;
 using TimberbornAPI;
 using UnityEngine.UIElements;
 using static UnityEngine.UIElements.Length.Unit;
 using UnityEngine;
 using static TimberbornTerrainGenerator.Statics;
-using TimberbornAPI.Common;
-using UnityEngine.Rendering;
-using System;
 using Timberborn.CoreUI;
-using System.Collections.Generic;
-using UnityEngine.Events;
-using System.Threading;
 using System.IO;
 using Timberborn.MapEditorSceneLoading;
 
@@ -22,8 +14,8 @@ namespace TimberbornTerrainGenerator
     public class RandomMapSettingsBox : IPanelController
     {
         //BEGIN EXTERNAL LOADABLE INI SETTINGS
-        public static int MapSizeX;
-        public static int MapSizeY;
+        public static int MapSizeX = 128;
+        public static int MapSizeY = 128;
         public static int Seed = -1;
         public static int TerrainMinHeight = 10;
         public static int TerrainMaxHeight = 20;
@@ -33,12 +25,12 @@ namespace TimberbornTerrainGenerator
         public static bool TerrainSlopeEnabled = false;
         public static float TerrainSlopeLevel = 0.8f;
         public static bool RiverSlopeEnabled = true;
-        public static float RiverSlopeLevel = 0.25f;
+        public static float RiverSlopeLevel = 0.3725f;
         public static int RiverNodes = 2;
         public static float RiverSourceStrength = 1.5f;
         public static float RiverWindiness = 0.4125f;
         public static int RiverWidth = 4;
-        public static float RiverElevation = -0.7125f;
+        public static float RiverElevation = -0.45f;
         public static int RiverMapWeight = 5;
         public static int MaxMineCount = 4;
         public static int MinMineCount = 0;

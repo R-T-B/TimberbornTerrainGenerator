@@ -1,12 +1,8 @@
-﻿using System;
-using HarmonyLib;
-using Timberborn.Core;
+﻿using HarmonyLib;
 using Timberborn.CoreUI;
-using Timberborn.MapEditorSceneLoading;
 using Timberborn.MapSystemUI;
 using TimberbornAPI;
 using TimberbornAPI.UIBuilderSystem;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TimberbornTerrainGenerator

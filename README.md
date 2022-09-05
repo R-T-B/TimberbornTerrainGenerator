@@ -28,6 +28,8 @@ v1.2.0:  Added buttons to original NewMapBox instead of overwriting it's VisualE
 
 v1.3.0:  A new release that adds a two settings related to riverbed sloping, feel free to check them out in the GUI!  Presets have also been updated to use these new settings, where applicable.  The river sloping logic is on by default,  so this is technically seedbreaking, but you can get the old flat beds by simply setting RiverSlopeEnabled=False.
 
+v1.3.1:  Fixed a bug in entity placement that was making entities (trees, ruins etc) not as dense as they should be.  This is not seedbreaking, except of course for entities, which are now more dense than before. Also updated PlentifulPlains preset to take advantage of river sloping.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github or on Timberborn Discord in the modding channel.

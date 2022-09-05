@@ -1,10 +1,7 @@
 ﻿using HarmonyLib;
 using Timberborn.MapSystemUI;
-using TimberbornAPI.UIBuilderSystem;
 using TimberbornAPI;
 using UnityEngine.UIElements;
-using UnityEngine;
-using System.Threading;
 using static TimberbornTerrainGenerator.RandomMapSettingsBox;
 using Timberborn.CoreUI;
 using System;
