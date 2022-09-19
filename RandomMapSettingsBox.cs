@@ -42,42 +42,43 @@ namespace TimberbornTerrainGenerator
         public static int SlopeCount = 128;
         //END EXTERNAL LOADABLE INI SETTINGS
         public static int lastRadioButtonIndex = -1;
-        public static UIBuilder builder = DependencyContainer.GetInstance<UIBuilder>();
-        public static NineSliceTextField seedBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField mapSizeBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle perlinToggle = builder.Presets().Toggles().Circle("perlinCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Perlin");
-        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle openSimplex2Toggle = builder.Presets().Toggles().Circle("openSimplex2Checkbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "OpenSimplex2");
-        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle cellularToggle = builder.Presets().Toggles().Circle("cellularCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Cellular");
-        public static NineSliceTextField minHeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField maxHeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField terrainAmplitudeBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField terrainFrequencyMultBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle terrainSlopeEnabledToggle = builder.Presets().Toggles().Checkbox("terrainSlopeCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), null);
-        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle riverSlopeEnabledToggle = builder.Presets().Toggles().Checkbox("riverSlopeCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), null);
-        public static NineSliceTextField terrainSlopeLevelBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField riverSlopeLevelBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField riverNodesBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField riverSourceStrengthBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField riverWindinessBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField riverWidthBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField riverElevationBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField riverMapWeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField maxMineCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField minMineCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField ruinCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField pineTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField birchTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField chestnutTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField mapleTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField blueberryBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField dandelionBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static NineSliceTextField slopeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
+        private readonly UIBuilder builder;
+        public static NineSliceTextField seedBox;
+        public static NineSliceTextField mapSizeBox;
+        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle perlinToggle;
+        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle openSimplex2Toggle;
+        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle cellularToggle;
+        public static NineSliceTextField minHeightBox;
+        public static NineSliceTextField maxHeightBox;
+        public static NineSliceTextField terrainAmplitudeBox;
+        public static NineSliceTextField terrainFrequencyMultBox;
+        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle terrainSlopeEnabledToggle;
+        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle riverSlopeEnabledToggle;
+        public static NineSliceTextField terrainSlopeLevelBox;
+        public static NineSliceTextField riverSlopeLevelBox;
+        public static NineSliceTextField riverNodesBox;
+        public static NineSliceTextField riverSourceStrengthBox;
+        public static NineSliceTextField riverWindinessBox;
+        public static NineSliceTextField riverWidthBox;
+        public static NineSliceTextField riverElevationBox;
+        public static NineSliceTextField riverMapWeightBox;
+        public static NineSliceTextField maxMineCountBox;
+        public static NineSliceTextField minMineCountBox;
+        public static NineSliceTextField ruinCountBox;
+        public static NineSliceTextField pineTreeCountBox;
+        public static NineSliceTextField birchTreeCountBox;
+        public static NineSliceTextField chestnutTreeCountBox;
+        public static NineSliceTextField mapleTreeCountBox;
+        public static NineSliceTextField blueberryBushCountBox;
+        public static NineSliceTextField dandelionBushCountBox;
+        public static NineSliceTextField slopeCountBox;
         
         private readonly PanelStack _panelStack;
         private readonly MapEditorSceneLoader _mapEditorSceneLoader;
 
-        public RandomMapSettingsBox(PanelStack panelStack, MapEditorSceneLoader mapEditorSceneLoader)
+        public RandomMapSettingsBox(UIBuilder uiBuilder, PanelStack panelStack, MapEditorSceneLoader mapEditorSceneLoader)
         {
+            builder = uiBuilder;
             _panelStack = panelStack;
             _mapEditorSceneLoader = mapEditorSceneLoader;
         }
@@ -85,6 +86,35 @@ namespace TimberbornTerrainGenerator
         public VisualElement GetPanel()
         {
             LoadINISettings();
+            seedBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            mapSizeBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            perlinToggle = builder.Presets().Toggles().Circle("perlinCheckbox", default, "", default, default, FontStyle.Normal, new StyleColor(Color.white), "Perlin");
+            openSimplex2Toggle = builder.Presets().Toggles().Circle("openSimplex2Checkbox", default, "", default, default, FontStyle.Normal, new StyleColor(Color.white), "OpenSimplex2");
+            cellularToggle = builder.Presets().Toggles().Circle("cellularCheckbox", default, "", default, default, FontStyle.Normal, new StyleColor(Color.white), "Cellular");
+            minHeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            maxHeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            terrainAmplitudeBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            terrainFrequencyMultBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            terrainSlopeEnabledToggle = builder.Presets().Toggles().Checkbox("terrainSlopeCheckbox", default, "", default, default, FontStyle.Normal, new StyleColor(Color.white));
+            riverSlopeEnabledToggle = builder.Presets().Toggles().Checkbox("riverSlopeCheckbox", default, "", default, default, FontStyle.Normal, new StyleColor(Color.white));
+            terrainSlopeLevelBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            riverSlopeLevelBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            riverNodesBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            riverSourceStrengthBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            riverWindinessBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            riverWidthBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            riverElevationBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            riverMapWeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            maxMineCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            minMineCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            ruinCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            pineTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            birchTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            chestnutTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            mapleTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            blueberryBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            dandelionBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            slopeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             seedBox.text = Seed.ToString();
             mapSizeBox.text = MapSizeX.ToString();
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(name: "acceptButton", text: "Accept");
@@ -168,7 +198,7 @@ namespace TimberbornTerrainGenerator
                     .AddPreset(factory => perlinToggle)
                     .AddPreset(factory => openSimplex2Toggle)
                     .AddPreset(factory => cellularToggle)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Determines the noise used by the generator. Experts only.                 " + '\u2800'))) //needs less spaces because object is larger
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Determines the noise used by the generator. Experts only.                                   " + '\u2800')))
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("TerrainMinHeight:")))
                     .AddPreset(factory => minHeightBox)
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Bottom of gen'd terrain. Must be integer greater than 0 and < TerrainMaxHeight.             " + '\u2800')))
