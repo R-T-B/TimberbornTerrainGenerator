@@ -1,14 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using TimberApi.ConsoleSystem;
 
 namespace TimberbornTerrainGenerator
 {
     public static class Statics
 	{
-		public static BepInEx.Logging.ManualLogSource Logger;
+		public static IConsoleWriter Logger;
         private static string pluginPath;
-        public const string PluginVersion = "1.3.1";
+        public const string PluginVersion = "1.4.0";
         public static string PluginPath
         {
             get

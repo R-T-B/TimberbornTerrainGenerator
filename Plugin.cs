@@ -1,24 +1,17 @@
-﻿using BepInEx;
-using HarmonyLib;
-using System.Reflection;
+﻿using System.Reflection;
 using Timberborn.MapSystemUI;
-using TimberbornAPI;
-using TimberbornAPI.Common;
+using TimberApi.ModSystem;
 using static TimberbornTerrainGenerator.Statics;
+using TimberApi.ConsoleSystem;
+using HarmonyLib;
 
 namespace TimberbornTerrainGenerator
 {
-    [BepInPlugin("TimberbornTerrainGenerator", "TimberbornTerrainGenerator", PluginVersion)]
-    [BepInDependency("com.timberapi.timberapi")]
-    public class Plugin : BaseUnityPlugin
+    public class Plugin : IModEntrypoint
     {
-        private void Awake()
+        public void Entry(IMod mod, IConsoleWriter consoleWriter)
         {
-            TimberAPI.DependencyRegistry.AddConfigurator(new TimberbornTerrainGeneratorConfigurator(), 
-                SceneEntryPoint.MainMenu);
-            TimberAPI.DependencyRegistry.AddConfigurator(new TimberbornTerrainGeneratorConfigurator(),
-                SceneEntryPoint.MapEditor);
-            Statics.Logger = Logger;
+            Statics.Logger = consoleWriter;
             Patcher.DoPatching();
         }
 

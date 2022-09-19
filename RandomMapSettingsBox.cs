@@ -1,16 +1,14 @@
-﻿using TimberbornAPI.UIBuilderSystem;
-using TimberbornAPI;
-using UnityEngine.UIElements;
-using static UnityEngine.UIElements.Length.Unit;
+﻿using UnityEngine.UIElements;
 using UnityEngine;
 using static TimberbornTerrainGenerator.Statics;
 using Timberborn.CoreUI;
 using System.IO;
 using Timberborn.MapEditorSceneLoading;
+using TimberApi.DependencyContainerSystem;
+using TimberApi.UiBuilderSystem;
 
 namespace TimberbornTerrainGenerator
 {
-
     public class RandomMapSettingsBox : IPanelController
     {
         //BEGIN EXTERNAL LOADABLE INI SETTINGS
@@ -44,18 +42,18 @@ namespace TimberbornTerrainGenerator
         public static int SlopeCount = 128;
         //END EXTERNAL LOADABLE INI SETTINGS
         public static int lastRadioButtonIndex = -1;
-        public static UIBuilder builder = TimberAPI.DependencyContainer.GetInstance<UIBuilder>();
+        public static UIBuilder builder = DependencyContainer.GetInstance<UIBuilder>();
         public static NineSliceTextField seedBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField mapSizeBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle perlinToggle = builder.Presets().Toggles().Circle("perlinCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Perlin");
-        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle openSimplex2Toggle = builder.Presets().Toggles().Circle("openSimplex2Checkbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "OpenSimplex2");
-        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle cellularToggle = builder.Presets().Toggles().Circle("cellularCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Cellular");
+        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle perlinToggle = builder.Presets().Toggles().Circle("perlinCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Perlin");
+        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle openSimplex2Toggle = builder.Presets().Toggles().Circle("openSimplex2Checkbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "OpenSimplex2");
+        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle cellularToggle = builder.Presets().Toggles().Circle("cellularCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Cellular");
         public static NineSliceTextField minHeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField maxHeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField terrainAmplitudeBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField terrainFrequencyMultBox = builder.Presets().TextFields().InGameTextField(100, 25);
-        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle terrainSlopeEnabledToggle = builder.Presets().Toggles().Checkbox("terrainSlopeCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), null);
-        public static TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableToggle riverSlopeEnabledToggle = builder.Presets().Toggles().Checkbox("riverSlopeCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), null);
+        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle terrainSlopeEnabledToggle = builder.Presets().Toggles().Checkbox("terrainSlopeCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), null);
+        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle riverSlopeEnabledToggle = builder.Presets().Toggles().Checkbox("riverSlopeCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), null);
         public static NineSliceTextField terrainSlopeLevelBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField riverSlopeLevelBox = builder.Presets().TextFields().InGameTextField(100, 25);
         public static NineSliceTextField riverNodesBox = builder.Presets().TextFields().InGameTextField(100, 25);
@@ -89,8 +87,8 @@ namespace TimberbornTerrainGenerator
             LoadINISettings();
             seedBox.text = Seed.ToString();
             mapSizeBox.text = MapSizeX.ToString();
-            TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(name: "acceptButton", text: "Accept");
-            TimberbornAPI.UIBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(name: "cancelButton", 
+            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(name: "acceptButton", text: "Accept");
+            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(name: "cancelButton", 
                 text: "Cancel");
             acceptButton.clicked += () => OnUIConfirmed();
             cancelButton.clicked += OnUICancelled;
@@ -153,8 +151,8 @@ namespace TimberbornTerrainGenerator
             VisualElement dialogBox = builder.CreateBoxBuilder()
                 .AddHeader(text: "Timberborn Terrain Generator Settings")
                 .AddComponent(builder => builder
-                    .SetWidth(new Length(960, Pixel))
-                    .SetHeight(new Length(610, Pixel))
+                    .SetWidth(new Length(960, Length.Unit.Pixel))
+                    .SetHeight(new Length(610, Length.Unit.Pixel))
                     .SetFlexDirection(FlexDirection.Row)
                     .SetBackgroundColor(new StyleColor(new Color(0.33f, 0.31f, 0.18f, 0.5f)))
                     .SetAlignItems(Align.FlexStart)

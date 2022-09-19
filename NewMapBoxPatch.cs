@@ -1,9 +1,9 @@
 ﻿using HarmonyLib;
 using Timberborn.CoreUI;
 using Timberborn.MapSystemUI;
-using TimberbornAPI;
-using TimberbornAPI.UIBuilderSystem;
 using UnityEngine.UIElements;
+using TimberApi.DependencyContainerSystem;
+using TimberApi.UiBuilderSystem;
 
 namespace TimberbornTerrainGenerator
 {
@@ -13,7 +13,8 @@ namespace TimberbornTerrainGenerator
         
         private static void Postfix(NewMapBox __instance, VisualElement __result) 
         {
-            var builder = TimberAPI.DependencyContainer.GetInstance<UIBuilder>();
+            
+            var builder = DependencyContainer.GetInstance<UIBuilder>();
 
             var wrapper = new VisualElement 
             {
@@ -39,8 +40,8 @@ namespace TimberbornTerrainGenerator
 
         private static void ShowSettingsBox() 
         {
-            var panelStack = TimberAPI.DependencyContainer.GetInstance<PanelStack>();
-            var randomMapSettingsBox = TimberAPI.DependencyContainer.GetInstance<RandomMapSettingsBox>();
+            var panelStack = DependencyContainer.GetInstance<PanelStack>();
+            var randomMapSettingsBox = DependencyContainer.GetInstance<RandomMapSettingsBox>();
             panelStack.HideAndPush(randomMapSettingsBox);
         }
     }

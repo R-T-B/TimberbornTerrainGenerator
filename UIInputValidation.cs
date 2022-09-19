@@ -1,10 +1,10 @@
 ﻿using HarmonyLib;
 using Timberborn.MapSystemUI;
-using TimberbornAPI;
 using UnityEngine.UIElements;
 using static TimberbornTerrainGenerator.RandomMapSettingsBox;
 using Timberborn.CoreUI;
 using System;
+using TimberApi.DependencyContainerSystem;
 
 namespace TimberbornTerrainGenerator
 {
@@ -12,7 +12,7 @@ namespace TimberbornTerrainGenerator
     [HarmonyPatch(typeof(NewMapBox), "TryParseSize")]
     public static class UIInputValidation
     {
-        public static DialogBoxShower _dialogBoxShower = TimberAPI.DependencyContainer.GetInstance<DialogBoxShower>();
+        public static DialogBoxShower _dialogBoxShower = DependencyContainer.GetInstance<DialogBoxShower>();
 
         static int resultX = 0;
         static int resultY = 0;
