@@ -24,11 +24,11 @@ As of 08/24/2022, we no longer track releases beyond two major subversions back 
 
 Changelog:
 
-v1.2.0:  Added buttons to original NewMapBox instead of overwriting it's VisualElement. Add settings as a separate dialog box. Now you can make the old blank maps too. Thanks to developer pmduda for help and community outreach here! More to come, including settings profiles, soon!
-
 v1.3.0:  A new release that adds a two settings related to riverbed sloping, feel free to check them out in the GUI!  Presets have also been updated to use these new settings, where applicable.  The river sloping logic is on by default,  so this is technically seedbreaking, but you can get the old flat beds by simply setting RiverSlopeEnabled=False.
 
 v1.3.1:  Fixed a bug in entity placement that was making entities (trees, ruins etc) not as dense as they should be.  This is not seedbreaking, except of course for entities, which are now more dense than before. Also updated PlentifulPlains preset to take advantage of river sloping.
+
+v1.4.0: Just TimberAPI 0.5.x support.  Big things are still planned (tm), but I just got a puppy so it may be a few weeks until they are done, just FYI. :)
 
 # Feedback
 

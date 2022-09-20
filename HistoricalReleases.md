@@ -63,3 +63,5 @@ v1.1.1:  Fix an edge case involving the custom dialog getting a bit fiesty and t
 v1.1.2:  Instead of using static time and version in the save file header, we now fetch the actual time and game version. This should help as the game version updates through the future. No end user changes.
 
 v1.1.3:  Tweaked how version number of save was reported to include build number.  Again, this is unlikely to effect end users, and is more a forward facing change.
+
+v1.2.0:  Added buttons to original NewMapBox instead of overwriting it's VisualElement. Add settings as a separate dialog box. Now you can make the old blank maps too. Thanks to developer pmduda for help and community outreach here! More to come, including settings profiles, soon!
