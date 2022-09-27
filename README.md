@@ -30,6 +30,8 @@ v1.3.1:  Fixed a bug in entity placement that was making entities (trees, ruins 
 
 v1.4.0: Just TimberAPI 0.5.x support.  Big things are still planned (tm), but I just got a puppy so it may be a few weeks until they are done, just FYI. :)
 
+v1.4.1: Just some annoying GUI fixes.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github or on Timberborn Discord in the modding channel.
