@@ -11,11 +11,6 @@ Generating a map is simple!  Install the plugin, and generate a new map!  Be awa
 
 Once the map is generated, feel free to run the water sim, drop a starting location somewhere nice, and load in. That's really all there is to it, and most of the maps it makes are playable (at least on the presets, especially on PlentifulPlains). though you may want to generate a few times to "optimze" your start. I won't judge you... heh.
 
-# Performance
-A word about performance... The C# version we just realeased as of version 0.9.0 is both massively more powerful and more flexible... and massively slower than the python script version that preceeded it. This isn't due to the language. Frankly, python is slow, and the script had no business being that fast. The reason it was that fast was only because it was a list of hardcoded assumptions and as such, did almost no thinking. This obviously made customizing map parameters hard however, and the C# version is the infinitely better way forward. But yes, when you click to generate your map, be advised it MAY APPEAR FROZEN for a bit. This is normal!  Some numbers on expected load times, on PCs ranging from Supreme to Potato, is available here: https://github.com/R-T-B/TimberbornTerrainGenerator/blob/main/timings.md
-
-That said yes we consider performance a priority issue. See this ticket:  https://github.com/R-T-B/TimberbornTerrainGenerator/issues/3
-
 # Installation
 In order to install the mod follow the instructions from BepInEx website:
 https://docs.bepinex.dev/articles/user_guide/installation/index.html
@@ -31,6 +26,8 @@ v1.3.1:  Fixed a bug in entity placement that was making entities (trees, ruins 
 v1.4.0: Just TimberAPI 0.5.x support.  Big things are still planned (tm), but I just got a puppy so it may be a few weeks until they are done, just FYI. :)
 
 v1.4.1: Just some annoying GUI fixes.
+
+v1.4.2: Just getting back to coding.  Fixed the annoying inverted depth map on the river sloping. :)
 
 # Feedback
 
