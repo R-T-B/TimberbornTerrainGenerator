@@ -48,15 +48,28 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="TimberApi" Version="0.5.0-beta" />
+    <PackageReference Include="TimberApi" Version="0.5.1" />
+    <PackageReference Include="Timberborn.GameLibs" Version="0.3.4.3-r.0" />
   </ItemGroup>
   
 <ItemGroup>
+    <Reference Include="BepInEx">
+      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.Harmony">
+      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\BepInEx\core\BepInEx.Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.Preloader">
+      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\BepInEx\core\BepInEx.Preloader.dll</HintPath>
+    </Reference>
     <Reference Include="Bindito.Core">
       <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\Timberborn_Data\Managed\Bindito.Core.dll</HintPath>
     </Reference>
     <Reference Include="Bindito.Unity">
       <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\Timberborn_Data\Managed\Bindito.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="HarmonyXInterop">
+      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\BepInEx\core\HarmonyXInterop.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Timberborn\BepInEx\core\Mono.Cecil.dll</HintPath>

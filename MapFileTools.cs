@@ -6,18 +6,19 @@ using static TimberbornTerrainGenerator.RandomMapSettingsBox;
 using System.Text;
 using System.Linq;
 using UnityEngine;
+using System.IO.Compression;
 
 namespace TimberbornTerrainGenerator
 {
     public class MapFileTools
     {
+        public static string fileName = PluginPath + "/newMap.timber";
         public static void SaveTerrainMap(int[,] map, int x, int y, List<Dictionary<string, object>> jsonEntities)
         {
             string heightMap = "";
             string scalarMap = "";
             string flowMap = "";
             GenerateArrayStrings(map, out heightMap, out scalarMap, out flowMap);
-            string fileName = PluginPath + "/newMap.json";
             MapFileFormat mapFile = new MapFileFormat();
             mapFile.GameVersion = Application.version;
             mapFile.Timestamp = DateTime.UtcNow.ToString().Replace("/","-"); //"2022-08-12 18:46:19"; style note, hence the replace for the slashes.  Time is UTC.
@@ -72,7 +73,16 @@ namespace TimberbornTerrainGenerator
             // serialize JSON to a string and then write string to a file
 
             File.WriteAllText(PluginPath + "/newMap.json", Newtonsoft.Json.JsonConvert.SerializeObject(mapFile));
-            //cleanup
+            //zip & cleanup
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+            using (ZipArchive zip = ZipFile.Open(fileName, ZipArchiveMode.Create))
+            {
+                zip.CreateEntryFromFile(PluginPath + "/newMap.json", "world.json");
+            }
+            File.Delete(PluginPath + "/newMap.json");
             mapSizeDictLevel1 = null;
             mapSizeVector2 = null;
             TerrainMapDictLevel1 = null;

@@ -59,7 +59,7 @@ namespace TimberbornTerrainGenerator
                 jsonEntities = PlaceEntities(normalizedMap, jsonEntities);
                 SaveTerrainMap(normalizedMap, MapSizeX, MapSizeY, jsonEntities);
                 //now load the file
-                while (!File.Exists(PluginPath + "/newMap.json"))
+                while (!File.Exists(MapFileTools.fileName))
                 {
                     Thread.Sleep(100);
                 }

@@ -65,7 +65,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 seedBox.text = Seed.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
             }
             try
             {
@@ -83,7 +83,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 mapSizeBox.text = MapSizeX.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -104,7 +104,7 @@ namespace TimberbornTerrainGenerator
             {
                 minHeightBox.text = TerrainMinHeight.ToString();
                 maxHeightBox.text = TerrainMaxHeight.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -122,7 +122,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 terrainAmplitudeBox.text = TerrainAmplitude.ToString().Replace(",", ".");
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -140,7 +140,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 terrainFrequencyMultBox.text = TerrainFrequencyMult.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -158,7 +158,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 terrainSlopeLevelBox.text = TerrainSlopeLevel.ToString().Replace(",", ".");
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -176,7 +176,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 riverSlopeLevelBox.text = RiverSlopeLevel.ToString().Replace(",", ".");
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -194,7 +194,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 riverNodesBox.text = RiverNodes.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -212,7 +212,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 riverSourceStrengthBox.text = RiverSourceStrength.ToString().Replace(",", ".");
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -230,7 +230,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 riverWindinessBox.text = RiverWindiness.ToString().Replace(",", ".");
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -248,7 +248,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 riverWidthBox.text = RiverWidth.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -266,7 +266,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 riverElevationBox.text = RiverElevation.ToString().Replace(",", ".");
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -284,7 +284,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 riverMapWeightBox.text = RiverMapWeight.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -302,7 +302,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 maxMineCountBox.text = MaxMineCount.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -320,7 +320,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 minMineCountBox.text = MinMineCount.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -338,7 +338,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 ruinCountBox.text = RuinCount.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -356,7 +356,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 pineTreeCountBox.text = PineTreeCount.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -374,7 +374,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 birchTreeCountBox.text = BirchTreeCount.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -392,7 +392,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 chestnutTreeCountBox.text = ChestnutTreeCount.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -410,7 +410,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 mapleTreeCountBox.text = MapleTreeCount.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -428,7 +428,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 blueberryBushCountBox.text = BlueberryBushCount.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -446,7 +446,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 dandelionBushCountBox.text = DandelionBushCount.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             try
@@ -464,7 +464,7 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 slopeCountBox.text = SlopeCount.ToString();
-                _dialogBoxShower.Show("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!", delegate () { }, "OK");
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }
             return true;

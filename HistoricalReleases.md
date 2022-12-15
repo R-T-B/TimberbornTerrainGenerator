@@ -65,3 +65,7 @@ v1.1.2:  Instead of using static time and version in the save file header, we no
 v1.1.3:  Tweaked how version number of save was reported to include build number.  Again, this is unlikely to effect end users, and is more a forward facing change.
 
 v1.2.0:  Added buttons to original NewMapBox instead of overwriting it's VisualElement. Add settings as a separate dialog box. Now you can make the old blank maps too. Thanks to developer pmduda for help and community outreach here! More to come, including settings profiles, soon!
+
+v1.3.0:  A new release that adds a two settings related to riverbed sloping, feel free to check them out in the GUI!  Presets have also been updated to use these new settings, where applicable.  The river sloping logic is on by default,  so this is technically seedbreaking, but you can get the old flat beds by simply setting RiverSlopeEnabled=False.
+
+v1.3.1:  Fixed a bug in entity placement that was making entities (trees, ruins etc) not as dense as they should be.  This is not seedbreaking, except of course for entities, which are now more dense than before. Also updated PlentifulPlains preset to take advantage of river sloping.
