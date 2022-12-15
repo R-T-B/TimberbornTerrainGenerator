@@ -182,7 +182,7 @@ namespace TimberbornTerrainGenerator
                 .AddHeader(text: "Timberborn Terrain Generator Settings")
                 .AddComponent(builder => builder
                     .SetWidth(new Length(960, Length.Unit.Pixel))
-                    .SetHeight(new Length(610, Length.Unit.Pixel))
+                    .SetHeight(new Length(620, Length.Unit.Pixel))
                     .SetFlexDirection(FlexDirection.Row)
                     .SetBackgroundColor(new StyleColor(new Color(0.33f, 0.31f, 0.18f, 0.5f)))
                     .SetAlignItems(Align.FlexStart)
@@ -198,7 +198,7 @@ namespace TimberbornTerrainGenerator
                     .AddPreset(factory => perlinToggle)
                     .AddPreset(factory => openSimplex2Toggle)
                     .AddPreset(factory => cellularToggle)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Determines the noise used by the generator. Experts only.                                   " + '\u2800')))
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Determines the noise used by the generator. Experts only.     " + '\u2800')))//needs less spaces because whitepsace is not the same kerning as letters
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("TerrainMinHeight:")))
                     .AddPreset(factory => minHeightBox)
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Bottom of gen'd terrain. Must be integer greater than 0 and < TerrainMaxHeight.             " + '\u2800')))

@@ -159,7 +159,7 @@ namespace TimberbornTerrainGenerator
             if (RiverSlopeEnabled)
             {
                 computeList.Add(riverMap);
-                computeList.Add(GenerateSlopeMap(MapSizeX, MapSizeY, RiverSlopeLevel, false));
+                computeList.Add(GenerateSlopeMap(MapSizeX, MapSizeY, RiverSlopeLevel, true));
                 riverMap = ReturnMeanedMapUsingMask(computeList, RiverMapper);
             }
             computeList.Clear();
