@@ -16,6 +16,8 @@ A word about performance... The C# version we just realeased as of version 0.9.0
 
 That said yes we consider performance a priority issue. See this ticket:  https://github.com/R-T-B/TimberbornTerrainGenerator/issues/3
 
+As of December 2022, we consider the performance issue solved.
+
 # Installation
 In order to install the mod follow the instructions from BepInEx website:
 https://docs.bepinex.dev/articles/user_guide/installation/index.html
@@ -27,6 +29,8 @@ Changelog:
 v1.4.0: Just TimberAPI 0.5.x support.  Big things are still planned (tm), but I just got a puppy so it may be a few weeks until they are done, just FYI. :)
 
 v1.5.0:  Just Update 3 stable support.  Needs a compatible TimberAPI.
+
+v1.5.1:  Just some dependency fixes for the mod.  Makes sure you have the required stuff (you probably already do, but helps fresh installs).
 
 # Feedback
 
