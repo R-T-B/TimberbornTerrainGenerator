@@ -26,11 +26,11 @@ As of 08/24/2022, we no longer track releases beyond two major subversions back 
 
 Changelog:
 
-v1.4.0: Just TimberAPI 0.5.x support.  Big things are still planned (tm), but I just got a puppy so it may be a few weeks until they are done, just FYI. :)
-
 v1.5.0:  Just Update 3 stable support.  Needs a compatible TimberAPI.
 
 v1.5.1:  Just some dependency fixes for the mod.  Makes sure you have the required stuff (you probably already do, but helps fresh installs).
+
+v1.6.0:  Fix river sloping (again, doh!) and improve water source block placement.
 
 # Feedback
 

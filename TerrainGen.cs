@@ -24,7 +24,7 @@ namespace TimberbornTerrainGenerator
         public static FastNoiseLite noise = new FastNoiseLite();
         public static bool[,] RiverMapper = new bool[32, 32];
         public static bool customMapEnabled = false;
-        public static bool Prefix(MapEditorSceneLoader __instance,Vector2Int mapSize)
+        public static bool Prefix(MapEditorSceneLoader __instance, Vector2Int mapSize)
         {
             if (customMapEnabled)
             {
@@ -134,7 +134,7 @@ namespace TimberbornTerrainGenerator
                     }
                     foreach (int x2 in Enumerable.Range(yrangeStart, yrangeEnd))
                     {
-                        UnityEngine.Vector2 a = new UnityEngine.Vector2(x, center2); 
+                        UnityEngine.Vector2 a = new UnityEngine.Vector2(x, center2);
                         UnityEngine.Vector2 b = new UnityEngine.Vector2(y, x2); //End of coordinate wonkiness, for now.
 
                         float dist = UnityEngine.Vector2.Distance(a, b);
@@ -148,7 +148,14 @@ namespace TimberbornTerrainGenerator
                             {
                                 continue;
                             }
-                            riverMap[x2, y] = RiverElevation;
+                            if (y == Y)
+                            {
+                                riverMap[x2, y] = RiverElevation / 2;
+                            }
+                            else
+                            {
+                                riverMap[x2, y] = RiverElevation;
+                            }
                             RiverMapper[x2, y] = true; //gotta mark that rivermap
                         }
                     }
@@ -159,7 +166,7 @@ namespace TimberbornTerrainGenerator
             if (RiverSlopeEnabled)
             {
                 computeList.Add(riverMap);
-                computeList.Add(GenerateSlopeMap(MapSizeX, MapSizeY, RiverSlopeLevel, true));
+                computeList.Add(GenerateSlopeMap(MapSizeX, MapSizeY, RiverSlopeLevel, false));
                 riverMap = ReturnMeanedMapUsingMask(computeList, RiverMapper);
             }
             computeList.Clear();
@@ -305,7 +312,7 @@ namespace TimberbornTerrainGenerator
         }
         public static float[,] GenerateBaseLayerNoise(float hills, int Seed)
         {
-            
+
             return GenerateNoiseMap(MapSizeX, MapSizeY, -1, 0.2f * hills, TerrainNoiseType);
         }
         public static float[,] GenerateNoiseMap(int mapSizeX, int mapSizeY, int freqMult, float amplitude, FastNoiseLite.NoiseType noiseType)
