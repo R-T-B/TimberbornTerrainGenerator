@@ -72,7 +72,8 @@ namespace TimberbornTerrainGenerator
         public static NineSliceTextField blueberryBushCountBox;
         public static NineSliceTextField dandelionBushCountBox;
         public static NineSliceTextField slopeCountBox;
-        
+        public static NineSliceTextField filenameBox;
+
         private readonly PanelStack _panelStack;
         private readonly MapEditorSceneLoader _mapEditorSceneLoader;
 
@@ -85,7 +86,6 @@ namespace TimberbornTerrainGenerator
 
         public VisualElement GetPanel()
         {
-            LoadINISettings();
             seedBox = builder.Presets().TextFields().InGameTextField(100, 25);
             mapSizeBox = builder.Presets().TextFields().InGameTextField(100, 25);
             perlinToggle = builder.Presets().Toggles().Circle("perlinCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Perlin");
@@ -115,35 +115,18 @@ namespace TimberbornTerrainGenerator
             blueberryBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             dandelionBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             slopeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            seedBox.text = Seed.ToString();
-            mapSizeBox.text = MapSizeX.ToString();
+            filenameBox = builder.Presets().TextFields().InGameTextField(130, 25);
+            LoadINISettings("settings");
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(name: "acceptButton", text: "Accept");
-            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(name: "cancelButton", 
-                text: "Cancel");
+            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(name: "cancelButton", text: "Cancel");
+            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton saveButton = builder.Presets().Buttons().ButtonGame(name: "saveButton", text: "Save");
+            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton loadButton = builder.Presets().Buttons().ButtonGame(name: "loadButton", text: "Load");
             acceptButton.clicked += () => OnUIConfirmed();
             cancelButton.clicked += OnUICancelled;
-            minHeightBox.text = TerrainMinHeight.ToString();
-            maxHeightBox.text = TerrainMaxHeight.ToString();
-            terrainAmplitudeBox.text = TerrainAmplitude.ToString();
-            terrainFrequencyMultBox.text = TerrainFrequencyMult.ToString();
-            terrainSlopeLevelBox.text = TerrainSlopeLevel.ToString();
-            riverSlopeLevelBox.text = RiverSlopeLevel.ToString();
-            riverNodesBox.text = RiverNodes.ToString();
-            riverSourceStrengthBox.text = RiverSourceStrength.ToString();
-            riverWindinessBox.text = RiverWindiness.ToString();
-            riverWidthBox.text = RiverWidth.ToString();
-            riverElevationBox.text = RiverElevation.ToString();
-            riverMapWeightBox.text = RiverMapWeight.ToString();
-            maxMineCountBox.text = MaxMineCount.ToString();
-            minMineCountBox.text = MinMineCount.ToString();
-            ruinCountBox.text = RuinCount.ToString();
-            pineTreeCountBox.text = PineTreeCount.ToString();
-            birchTreeCountBox.text = BirchTreeCount.ToString();
-            chestnutTreeCountBox.text = ChestnutTreeCount.ToString();
-            mapleTreeCountBox.text = MapleTreeCount.ToString();
-            blueberryBushCountBox.text = BlueberryBushCount.ToString();
-            dandelionBushCountBox.text = DandelionBushCount.ToString();
-            slopeCountBox.text = SlopeCount.ToString();
+            saveButton.clicked += () => saveButtonMethod();
+            loadButton.clicked += () => loadButtonMethod();
+            filenameBox.text = "";
+            
             if (TerrainNoiseType.Equals(FastNoiseLite.NoiseType.Perlin))
             {
                 perlinToggle.value = true;
@@ -264,8 +247,12 @@ namespace TimberbornTerrainGenerator
                     .AddPreset(factory => slopeCountBox)
                     .AddPreset(factory => factory.Labels().Label(text: ("All counts are scaled to a 256^2 map.")))
                     .AddPreset(factory => acceptButton)
-                    .AddPreset(factory => factory.Labels().DefaultBold(text: ('\u2800' + "   REMEMBER MAPGEN CAN TAKE BETWEEN 1-2 MINUTES DEPENDING ON MAPSIZE   " + '\u2800'))) //Larger Spacer needed for proper button seperation
                     .AddPreset(factory => cancelButton)
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ('\u2800' + " Filename:")))
+                    .AddPreset(factory => filenameBox)
+                    .AddPreset(factory => saveButton)
+                    .AddPreset(factory => loadButton)
+
                 )
                 .BuildAndInitialize();
             
@@ -292,29 +279,37 @@ namespace TimberbornTerrainGenerator
             if (UIInputValidation.Validate())
             {
                 TerrainGen.customMapEnabled = true;
-                SaveINISettings();
+                SaveINISettings("settings");
                 var size = new Vector2Int(MapSizeX, MapSizeY);
                 _mapEditorSceneLoader.StartNewMap(size);
                 return true;
             }
             return false;
         }
-        
+
         public void OnUICancelled() 
         {
             _panelStack.Pop(this);
         }
-        
-        public void LoadINISettings()
+        public bool saveButtonMethod()
+        {
+            return SaveINISettings(filenameBox.text);
+        }
+        public bool loadButtonMethod()
+        {
+            return LoadINISettings(filenameBox.text);
+        }
+
+        public bool LoadINISettings(string filename)
         {
             //Try load .ini settings
             try
             {
-                if (!File.Exists(PluginPath + "/settings.ini"))
+                if (!File.Exists(PluginPath + "/" + filename + ".ini"))
                 {
-                    File.Copy(PluginPath + "/PlentifulPlains.ini", PluginPath + "/settings.ini");
+                    File.Copy(PluginPath + "/PlentifulPlains.ini", PluginPath + "/" + filename + ".ini");
                 }
-                IniParser iniParser = iniParser = new IniParser(PluginPath + "/settings.ini");
+                IniParser iniParser = iniParser = new IniParser(PluginPath + "/" + filename + ".ini");
                 MapSizeX = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "MapSizeX"));
                 MapSizeY = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "MapSizeY"));
                 Seed = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "Seed"));
@@ -359,22 +354,48 @@ namespace TimberbornTerrainGenerator
                 BlueberryBushCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "BlueberryBushCount"));
                 DandelionBushCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "DandelionBushCount"));
                 SlopeCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "SlopeCount"));
+                seedBox.text = Seed.ToString();
+                mapSizeBox.text = MapSizeX.ToString();
+                minHeightBox.text = TerrainMinHeight.ToString();
+                maxHeightBox.text = TerrainMaxHeight.ToString();
+                terrainAmplitudeBox.text = TerrainAmplitude.ToString();
+                terrainFrequencyMultBox.text = TerrainFrequencyMult.ToString();
+                terrainSlopeLevelBox.text = TerrainSlopeLevel.ToString();
+                riverSlopeLevelBox.text = RiverSlopeLevel.ToString();
+                riverNodesBox.text = RiverNodes.ToString();
+                riverSourceStrengthBox.text = RiverSourceStrength.ToString();
+                riverWindinessBox.text = RiverWindiness.ToString();
+                riverWidthBox.text = RiverWidth.ToString();
+                riverElevationBox.text = RiverElevation.ToString();
+                riverMapWeightBox.text = RiverMapWeight.ToString();
+                maxMineCountBox.text = MaxMineCount.ToString();
+                minMineCountBox.text = MinMineCount.ToString();
+                ruinCountBox.text = RuinCount.ToString();
+                pineTreeCountBox.text = PineTreeCount.ToString();
+                birchTreeCountBox.text = BirchTreeCount.ToString();
+                chestnutTreeCountBox.text = ChestnutTreeCount.ToString();
+                mapleTreeCountBox.text = MapleTreeCount.ToString();
+                blueberryBushCountBox.text = BlueberryBushCount.ToString();
+                dandelionBushCountBox.text = DandelionBushCount.ToString();
+                slopeCountBox.text = SlopeCount.ToString();
+                return true;
             }
             catch
             {
                 Debug.LogWarning("Unable to load settings file, using default parameters!"); //Fail?
+                return false;
             }
         }
-        public void SaveINISettings()
+        public bool SaveINISettings(string filename)
         {
             //Try save .ini settings
             try
             {
-                if (!File.Exists(PluginPath + "/settings.ini"))
+                if (!File.Exists(PluginPath + "/" + filename + ".ini"))
                 {
-                    File.Copy(PluginPath + "/PlentifulPlains.ini", PluginPath + "/settings.ini");
+                    File.Copy(PluginPath + "/PlentifulPlains.ini", PluginPath + "/" + filename + ".ini");
                 }
-                IniParser iniParser = new IniParser(PluginPath + "/settings.ini");
+                IniParser iniParser = new IniParser(PluginPath + "/" + filename + ".ini");
                 iniParser.AddSetting("TimberbornTerrainGenerator", "MapSizeX", MapSizeX.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "MapSizeY", MapSizeY.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "Seed", Seed.ToString());
@@ -421,10 +442,12 @@ namespace TimberbornTerrainGenerator
                 iniParser.AddSetting("TimberbornTerrainGenerator", "DandelionBushCount", DandelionBushCount.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "SlopeCount", SlopeCount.ToString());
                 iniParser.SaveSettings();
+                return true;
             }
             catch
             {
                 Debug.LogWarning("Unable to save entirety of settings file, parameters may be lost!");
+                return false;
             }
         }
     }

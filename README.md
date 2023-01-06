@@ -32,6 +32,8 @@ v1.5.1:  Just some dependency fixes for the mod.  Makes sure you have the requir
 
 v1.6.0:  Fix river sloping (again, doh!) and improve water source block placement.
 
+v1.6.1:  Add (very primitive) profile exporting/importing support.  A better GUI is coming soon.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github or on Timberborn Discord in the modding channel.
