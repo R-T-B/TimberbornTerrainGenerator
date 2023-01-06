@@ -117,7 +117,7 @@ namespace TimberbornTerrainGenerator
             dandelionBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             slopeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             filenameBox = builder.Presets().TextFields().InGameTextField(130, 25);
-            LoadINISettings("settings");
+            LoadINISettings("stocksettings");
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(name: "acceptButton", text: "Accept");
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(name: "cancelButton", text: "Cancel");
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton saveButton = builder.Presets().Buttons().ButtonGame(name: "saveButton", text: "Save");
@@ -280,7 +280,7 @@ namespace TimberbornTerrainGenerator
             if (UIInputValidation.Validate())
             {
                 TerrainGen.customMapEnabled = true;
-                SaveINISettings("settings");
+                SaveINISettings("stocksettings");
                 var size = new Vector2Int(MapSizeX, MapSizeY);
                 _mapEditorSceneLoader.StartNewMap(size);
                 return true;
@@ -302,7 +302,7 @@ namespace TimberbornTerrainGenerator
         }
         public string GetTrueFilePath(string filename)
         {
-            if (filename.Contains("HardyHills") || filename.Contains("MegaMesas") || filename.Contains("PlentifulPlains") || filename.Equals("settings"))
+            if (filename.Contains("HardyHills") || filename.Contains("MegaMesas") || filename.Contains("PlentifulPlains"))
             {
                 return PluginPath + "/" + filename + ".ini";
             }

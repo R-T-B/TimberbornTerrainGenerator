@@ -33,6 +33,8 @@ v1.6.0:  Fix river sloping (again, doh!) and improve water source block placemen
 
 v1.6.1:  Add (very primitive) profile exporting/importing support.  A better GUI is coming soon.
 
+v1.6.2:  Fix stock map settings GUI not retaining settings on a mod update.  They will now stay going forward.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github or on Timberborn Discord in the modding channel.
