@@ -6,6 +6,7 @@ using System.IO;
 using Timberborn.MapEditorSceneLoading;
 using TimberApi.DependencyContainerSystem;
 using TimberApi.UiBuilderSystem;
+using Timberborn.SettingsSystem;
 
 namespace TimberbornTerrainGenerator
 {
@@ -299,17 +300,46 @@ namespace TimberbornTerrainGenerator
         {
             return LoadINISettings(filenameBox.text);
         }
-
-        public bool LoadINISettings(string filename)
+        public string GetTrueFilePath(string filename)
         {
+            if (filename.Contains("HardyHills") || filename.Contains("MegaMesas") || filename.Contains("PlentifulPlains") || filename.Equals("settings"))
+            {
+                return PluginPath + "/" + filename + ".ini";
+            }
+            else
+            {
+                string configPath = PluginPath;
+                try
+                {
+                    while (!Directory.Exists(configPath + "/config"))
+                    {
+                        configPath = configPath + "/../";
+                    }
+                }
+                catch
+                {
+                    Debug.LogError("Unable to find a config folder!"); //Fail?
+                }
+                configPath = configPath + "/config/TimberbornTerrainGenerator";
+                if (!Directory.Exists(configPath))
+                {
+                    Directory.CreateDirectory(configPath);
+                }
+                return configPath + "/" + filename + ".ini";
+            }
+        }
+
+        public bool LoadINISettings(string origFilename)
+        {
+            string filename = GetTrueFilePath(origFilename);
             //Try load .ini settings
             try
             {
-                if (!File.Exists(PluginPath + "/" + filename + ".ini"))
-                {
-                    File.Copy(PluginPath + "/PlentifulPlains.ini", PluginPath + "/" + filename + ".ini");
+                if (!File.Exists(filename))
+                { 
+                    File.Copy(PluginPath + "/PlentifulPlains.ini", filename);
                 }
-                IniParser iniParser = iniParser = new IniParser(PluginPath + "/" + filename + ".ini");
+                IniParser iniParser = iniParser = new IniParser(filename);
                 MapSizeX = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "MapSizeX"));
                 MapSizeY = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "MapSizeY"));
                 Seed = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "Seed"));
@@ -386,16 +416,17 @@ namespace TimberbornTerrainGenerator
                 return false;
             }
         }
-        public bool SaveINISettings(string filename)
+        public bool SaveINISettings(string origFilename)
         {
+            string filename = GetTrueFilePath(origFilename);
             //Try save .ini settings
             try
             {
-                if (!File.Exists(PluginPath + "/" + filename + ".ini"))
+                if (!File.Exists(filename))
                 {
-                    File.Copy(PluginPath + "/PlentifulPlains.ini", PluginPath + "/" + filename + ".ini");
+                    File.Copy(PluginPath + "/PlentifulPlains.ini", filename);
                 }
-                IniParser iniParser = new IniParser(PluginPath + "/" + filename + ".ini");
+                IniParser iniParser = new IniParser(filename);
                 iniParser.AddSetting("TimberbornTerrainGenerator", "MapSizeX", MapSizeX.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "MapSizeY", MapSizeY.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "Seed", Seed.ToString());

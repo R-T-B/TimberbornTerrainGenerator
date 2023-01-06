@@ -1,4 +1,3 @@
-
 # Random map generator
 
 A work in progress project for generating random maps for the game video game Timberborn. Minimum supported map size is 32x32, maximum is 384x384. All maps are squares and the Y parameter on "new map" is used as a seed. If the Y parameter is the same as x, it is completely random and unseeded from the user.
@@ -40,5 +39,3 @@ If you have any feedback, please reach out to me at github or on Timberborn Disc
 
 # Authors
 R-T-B
-
-  
