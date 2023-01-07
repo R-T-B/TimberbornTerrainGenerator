@@ -7,6 +7,7 @@ using Timberborn.MapEditorSceneLoading;
 using TimberApi.DependencyContainerSystem;
 using TimberApi.UiBuilderSystem;
 using Timberborn.SettingsSystem;
+using System.Collections.Generic;
 
 namespace TimberbornTerrainGenerator
 {
@@ -73,7 +74,8 @@ namespace TimberbornTerrainGenerator
         public static NineSliceTextField blueberryBushCountBox;
         public static NineSliceTextField dandelionBushCountBox;
         public static NineSliceTextField slopeCountBox;
-        public static NineSliceTextField filenameBox;
+        public static ListView filenameListBox;
+        public static string[] fileList;
 
         private readonly PanelStack _panelStack;
         private readonly MapEditorSceneLoader _mapEditorSceneLoader;
@@ -116,7 +118,9 @@ namespace TimberbornTerrainGenerator
             blueberryBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             dandelionBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             slopeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            filenameBox = builder.Presets().TextFields().InGameTextField(130, 25);
+            SetupFirstTimeConfigPresets();
+            PopulateFileList();
+            filenameListBox = builder.Presets().ListViews().ColorListView(fileList,null,null,null,default,default,SelectionType.Single,140,25,"fileNameListBox");
             LoadINISettings("stocksettings");
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(name: "acceptButton", text: "Accept");
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(name: "cancelButton", text: "Cancel");
@@ -126,7 +130,7 @@ namespace TimberbornTerrainGenerator
             cancelButton.clicked += OnUICancelled;
             saveButton.clicked += () => saveButtonMethod();
             loadButton.clicked += () => loadButtonMethod();
-            filenameBox.text = "";
+            //filenameListBox.text = "";
             
             if (TerrainNoiseType.Equals(FastNoiseLite.NoiseType.Perlin))
             {
@@ -249,8 +253,8 @@ namespace TimberbornTerrainGenerator
                     .AddPreset(factory => factory.Labels().Label(text: ("All counts are scaled to a 256^2 map.")))
                     .AddPreset(factory => acceptButton)
                     .AddPreset(factory => cancelButton)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ('\u2800' + " Filename:")))
-                    .AddPreset(factory => filenameBox)
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ('\u2800' + "File:")))
+                    .AddPreset(factory => filenameListBox)
                     .AddPreset(factory => saveButton)
                     .AddPreset(factory => loadButton)
 
@@ -294,39 +298,50 @@ namespace TimberbornTerrainGenerator
         }
         public bool saveButtonMethod()
         {
-            return SaveINISettings(filenameBox.text);
+            return SaveINISettings(filenameListBox.selectedItem.ToString());
         }
         public bool loadButtonMethod()
         {
-            return LoadINISettings(filenameBox.text);
+            return LoadINISettings(filenameListBox.selectedItem.ToString());
         }
+
         public string GetTrueFilePath(string filename)
         {
-            if (filename.Contains("HardyHills") || filename.Contains("MegaMesas") || filename.Contains("PlentifulPlains"))
+            return ConfigPath + "/" + filename + ".ini";
+        }
+
+        public void SetupFirstTimeConfigPresets()
+        {
+            if (!File.Exists(ConfigPath + "/HardyHills.ini"))
             {
-                return PluginPath + "/" + filename + ".ini";
+                File.Copy(PluginPath + "/HardyHills.ini", ConfigPath + "/HardyHills.ini");
             }
-            else
+            if (!File.Exists(ConfigPath + "/MegaMesas.ini"))
             {
-                string configPath = PluginPath;
-                try
-                {
-                    while (!Directory.Exists(configPath + "/config"))
-                    {
-                        configPath = configPath + "/../";
-                    }
-                }
-                catch
-                {
-                    Debug.LogError("Unable to find a config folder!"); //Fail?
-                }
-                configPath = configPath + "/config/TimberbornTerrainGenerator";
-                if (!Directory.Exists(configPath))
-                {
-                    Directory.CreateDirectory(configPath);
-                }
-                return configPath + "/" + filename + ".ini";
+                File.Copy(PluginPath + "/MegaMesas.ini", ConfigPath + "/MegaMesas.ini");
             }
+            if (!File.Exists(ConfigPath + "/PlentifulPlains.ini"))
+            {
+                File.Copy(PluginPath + "/PlentifulPlains.ini", ConfigPath + "/PlentifulPlains.ini");
+            }
+        }
+
+        public void PopulateFileList()
+        {
+            List<string> arrayFileList = new List<string>(Directory.GetFiles(ConfigPath));
+            //fileList =
+            //now trim out extensions and stocksettings file
+            int x = 0;
+            while (x < arrayFileList.Count)
+            {
+                arrayFileList[x] = Path.GetFileNameWithoutExtension(arrayFileList[x]);
+                x++;
+            }
+            if (arrayFileList.Contains("stocksettings"))
+            {
+                arrayFileList.Remove("stocksettings");
+            }
+            fileList = arrayFileList.ToArray();
         }
 
         public bool LoadINISettings(string origFilename)
