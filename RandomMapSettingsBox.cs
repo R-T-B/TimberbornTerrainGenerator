@@ -74,7 +74,7 @@ namespace TimberbornTerrainGenerator
         public static NineSliceTextField blueberryBushCountBox;
         public static NineSliceTextField dandelionBushCountBox;
         public static NineSliceTextField slopeCountBox;
-        public static ListView filenameListBox;
+        public static Dropdown filenameListBox;
         public static string[] fileList;
 
         private readonly PanelStack _panelStack;
@@ -120,7 +120,11 @@ namespace TimberbornTerrainGenerator
             slopeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             SetupFirstTimeConfigPresets();
             PopulateFileList();
-            filenameListBox = builder.Presets().ListViews().ColorListView(fileList,null,null,null,default,default,SelectionType.Single,140,25,"fileNameListBox");
+            foreach (string workingString in fileList)
+            {
+                filenameListBox.Add(builder.Presets().Labels().DefaultText(null,workingString,null));
+            }
+            filenameListBox = new Dropdown();
             LoadINISettings("stocksettings");
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(name: "acceptButton", text: "Accept");
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(name: "cancelButton", text: "Cancel");
@@ -298,11 +302,11 @@ namespace TimberbornTerrainGenerator
         }
         public bool saveButtonMethod()
         {
-            return SaveINISettings(filenameListBox.selectedItem.ToString());
+            return SaveINISettings(filenameListBox._selection.text);
         }
         public bool loadButtonMethod()
         {
-            return LoadINISettings(filenameListBox.selectedItem.ToString());
+            return LoadINISettings(filenameListBox._selection.text);
         }
 
         public string GetTrueFilePath(string filename)
