@@ -37,6 +37,8 @@ v1.6.2:  Fix stock map settings GUI not retaining settings on a mod update.  The
 
 v1.6.3: Better load/save GUI.  It's still a little ugly duckling but now much more functional, at least.  Enjoy!
 
+v1.6.4: Some GUI hardlock bugfixes.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github or on Timberborn Discord in the modding channel.

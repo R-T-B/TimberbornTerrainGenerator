@@ -327,8 +327,16 @@ namespace TimberbornTerrainGenerator
         }
         public bool saveButtonMethod()
         {
-            SaveINISettings("stocksettings");
-            return SaveINISettings(filenameListBox.selectedItem.ToString());
+            try
+            {
+                SaveINISettings("stocksettings");
+                return SaveINISettings(filenameListBox.selectedItem.ToString());
+            }
+            catch
+            {
+                //any file save fails caught
+                return false;
+            }
         }
         public bool deleteButtonMethod()
         {
@@ -360,9 +368,10 @@ namespace TimberbornTerrainGenerator
                 try
                 {
                     SaveINISettings("stocksettings");
+                    SaveINISettings(newFileNameBox.text);
                     PopulateFileList();
                     refreshGUI();
-                    return SaveINISettings(newFileNameBox.text);
+                    return true;
                 }
                 catch
                 {
