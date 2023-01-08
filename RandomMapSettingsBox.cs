@@ -100,7 +100,6 @@ namespace TimberbornTerrainGenerator
         }
         public void refreshGUI()
         {
-            SaveINISettings("stocksettings"); //first make sure the old settings are recorded from the GUI.
             seedBox = builder.Presets().TextFields().InGameTextField(100, 25);
             mapSizeBox = builder.Presets().TextFields().InGameTextField(100, 25);
             perlinToggle = builder.Presets().Toggles().Circle("perlinCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Perlin");
@@ -328,10 +327,12 @@ namespace TimberbornTerrainGenerator
         }
         public bool saveButtonMethod()
         {
+            SaveINISettings("stocksettings");
             return SaveINISettings(filenameListBox.selectedItem.ToString());
         }
         public bool deleteButtonMethod()
         {
+            SaveINISettings("stocksettings"); //first make sure the old settings are recorded from the GUI.
             _dialogBoxShower.Create().SetMessage("Are you sure you want to delete the profile you just highlighted?").SetConfirmButton(delegate () { deleteHighlightedFile(); }, "Yes").SetCancelButton(delegate () { }, "No").Show();
             return true;
         }
@@ -340,6 +341,7 @@ namespace TimberbornTerrainGenerator
             try
             {
                 File.Delete(GetTrueFilePath(filenameListBox.selectedItem.ToString()));
+                PopulateFileList();
                 refreshGUI();
             }
             catch
@@ -357,6 +359,9 @@ namespace TimberbornTerrainGenerator
             {
                 try
                 {
+                    SaveINISettings("stocksettings");
+                    PopulateFileList();
+                    refreshGUI();
                     return SaveINISettings(newFileNameBox.text);
                 }
                 catch
@@ -498,6 +503,7 @@ namespace TimberbornTerrainGenerator
                 blueberryBushCountBox.text = BlueberryBushCount.ToString();
                 dandelionBushCountBox.text = DandelionBushCount.ToString();
                 slopeCountBox.text = SlopeCount.ToString();
+                SaveINISettings("stocksettings"); //Make sure the new settings are recorded from the GUI.
                 return true;
             }
             catch
@@ -564,7 +570,6 @@ namespace TimberbornTerrainGenerator
                 iniParser.AddSetting("TimberbornTerrainGenerator", "SlopeCount", SlopeCount.ToString());
                 iniParser.SaveSettings();
                 PopulateFileList();
-                refreshGUI();
                 return true;
             }
             catch
