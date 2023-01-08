@@ -90,6 +90,7 @@ namespace TimberbornTerrainGenerator
 
         private readonly PanelStack _panelStack;
         private readonly MapEditorSceneLoader _mapEditorSceneLoader;
+        private static DialogBoxShower _dialogBoxShower = DependencyContainer.GetInstance<DialogBoxShower>();
 
         public RandomMapSettingsBox(UIBuilder uiBuilder, PanelStack panelStack, MapEditorSceneLoader mapEditorSceneLoader)
         {
@@ -99,6 +100,7 @@ namespace TimberbornTerrainGenerator
         }
         public void refreshGUI()
         {
+            SaveINISettings("stocksettings"); //first make sure the old settings are recorded from the GUI.
             seedBox = builder.Presets().TextFields().InGameTextField(100, 25);
             mapSizeBox = builder.Presets().TextFields().InGameTextField(100, 25);
             perlinToggle = builder.Presets().Toggles().Circle("perlinCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Perlin");
@@ -130,7 +132,7 @@ namespace TimberbornTerrainGenerator
             slopeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             SetupFirstTimeConfigPresets();
             PopulateFileList();
-            filenameListBox = builder.Presets().ListViews().CustomListView(fileList, null, null, null, null, null, SelectionType.Single, 125, 540);
+            filenameListBox = builder.Presets().ListViews().CustomListView(fileList, null, null, null, null, null, SelectionType.Single, 125, 515);
             newFileNameBox = builder.Presets().TextFields().InGameTextField(120, 25);
             LoadINISettings("stocksettings");
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(name: "acceptButton", text: "Accept");
@@ -138,9 +140,11 @@ namespace TimberbornTerrainGenerator
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton saveButton = builder.Presets().Buttons().ButtonGame(null, 100, 25, default, default, default, null, "saveButton", "Save Profile");
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton newSaveButton = builder.Presets().Buttons().ButtonGame(null, 200, 25, default, default, default, null, "newSaveButton", "Save New Profile");
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton loadButton = builder.Presets().Buttons().ButtonGame(null, 100, 25, default, default, default, null, "loadButton", "Load Profile");
+            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton deleteButton = builder.Presets().Buttons().ButtonGame(null, 200, 25, default, default, new StyleColor(Color.red), null, "newSaveButton", "Delete Profile");
             acceptButton.clicked += () => OnUIConfirmed();
             cancelButton.clicked += OnUICancelled;
             saveButton.clicked += () => saveButtonMethod();
+            deleteButton.clicked += () => deleteButtonMethod();
             newSaveButton.clicked += () => newSaveButtonMethod();
             loadButton.clicked += () => loadButtonMethod();
 
@@ -282,6 +286,7 @@ namespace TimberbornTerrainGenerator
                     .AddPreset(factory => filenameListBox)
                     .AddPreset(factory => saveButton)
                     .AddPreset(factory => loadButton)
+                    .AddPreset(factory => deleteButton)
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("FileName:")))
                     .AddPreset(factory => newFileNameBox)
                     .AddPreset(factory => newSaveButton)
@@ -325,13 +330,54 @@ namespace TimberbornTerrainGenerator
         {
             return SaveINISettings(filenameListBox.selectedItem.ToString());
         }
+        public bool deleteButtonMethod()
+        {
+            _dialogBoxShower.Create().SetMessage("Are you sure you want to delete the profile you just highlighted?").SetConfirmButton(delegate () { deleteHighlightedFile(); }, "Yes").SetCancelButton(delegate () { }, "No").Show();
+            return true;
+        }
+        public void deleteHighlightedFile()
+        {
+            try
+            {
+                File.Delete(GetTrueFilePath(filenameListBox.selectedItem.ToString()));
+                refreshGUI();
+            }
+            catch
+            {
+                //if no file was highlighted abort.
+            }
+        }
         public bool newSaveButtonMethod()
         {
-            return SaveINISettings(newFileNameBox.text);
+            if (newFileNameBox.text.Equals(""))
+            {
+                return false;
+            }
+            else
+            {
+                try
+                {
+                    return SaveINISettings(newFileNameBox.text);
+                }
+                catch
+                {
+                    //any file save fails caught
+                    return false;
+                }
+            }
+
         }
         public bool loadButtonMethod()
         {
-            return LoadINISettings(filenameListBox.selectedItem.ToString());
+            try
+            {
+                return LoadINISettings(filenameListBox.selectedItem.ToString());
+            }
+            catch
+            {
+                return false;
+                //if no file was highlighted abort.
+            }
         }
 
         public string GetTrueFilePath(string filename)

@@ -12,7 +12,7 @@ namespace TimberbornTerrainGenerator
     [HarmonyPatch(typeof(NewMapBox), "TryParseSize")]
     public static class UIInputValidation
     {
-        public static DialogBoxShower _dialogBoxShower = DependencyContainer.GetInstance<DialogBoxShower>();
+        private static DialogBoxShower _dialogBoxShower = DependencyContainer.GetInstance<DialogBoxShower>();
 
         static int resultX = 0;
         static int resultY = 0;
