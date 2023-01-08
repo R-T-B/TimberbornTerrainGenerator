@@ -74,8 +74,19 @@ namespace TimberbornTerrainGenerator
         public static NineSliceTextField blueberryBushCountBox;
         public static NineSliceTextField dandelionBushCountBox;
         public static NineSliceTextField slopeCountBox;
-        public static Dropdown filenameListBox;
+        public static ListView filenameListBox;
+        public static NineSliceTextField newFileNameBox;
         public static string[] fileList;
+        public static VisualElement wrapper = new VisualElement
+        {
+            style =
+                {
+                    flexGrow = 1,
+                    alignItems = Align.Center,
+                    justifyContent = Justify.Center,
+                    flexDirection = FlexDirection.Row,
+                }
+        };
 
         private readonly PanelStack _panelStack;
         private readonly MapEditorSceneLoader _mapEditorSceneLoader;
@@ -86,8 +97,7 @@ namespace TimberbornTerrainGenerator
             _panelStack = panelStack;
             _mapEditorSceneLoader = mapEditorSceneLoader;
         }
-
-        public VisualElement GetPanel()
+        public void refreshGUI()
         {
             seedBox = builder.Presets().TextFields().InGameTextField(100, 25);
             mapSizeBox = builder.Presets().TextFields().InGameTextField(100, 25);
@@ -120,22 +130,20 @@ namespace TimberbornTerrainGenerator
             slopeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             SetupFirstTimeConfigPresets();
             PopulateFileList();
-            foreach (string workingString in fileList)
-            {
-                filenameListBox.Add(builder.Presets().Labels().DefaultText(null,workingString,null));
-            }
-            filenameListBox = new Dropdown();
+            filenameListBox = builder.Presets().ListViews().CustomListView(fileList, null, null, null, null, null, SelectionType.Single, 125, 540);
+            newFileNameBox = builder.Presets().TextFields().InGameTextField(120, 25);
             LoadINISettings("stocksettings");
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(name: "acceptButton", text: "Accept");
             TimberApi.UiBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(name: "cancelButton", text: "Cancel");
-            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton saveButton = builder.Presets().Buttons().ButtonGame(name: "saveButton", text: "Save");
-            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton loadButton = builder.Presets().Buttons().ButtonGame(name: "loadButton", text: "Load");
+            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton saveButton = builder.Presets().Buttons().ButtonGame(null, 100, 25, default, default, default, null, "saveButton", "Save Profile");
+            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton newSaveButton = builder.Presets().Buttons().ButtonGame(null, 200, 25, default, default, default, null, "newSaveButton", "Save New Profile");
+            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton loadButton = builder.Presets().Buttons().ButtonGame(null, 100, 25, default, default, default, null, "loadButton", "Load Profile");
             acceptButton.clicked += () => OnUIConfirmed();
             cancelButton.clicked += OnUICancelled;
             saveButton.clicked += () => saveButtonMethod();
+            newSaveButton.clicked += () => newSaveButtonMethod();
             loadButton.clicked += () => loadButtonMethod();
-            //filenameListBox.text = "";
-            
+
             if (TerrainNoiseType.Equals(FastNoiseLite.NoiseType.Perlin))
             {
                 perlinToggle.value = true;
@@ -170,13 +178,13 @@ namespace TimberbornTerrainGenerator
             {
                 riverSlopeEnabledToggle.value = false;
             }
-            VisualElement dialogBox = builder.CreateBoxBuilder()
+            VisualElement settingsDialogBox = builder.CreateBoxBuilder()
                 .AddHeader(text: "Timberborn Terrain Generator Settings")
                 .AddComponent(builder => builder
                     .SetWidth(new Length(960, Length.Unit.Pixel))
                     .SetHeight(new Length(620, Length.Unit.Pixel))
                     .SetFlexDirection(FlexDirection.Row)
-                    .SetBackgroundColor(new StyleColor(new Color(0.33f, 0.31f, 0.18f, 0.5f)))
+                    .SetBackgroundColor(new StyleColor(new Color(0.33f, 0.31f, 0.18f, 0.0f)))
                     .SetAlignItems(Align.FlexStart)
                     .SetAlignContent(Align.FlexStart)
                     .SetFlexWrap(Wrap.Wrap)
@@ -256,30 +264,43 @@ namespace TimberbornTerrainGenerator
                     .AddPreset(factory => slopeCountBox)
                     .AddPreset(factory => factory.Labels().Label(text: ("All counts are scaled to a 256^2 map.")))
                     .AddPreset(factory => acceptButton)
+                    .AddPreset(factory => factory.Labels().DefaultBold(text: ('\u2800' + "   REMEMBER MAPGEN CAN TAKE BETWEEN 1-2 MINUTES DEPENDING ON MAPSIZE   " + '\u2800'))) //Larger Spacer needed for proper button seperation
                     .AddPreset(factory => cancelButton)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ('\u2800' + "File:")))
-                    .AddPreset(factory => filenameListBox)
-                    .AddPreset(factory => saveButton)
-                    .AddPreset(factory => loadButton)
 
                 )
                 .BuildAndInitialize();
-            
-            var wrapper = new VisualElement 
-            {
-                style = 
-                {
-                    flexGrow = 1,
-                    alignItems = Align.Center,
-                    justifyContent = Justify.Center,
-                    flexDirection = FlexDirection.Row,
-                }
-            };
-            wrapper.Add(dialogBox);
+            VisualElement loadSaveDialogBox = builder.CreateBoxBuilder()
+                .AddHeader(text: "Load/Save Profiles")
+                .AddComponent(builder => builder
+                    .SetWidth(new Length(200, Length.Unit.Pixel))
+                    .SetHeight(new Length(620, Length.Unit.Pixel))
+                    .SetFlexDirection(FlexDirection.Row)
+                    .SetBackgroundColor(new StyleColor(new Color(0.5f, 0.5f, 0.5f, 0.475f)))
+                    .SetAlignItems(Align.FlexStart)
+                    .SetAlignContent(Align.FlexStart)
+                    .SetFlexWrap(Wrap.Wrap)
+                    .AddPreset(factory => filenameListBox)
+                    .AddPreset(factory => saveButton)
+                    .AddPreset(factory => loadButton)
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("FileName:")))
+                    .AddPreset(factory => newFileNameBox)
+                    .AddPreset(factory => newSaveButton)
 
-            dialogBox.RegisterCallback<ChangeEvent<bool>>(UIInputValidation.OnBoolChangedEvent); ;
-            dialogBox.RegisterCallback<FocusOutEvent>(UIInputValidation.OnFocusOutEvent);
+                )
+                .BuildAndInitialize();
+            wrapper.Clear();
+            wrapper.Add(settingsDialogBox);
+            wrapper.Add(loadSaveDialogBox);
 
+            settingsDialogBox.RegisterCallback<ChangeEvent<bool>>(UIInputValidation.OnBoolChangedEvent);
+            settingsDialogBox.RegisterCallback<FocusOutEvent>(UIInputValidation.OnFocusOutEvent);
+            loadSaveDialogBox.RegisterCallback<ChangeEvent<bool>>(UIInputValidation.OnBoolChangedEvent);
+            loadSaveDialogBox.RegisterCallback<FocusOutEvent>(UIInputValidation.OnFocusOutEvent);
+        }
+
+        public VisualElement GetPanel()
+        {
+            refreshGUI();
             return wrapper;
         }
         
@@ -302,11 +323,15 @@ namespace TimberbornTerrainGenerator
         }
         public bool saveButtonMethod()
         {
-            return SaveINISettings(filenameListBox._selection.text);
+            return SaveINISettings(filenameListBox.selectedItem.ToString());
+        }
+        public bool newSaveButtonMethod()
+        {
+            return SaveINISettings(newFileNameBox.text);
         }
         public bool loadButtonMethod()
         {
-            return LoadINISettings(filenameListBox._selection.text);
+            return LoadINISettings(filenameListBox.selectedItem.ToString());
         }
 
         public string GetTrueFilePath(string filename)
@@ -492,6 +517,8 @@ namespace TimberbornTerrainGenerator
                 iniParser.AddSetting("TimberbornTerrainGenerator", "DandelionBushCount", DandelionBushCount.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "SlopeCount", SlopeCount.ToString());
                 iniParser.SaveSettings();
+                PopulateFileList();
+                refreshGUI();
                 return true;
             }
             catch
