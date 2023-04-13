@@ -25,10 +25,6 @@ As of 08/24/2022, we no longer track releases beyond two major subversions back 
 
 Changelog:
 
-v1.5.0:  Just Update 3 stable support.  Needs a compatible TimberAPI.
-
-v1.5.1:  Just some dependency fixes for the mod.  Makes sure you have the required stuff (you probably already do, but helps fresh installs).
-
 v1.6.0:  Fix river sloping (again, doh!) and improve water source block placement.
 
 v1.6.1:  Add (very primitive) profile exporting/importing support.  A better GUI is coming soon.
@@ -38,6 +34,8 @@ v1.6.2:  Fix stock map settings GUI not retaining settings on a mod update.  The
 v1.6.3: Better load/save GUI.  It's still a little ugly duckling but now much more functional, at least.  Enjoy!
 
 v1.6.4: Some GUI hardlock bugfixes.
+
+v1.7.0: Basic Alpha 0.4.0 support.  Not retro-compatible, seed compatible, or profile compatible.  Please delete BepInEx\config\TimberbornTerrainGenerator folder when upgrading.
 
 # Feedback
 

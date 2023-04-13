@@ -24,8 +24,7 @@ namespace TimberbornTerrainGenerator
             int scaledRuinsCount = (int)Math.Round(RuinCount * mapScaler);
             int scaledPineTreeCount = (int)Math.Round(PineTreeCount * mapScaler);
             int scaledBirchTreeCount = (int)Math.Round(BirchTreeCount * mapScaler);
-            int scaledChestnutTreeCount = (int)Math.Round(ChestnutTreeCount * mapScaler);
-            int scaledMapleTreeCount = (int)Math.Round(MapleTreeCount * mapScaler);
+            int scaledOakTreeCount = (int)Math.Round(OakTreeCount * mapScaler);
             int scaledBlueberriesCount = (int)Math.Round(BlueberryBushCount * mapScaler);
             int scaledDandelionsCount = (int)Math.Round(DandelionBushCount * mapScaler);
 
@@ -38,8 +37,7 @@ namespace TimberbornTerrainGenerator
             int ruinsNum = 0;
             int pineTreesNum = 0;
             int birchTreesNum = 0;
-            int chestnutTreesNum = 0;
-            int mapleTreesNum = 0;
+            int oakTreesNum = 0;
             int blueberriesNum = 0;
             int dandelionsNum = 0;
             int xCounter = 0;
@@ -52,19 +50,16 @@ namespace TimberbornTerrainGenerator
             noise.SetSeed(Seed + 50);
             float[,] birchTreesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 0.8f, FastNoiseLite.NoiseType.Perlin);
             noise.SetSeed(Seed + 75);
-            float[,] chestnutTreesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 0.8f, FastNoiseLite.NoiseType.Perlin);
+            float[,] oakTreesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 0.8f, FastNoiseLite.NoiseType.Perlin);
             noise.SetSeed(Seed + 100);
-            float[,] mapleTreesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 25, 0.8f, FastNoiseLite.NoiseType.Perlin);
-            noise.SetSeed(Seed + 125);
             float[,] blueberriesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 100, 0.8f, FastNoiseLite.NoiseType.Perlin); //Really speckled noise
-            noise.SetSeed(Seed + 150);
+            noise.SetSeed(Seed + 125);
             float[,] dandelionsNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 100, 0.8f, FastNoiseLite.NoiseType.Perlin); //Really speckled noise
             //Setup the other misc variables
             float ruinsMaxH = GetFloatArrayMax(ruinsNoiseMap);
             float pineTreesMaxH = GetFloatArrayMax(pineTreesNoiseMap);
             float birchTreesMaxH = GetFloatArrayMax(birchTreesNoiseMap);
-            float chestnutTreesMaxH = GetFloatArrayMax(chestnutTreesNoiseMap);
-            float mapleTreesMaxH = GetFloatArrayMax(mapleTreesNoiseMap);
+            float oakTreesMaxH = GetFloatArrayMax(oakTreesNoiseMap);
             float blueberriesMaxH = GetFloatArrayMax(blueberriesNoiseMap);
             float dandelionsMaxH = GetFloatArrayMax(dandelionsNoiseMap);
 
@@ -72,8 +67,7 @@ namespace TimberbornTerrainGenerator
             float ruinsPrevalence;
             float pineTreesPrevalence;
             float birchTreesPrevalence;
-            float chestnutTreesPrevalence;
-            float mapleTreesPrevalence;
+            float oakTreesPrevalence;
             float blueberriesPrevalence;
             float dandelionsPrevalence;
 
@@ -82,14 +76,13 @@ namespace TimberbornTerrainGenerator
             entitiesList = GetMines(map, scaledMinesCount, entitiesList);
 
             //Lets begin our massive "other" entity loop, now consolidated into one thing.  We keep going until done!
-            while ((ruinsNum < scaledRuinsCount) || (pineTreesNum < scaledPineTreeCount) || (birchTreesNum < scaledBirchTreeCount) || (chestnutTreesNum < scaledChestnutTreeCount) || (mapleTreesNum < scaledMapleTreeCount) || (blueberriesNum < scaledBlueberriesCount) || (dandelionsNum < scaledDandelionsCount))
+            while ((ruinsNum < scaledRuinsCount) || (pineTreesNum < scaledPineTreeCount) || (birchTreesNum < scaledBirchTreeCount) || (oakTreesNum < scaledOakTreeCount) || (blueberriesNum < scaledBlueberriesCount) || (dandelionsNum < scaledDandelionsCount))
             {
                 modifier -= 0.01f;
                 ruinsPrevalence = ruinsMaxH * modifier;
                 pineTreesPrevalence = pineTreesMaxH * modifier;
                 birchTreesPrevalence = birchTreesMaxH * modifier;
-                chestnutTreesPrevalence = chestnutTreesMaxH * modifier;
-                mapleTreesPrevalence = mapleTreesMaxH * modifier;
+                oakTreesPrevalence = oakTreesMaxH * modifier;
                 blueberriesPrevalence = blueberriesMaxH * modifier;
                 dandelionsPrevalence = dandelionsMaxH * modifier;
                 //Begin map loop
@@ -97,7 +90,7 @@ namespace TimberbornTerrainGenerator
                 {
                     while (yCounter < MapSizeY)
                     {
-                        //NOTE: Order of placement priority in the event of a conflict is as follows: Slopes (already placed), Mines (already placed), Blueberries,Dandelions,Ruins,Pines,Birches,Chestnuts,and Maples,.  We may want to sort this by quantity someday.
+                        //NOTE: Order of placement priority in the event of a conflict is as follows: Slopes (already placed), Mines (already placed), Blueberries,Dandelions,Ruins,Pines,Birches,Oaks.  We may want to sort this by quantity someday.
                         //We need to count if we spawned something or not, so we track how many entities there are and compare later.
                         int entitiesListCounter = entitiesList.Count;
                         if (!(blueberriesNum >= scaledBlueberriesCount))
@@ -145,22 +138,13 @@ namespace TimberbornTerrainGenerator
                                 birchTreesNum++;
                             }
                         }
-                        if (!(chestnutTreesNum >= scaledChestnutTreeCount))
+                        if (!(oakTreesNum >= scaledOakTreeCount))
                         {
-                            entitiesList = EntityManager.GetChestnutTrees(map, entitiesList, xCounter, yCounter, chestnutTreesNoiseMap, chestnutTreesPrevalence);
+                            entitiesList = EntityManager.GetOakTrees(map, entitiesList, xCounter, yCounter, oakTreesNoiseMap, oakTreesPrevalence);
                             if (entitiesListCounter < entitiesList.Count) //The count changes, we obviously spawned something!
                             {
                                 entitiesListCounter = entitiesList.Count;
-                                chestnutTreesNum++;
-                            }
-                        }
-                        if (!(mapleTreesNum >= scaledMapleTreeCount))
-                        {
-                            entitiesList = EntityManager.GetMapleTrees(map, entitiesList, xCounter, yCounter, mapleTreesNoiseMap, mapleTreesPrevalence);
-                            if (entitiesListCounter < entitiesList.Count) //The count changes, we obviously spawned something!
-                            {
-                                entitiesListCounter = entitiesList.Count;
-                                mapleTreesNum++;
+                                oakTreesNum++;
                             }
                         }
                         yCounter++;
@@ -660,128 +644,54 @@ namespace TimberbornTerrainGenerator
             }
             return entitiesList;
         }
-        public static List<Dictionary<string, object>> GetChestnutTrees(int[,] map, List<Dictionary<string, object>> entitiesList, int xCounter, int yCounter, float[,] chestnutTreesMap, float prevalence)
+        public static List<Dictionary<string, object>> GetOakTrees(int[,] map, List<Dictionary<string, object>> entitiesList, int xCounter, int yCounter, float[,] oakTreesMap, float prevalence)
         {
-            if ((chestnutTreesMap[xCounter, yCounter] > prevalence) && (!RiverMapper[xCounter, yCounter]) && (!EntityMapper[xCounter, yCounter]))
+            if ((oakTreesMap[xCounter, yCounter] > prevalence) && (!RiverMapper[xCounter, yCounter]) && (!EntityMapper[xCounter, yCounter]))
             {
                 int z = map[xCounter, yCounter];
-                Dictionary<string, object> chestnutTreeProperty = new Dictionary<string, object>();
-                Dictionary<string, object> chestnutTreeComponentsDictionary = new Dictionary<string, object>();
-                Dictionary<string, object> chestnutTreeBlockComponentsDictionary = new Dictionary<string, object>();
-                Dictionary<string, int> chestnutTreeBlockCoordinatesDictionary = new Dictionary<string, int>();
-                Dictionary<string, bool> chestnutTreeIsDryDictionary = new Dictionary<string, bool>();
-                Dictionary<string, float> chestnutTreeGrowableDictionary = new Dictionary<string, float>();
-                Dictionary<string, float> chestnutTreeNaturalRandomizerDictionary = new Dictionary<string, float>();
-                Dictionary<string, object> chestnutTreeCoordinatesOffseterCoordinatesOffsetDictionary = new Dictionary<string, object>();
-                Dictionary<string, float> chestnutTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary = new Dictionary<string, float>();
-                Dictionary<string, object> chestnutTreeYielderCuttableYieldDictionary = new Dictionary<string, object>();
-                Dictionary<string, object> chestnutTreeYielderCuttableYieldGoodDictionary = new Dictionary<string, object>();
-                Dictionary<string, string> chestnutTreeYielderCuttableYieldGoodIdDictionary = new Dictionary<string, string>();
-                Dictionary<string, float> chestnutTreeGatherableYieldGrowerGrowthDictionary = new Dictionary<string, float>();
-                Dictionary<string, object> chestnutTreeYielderGatherableYieldDictionary = new Dictionary<string, object>();
-                Dictionary<string, object> chestnutTreeYielderGatherableYieldGoodDictionary = new Dictionary<string, object>();
-                Dictionary<string, string> chestnutTreeYielderGatherableYieldGoodIdDictionary = new Dictionary<string, string>();
-                Dictionary<string, object> chestnutTreeLivingNaturalResourceDictionary = new Dictionary<string, object>();
-                Dictionary<string, bool> chestnutTreeLivingNaturalResourceIsDeadDictionary = new Dictionary<string, bool>();
-                chestnutTreeIsDryDictionary.Add("IsDry", false);
-                chestnutTreeLivingNaturalResourceIsDeadDictionary.Add("IsDead", false);
-                chestnutTreeYielderGatherableYieldGoodIdDictionary.Add("Id", "Chestnut");
-                chestnutTreeGatherableYieldGrowerGrowthDictionary.Add("GrowthProgress", (float)rand.NextDouble());
-                chestnutTreeYielderCuttableYieldGoodIdDictionary.Add("Id", "Log");
-                chestnutTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary.Add("X", (float)rand.NextDouble() - 0.5f);
-                chestnutTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary.Add("Y", (float)rand.NextDouble() - 0.5f);
-                chestnutTreeNaturalRandomizerDictionary.Add("Rotation", (float)(rand.Next(0, 360) + rand.NextDouble()));
-                chestnutTreeNaturalRandomizerDictionary.Add("DiameterScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
-                chestnutTreeNaturalRandomizerDictionary.Add("HeightScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
-                chestnutTreeGrowableDictionary.Add("GrowthProgress", 1.0f);
-                chestnutTreeBlockCoordinatesDictionary.Add("X", yCounter);
-                chestnutTreeBlockCoordinatesDictionary.Add("Y", xCounter);
-                chestnutTreeBlockCoordinatesDictionary.Add("Z", z);
-                chestnutTreeYielderCuttableYieldGoodDictionary.Add("Amount", 4);
-                chestnutTreeYielderGatherableYieldGoodDictionary.Add("Amount", 3);
-                chestnutTreeLivingNaturalResourceDictionary.Add("LivingNaturalResource", chestnutTreeLivingNaturalResourceIsDeadDictionary);
-                chestnutTreeYielderGatherableYieldGoodDictionary.Add("Good", chestnutTreeYielderGatherableYieldGoodIdDictionary);
-                chestnutTreeYielderGatherableYieldDictionary.Add("Yield", chestnutTreeYielderGatherableYieldGoodDictionary);
-                chestnutTreeYielderCuttableYieldGoodDictionary.Add("Good", chestnutTreeYielderCuttableYieldGoodIdDictionary);
-                chestnutTreeYielderCuttableYieldDictionary.Add("Yield", chestnutTreeYielderCuttableYieldGoodDictionary);
-                chestnutTreeCoordinatesOffseterCoordinatesOffsetDictionary.Add("CoordinatesOffset", chestnutTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary);
-                chestnutTreeBlockComponentsDictionary.Add("Coordinates", chestnutTreeBlockCoordinatesDictionary);
-                chestnutTreeComponentsDictionary.Add("BlockObject", chestnutTreeBlockComponentsDictionary);
-                chestnutTreeComponentsDictionary.Add("Growable", chestnutTreeGrowableDictionary);
-                chestnutTreeComponentsDictionary.Add("NaturalResourceModelRandomizer", chestnutTreeNaturalRandomizerDictionary);
-                chestnutTreeComponentsDictionary.Add("CoordinatesOffseter", chestnutTreeCoordinatesOffseterCoordinatesOffsetDictionary);
-                chestnutTreeComponentsDictionary.Add("Yielder:Cuttable", chestnutTreeYielderCuttableYieldDictionary);
-                chestnutTreeComponentsDictionary.Add("GatherableYieldGrower", chestnutTreeGatherableYieldGrowerGrowthDictionary);
-                chestnutTreeComponentsDictionary.Add("Yielder:Gatherable", chestnutTreeYielderGatherableYieldDictionary);
-                chestnutTreeComponentsDictionary.Add("DryObject", chestnutTreeIsDryDictionary);
-                chestnutTreeComponentsDictionary.Add("LivingNaturalResource", chestnutTreeLivingNaturalResourceIsDeadDictionary);
-                chestnutTreeProperty.Add("Id", Guid.NewGuid().ToString());
-                chestnutTreeProperty.Add("Template", "ChestnutTree");
-                chestnutTreeProperty.Add("Components", chestnutTreeComponentsDictionary);
-                entitiesList.Add(chestnutTreeProperty);
-                EntityMapper[xCounter, yCounter] = true; //Gotta register that entity...
-            }
-            return entitiesList;
-        }
-        public static List<Dictionary<string, object>> GetMapleTrees(int[,] map, List<Dictionary<string, object>> entitiesList, int xCounter, int yCounter, float[,] mapleTreesMap, float prevalence)
-        {
-            if ((mapleTreesMap[xCounter, yCounter] > prevalence) && (!RiverMapper[xCounter, yCounter]) && (!EntityMapper[xCounter, yCounter]))
-            {
-                int z = map[xCounter, yCounter];
-                Dictionary<string, object> mapleTreeProperty = new Dictionary<string, object>();
-                Dictionary<string, object> mapleTreeComponentsDictionary = new Dictionary<string, object>();
-                Dictionary<string, object> mapleTreeBlockComponentsDictionary = new Dictionary<string, object>();
-                Dictionary<string, int> mapleTreeBlockCoordinatesDictionary = new Dictionary<string, int>();
-                Dictionary<string, bool> mapleTreeIsDryDictionary = new Dictionary<string, bool>();
-                Dictionary<string, float> mapleTreeGrowableDictionary = new Dictionary<string, float>();
-                Dictionary<string, float> mapleTreeNaturalRandomizerDictionary = new Dictionary<string, float>();
-                Dictionary<string, object> mapleTreeCoordinatesOffseterCoordinatesOffsetDictionary = new Dictionary<string, object>();
-                Dictionary<string, float> mapleTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary = new Dictionary<string, float>();
-                Dictionary<string, object> mapleTreeYielderCuttableYieldDictionary = new Dictionary<string, object>();
-                Dictionary<string, object> mapleTreeYielderCuttableYieldGoodDictionary = new Dictionary<string, object>();
-                Dictionary<string, string> mapleTreeYielderCuttableYieldGoodIdDictionary = new Dictionary<string, string>();
-                Dictionary<string, float> mapleTreeGatherableYieldGrowerGrowthDictionary = new Dictionary<string, float>();
-                Dictionary<string, object> mapleTreeYielderGatherableYieldDictionary = new Dictionary<string, object>();
-                Dictionary<string, object> mapleTreeYielderGatherableYieldGoodDictionary = new Dictionary<string, object>();
-                Dictionary<string, string> mapleTreeYielderGatherableYieldGoodIdDictionary = new Dictionary<string, string>();
-                Dictionary<string, object> mapleTreeLivingNaturalResourceDictionary = new Dictionary<string, object>();
-                Dictionary<string, bool> mapleTreeLivingNaturalResourceIsDeadDictionary = new Dictionary<string, bool>();
-                mapleTreeIsDryDictionary.Add("IsDry", false);
-                mapleTreeLivingNaturalResourceIsDeadDictionary.Add("IsDead", false);
-                mapleTreeYielderGatherableYieldGoodIdDictionary.Add("Id", "MapleSyrup");
-                mapleTreeGatherableYieldGrowerGrowthDictionary.Add("GrowthProgress", (float)rand.NextDouble());
-                mapleTreeYielderCuttableYieldGoodIdDictionary.Add("Id", "Log");
-                mapleTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary.Add("X", (float)rand.NextDouble() - 0.5f);
-                mapleTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary.Add("Y", (float)rand.NextDouble() - 0.5f);
-                mapleTreeNaturalRandomizerDictionary.Add("Rotation", (float)(rand.Next(0, 360) + rand.NextDouble()));
-                mapleTreeNaturalRandomizerDictionary.Add("DiameterScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
-                mapleTreeNaturalRandomizerDictionary.Add("HeightScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
-                mapleTreeGrowableDictionary.Add("GrowthProgress", 1.0f);
-                mapleTreeBlockCoordinatesDictionary.Add("X", yCounter);
-                mapleTreeBlockCoordinatesDictionary.Add("Y", xCounter);
-                mapleTreeBlockCoordinatesDictionary.Add("Z", z);
-                mapleTreeYielderCuttableYieldGoodDictionary.Add("Amount", 8);
-                mapleTreeYielderGatherableYieldGoodDictionary.Add("Amount", 3);
-                mapleTreeLivingNaturalResourceDictionary.Add("LivingNaturalResource", mapleTreeLivingNaturalResourceIsDeadDictionary);
-                mapleTreeYielderGatherableYieldGoodDictionary.Add("Good", mapleTreeYielderGatherableYieldGoodIdDictionary);
-                mapleTreeYielderGatherableYieldDictionary.Add("Yield", mapleTreeYielderGatherableYieldGoodDictionary);
-                mapleTreeYielderCuttableYieldGoodDictionary.Add("Good", mapleTreeYielderCuttableYieldGoodIdDictionary);
-                mapleTreeYielderCuttableYieldDictionary.Add("Yield", mapleTreeYielderCuttableYieldGoodDictionary);
-                mapleTreeCoordinatesOffseterCoordinatesOffsetDictionary.Add("CoordinatesOffset", mapleTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary);
-                mapleTreeBlockComponentsDictionary.Add("Coordinates", mapleTreeBlockCoordinatesDictionary);
-                mapleTreeComponentsDictionary.Add("BlockObject", mapleTreeBlockComponentsDictionary);
-                mapleTreeComponentsDictionary.Add("Growable", mapleTreeGrowableDictionary);
-                mapleTreeComponentsDictionary.Add("NaturalResourceModelRandomizer", mapleTreeNaturalRandomizerDictionary);
-                mapleTreeComponentsDictionary.Add("CoordinatesOffseter", mapleTreeCoordinatesOffseterCoordinatesOffsetDictionary);
-                mapleTreeComponentsDictionary.Add("Yielder:Cuttable", mapleTreeYielderCuttableYieldDictionary);
-                mapleTreeComponentsDictionary.Add("GatherableYieldGrower", mapleTreeGatherableYieldGrowerGrowthDictionary);
-                mapleTreeComponentsDictionary.Add("Yielder:Gatherable", mapleTreeYielderGatherableYieldDictionary);
-                mapleTreeComponentsDictionary.Add("DryObject", mapleTreeIsDryDictionary);
-                mapleTreeComponentsDictionary.Add("LivingNaturalResource", mapleTreeLivingNaturalResourceIsDeadDictionary);
-                mapleTreeProperty.Add("Id", Guid.NewGuid().ToString());
-                mapleTreeProperty.Add("Template", "Maple");
-                mapleTreeProperty.Add("Components", mapleTreeComponentsDictionary);
-                entitiesList.Add(mapleTreeProperty);
+                Dictionary<string, object> oakTreeProperty = new Dictionary<string, object>();
+                Dictionary<string, object> oakTreeComponentsDictionary = new Dictionary<string, object>();
+                Dictionary<string, object> oakTreeBlockComponentsDictionary = new Dictionary<string, object>();
+                Dictionary<string, int> oakTreeBlockCoordinatesDictionary = new Dictionary<string, int>();
+                Dictionary<string, bool> oakTreeIsDryDictionary = new Dictionary<string, bool>();
+                Dictionary<string, float> oakTreeGrowableDictionary = new Dictionary<string, float>();
+                Dictionary<string, float> oakTreeNaturalRandomizerDictionary = new Dictionary<string, float>();
+                Dictionary<string, object> oakTreeCoordinatesOffseterCoordinatesOffsetDictionary = new Dictionary<string, object>();
+                Dictionary<string, float> oakTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary = new Dictionary<string, float>();
+                Dictionary<string, object> oakTreeYielderCuttableYieldDictionary = new Dictionary<string, object>();
+                Dictionary<string, object> oakTreeYielderCuttableYieldGoodDictionary = new Dictionary<string, object>();
+                Dictionary<string, string> oakTreeYielderCuttableYieldGoodIdDictionary = new Dictionary<string, string>();
+                Dictionary<string, object> oakTreeLivingNaturalResourceDictionary = new Dictionary<string, object>();
+                Dictionary<string, bool> oakTreeLivingNaturalResourceIsDeadDictionary = new Dictionary<string, bool>();
+                oakTreeIsDryDictionary.Add("IsDry", false);
+                oakTreeLivingNaturalResourceIsDeadDictionary.Add("IsDead", false);
+                oakTreeYielderCuttableYieldGoodIdDictionary.Add("Id", "Log");
+                oakTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary.Add("X", (float)rand.NextDouble() - 0.5f);
+                oakTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary.Add("Y", (float)rand.NextDouble() - 0.5f);
+                oakTreeNaturalRandomizerDictionary.Add("Rotation", (float)(rand.Next(0, 360) + rand.NextDouble()));
+                oakTreeNaturalRandomizerDictionary.Add("DiameterScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
+                oakTreeNaturalRandomizerDictionary.Add("HeightScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
+                oakTreeGrowableDictionary.Add("GrowthProgress", 1.0f);
+                oakTreeBlockCoordinatesDictionary.Add("X", yCounter);
+                oakTreeBlockCoordinatesDictionary.Add("Y", xCounter);
+                oakTreeBlockCoordinatesDictionary.Add("Z", z);
+                oakTreeYielderCuttableYieldGoodDictionary.Add("Amount", 8);
+                oakTreeLivingNaturalResourceDictionary.Add("LivingNaturalResource", oakTreeLivingNaturalResourceIsDeadDictionary);
+                oakTreeYielderCuttableYieldGoodDictionary.Add("Good", oakTreeYielderCuttableYieldGoodIdDictionary);
+                oakTreeYielderCuttableYieldDictionary.Add("Yield", oakTreeYielderCuttableYieldGoodDictionary);
+                oakTreeCoordinatesOffseterCoordinatesOffsetDictionary.Add("CoordinatesOffset", oakTreeCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary);
+                oakTreeBlockComponentsDictionary.Add("Coordinates", oakTreeBlockCoordinatesDictionary);
+                oakTreeComponentsDictionary.Add("BlockObject", oakTreeBlockComponentsDictionary);
+                oakTreeComponentsDictionary.Add("Growable", oakTreeGrowableDictionary);
+                oakTreeComponentsDictionary.Add("NaturalResourceModelRandomizer", oakTreeNaturalRandomizerDictionary);
+                oakTreeComponentsDictionary.Add("CoordinatesOffseter", oakTreeCoordinatesOffseterCoordinatesOffsetDictionary);
+                oakTreeComponentsDictionary.Add("Yielder:Cuttable", oakTreeYielderCuttableYieldDictionary);
+                oakTreeComponentsDictionary.Add("DryObject", oakTreeIsDryDictionary);
+                oakTreeComponentsDictionary.Add("LivingNaturalResource", oakTreeLivingNaturalResourceIsDeadDictionary);
+                oakTreeProperty.Add("Id", Guid.NewGuid().ToString());
+                oakTreeProperty.Add("Template", "Oak");
+                oakTreeProperty.Add("Components", oakTreeComponentsDictionary);
+                entitiesList.Add(oakTreeProperty);
                 EntityMapper[xCounter, yCounter] = true; //Gotta register that entity...
             }
             return entitiesList;

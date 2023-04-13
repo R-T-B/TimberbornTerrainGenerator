@@ -379,10 +379,10 @@ namespace TimberbornTerrainGenerator
             }
             try
             {
-                int evalChestnutTreeCount = int.Parse(chestnutTreeCountBox.text);
-                if (evalChestnutTreeCount > -1)
+                int evalOakTreeCount = int.Parse(oakTreeCountBox.text);
+                if (evalOakTreeCount > -1)
                 {
-                    ChestnutTreeCount = evalChestnutTreeCount;
+                    OakTreeCount = evalOakTreeCount;
                 }
                 else
                 {
@@ -391,25 +391,7 @@ namespace TimberbornTerrainGenerator
             }
             catch
             {
-                chestnutTreeCountBox.text = ChestnutTreeCount.ToString();
-                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
-                return false;
-            }
-            try
-            {
-                int evalMapleTreeCount = int.Parse(mapleTreeCountBox.text);
-                if (evalMapleTreeCount > -1)
-                {
-                    MapleTreeCount = evalMapleTreeCount;
-                }
-                else
-                {
-                    throw new Exception();
-                }
-            }
-            catch
-            {
-                mapleTreeCountBox.text = MapleTreeCount.ToString();
+                oakTreeCountBox.text = OakTreeCount.ToString();
                 _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }

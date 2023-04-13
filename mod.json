@@ -1,8 +1,8 @@
 {
   "Name": "TimberbornTerrainGenerator",
-  "Version": "1.6.4",
+  "Version": "1.7.0",
   "UniqueId": "TimberbornTerrainGenerator",
-  "MinimumApiVersion": "0.5.3",
-  "MinimumGameVersion": "0.3.4",
+  "MinimumApiVersion": "0.5.4",
+  "MinimumGameVersion": "0.4.0",
   "EntryDll": "TimberbornTerrainGenerator.dll"
 }
