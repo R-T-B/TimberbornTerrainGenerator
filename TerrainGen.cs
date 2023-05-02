@@ -67,6 +67,7 @@ namespace TimberbornTerrainGenerator
                 Statics.Logger.LogInfo("Loading randomised map");
                 MapFileReference mapFileReference = MapFileReference.FromDisk(PluginPath + "/newMap");
                 __instance.LoadMap(mapFileReference);
+                
                 Statics.Logger.LogInfo("Finished loading");
                 customMapEnabled = false; //This flag must be reset.
                 return false;

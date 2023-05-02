@@ -10,7 +10,7 @@ namespace TimberbornTerrainGenerator
 	{
 		public static IConsoleWriter Logger;
         private static string pluginPath;
-        public const string PluginVersion = "1.7.1";
+        public const string PluginVersion = "1.7.2";
         public static string PluginPath
         {
             get
@@ -29,12 +29,26 @@ namespace TimberbornTerrainGenerator
         {
             get
             {
-                string configPath = PluginPath;
+                string legacyConfigPath = PluginPath;
+                string configPath = Timberborn.Core.UserDataFolder.Folder + "/Maps/TimberbornTerrainGeneratorProfiles";
                 try
                 {
-                    while (!Directory.Exists(configPath + "/config"))
+                    while (!Directory.Exists(legacyConfigPath + "/config"))
                     {
-                        configPath = configPath + "/../";
+                        legacyConfigPath = legacyConfigPath + "/../";
+                    }
+                    legacyConfigPath = legacyConfigPath + "/config/TimberbornTerrainGenerator";
+                    if (Directory.Exists(legacyConfigPath) && (!Directory.Exists(configPath)))
+                    {
+                        DirectoryInfo legacyDir = new DirectoryInfo(legacyConfigPath);
+                        Directory.CreateDirectory(configPath);
+                        DirectoryInfo configDir = new DirectoryInfo(configPath);
+                        foreach (FileInfo file in legacyDir.GetFiles())
+                        {
+                            string targetFilePath = Path.Combine(configPath, file.Name);
+                            file.MoveTo(targetFilePath);
+                        }
+                        Directory.Delete(legacyConfigPath, true);
                     }
                 }
                 catch
@@ -42,7 +56,6 @@ namespace TimberbornTerrainGenerator
                     Debug.LogError("Unable to find a config folder!"); //Fail?
                     return "";
                 }
-                configPath = configPath + "/config/TimberbornTerrainGenerator";
                 if (!Directory.Exists(configPath))
                 {
                     Directory.CreateDirectory(configPath);

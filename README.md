@@ -39,6 +39,8 @@ v1.7.0: Basic Alpha 0.4.0 support.  Not retro-compatible, seed compatible, or pr
 
 v1.7.1: Improvements to rivermap flooring logic.
 
+v1.7.2: Moved user configs to Timberborn documents folder, will be automigrated.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github or on Timberborn Discord in the modding channel.
