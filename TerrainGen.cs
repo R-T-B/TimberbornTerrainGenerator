@@ -177,7 +177,11 @@ namespace TimberbornTerrainGenerator
                 computeList.Add(riverMap);
                 counter++;
             }
-            float[,] finalMap = ReturnMeanedMap(computeList, true);
+            float[,] finalMapPhase1 = ReturnMeanedMap(computeList, true);
+            computeList.Clear();
+            computeList.Add(map);
+            computeList.Add(finalMapPhase1);
+            float[,] finalMap = ReturnMinimizedMap(computeList);
             counter = 0;
             //Now add water sources
             int lastTargetZ = Int32.MinValue;

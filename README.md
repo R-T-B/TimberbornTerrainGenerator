@@ -37,6 +37,8 @@ v1.6.4: Some GUI hardlock bugfixes.
 
 v1.7.0: Basic Alpha 0.4.0 support.  Not retro-compatible, seed compatible, or profile compatible.  Please delete BepInEx\config\TimberbornTerrainGenerator folder when upgrading.
 
+v1.7.1: Improvements to rivermap flooring logic.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github or on Timberborn Discord in the modding channel.

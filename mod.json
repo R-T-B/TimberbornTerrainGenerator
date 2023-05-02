@@ -1,6 +1,6 @@
 {
   "Name": "TimberbornTerrainGenerator",
-  "Version": "1.7.0",
+  "Version": "1.7.1",
   "UniqueId": "TimberbornTerrainGenerator",
   "MinimumApiVersion": "0.5.4",
   "MinimumGameVersion": "0.4.0",
