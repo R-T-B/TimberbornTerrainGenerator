@@ -16,19 +16,18 @@ namespace TimberbornTerrainGenerator
             float mapScaler = MapSizeX * MapSizeY / 65536f;
             float mineMapScaler = mapScaler;
             int scaledSlopeCount = (int)Math.Round(SlopeCount * mapScaler);
-            if ((mineMapScaler < 0.255) && (!(mineMapScaler < 0.23))) //This deals with float imprecision cheating 128x128 players out of their one default mine.
+            if ((mineMapScaler < 0.255) && (!(mineMapScaler < 0.23))) //This deals with float imprecision cheating 128x128 players out of their one default mine/badwater.
             {
                 mineMapScaler = 0.255f;
             }
             int scaledMinesCount = (int)Math.Round(MaxMineCount * mineMapScaler);
+            int scaledBadWaterCount = (int)Math.Round(BadWaterCount * mineMapScaler);
             int scaledRuinsCount = (int)Math.Round(RuinCount * mapScaler);
             int scaledPineTreeCount = (int)Math.Round(PineTreeCount * mapScaler);
             int scaledBirchTreeCount = (int)Math.Round(BirchTreeCount * mapScaler);
             int scaledOakTreeCount = (int)Math.Round(OakTreeCount * mapScaler);
             int scaledBlueberriesCount = (int)Math.Round(BlueberryBushCount * mapScaler);
             int scaledDandelionsCount = (int)Math.Round(DandelionBushCount * mapScaler);
-
-
             if (scaledMinesCount < MinMineCount)
             {
                 scaledMinesCount = MinMineCount;
@@ -74,6 +73,7 @@ namespace TimberbornTerrainGenerator
             //First place slopes and mines, they are their own thing as they don't need an expensive map loop.
             entitiesList = GetSlopes(map, scaledSlopeCount, entitiesList);
             entitiesList = GetMines(map, scaledMinesCount, entitiesList);
+            entitiesList = GetBadwaters(map, scaledBadWaterCount, entitiesList);
 
             //Lets begin our massive "other" entity loop, now consolidated into one thing.  We keep going until done!
             while ((ruinsNum < scaledRuinsCount) || (pineTreesNum < scaledPineTreeCount) || (birchTreesNum < scaledBirchTreeCount) || (oakTreesNum < scaledOakTreeCount) || (blueberriesNum < scaledBlueberriesCount) || (dandelionsNum < scaledDandelionsCount))
@@ -466,6 +466,75 @@ namespace TimberbornTerrainGenerator
                 entitiesList.Add(mineProperty);
                 EntityMapper[x, y] = true; //Gotta register that entity...
                 minesNum++;
+            }
+            return entitiesList;
+        }
+        public static List<Dictionary<string, object>> GetBadwaters(int[,] map, int targetBadwater, List<Dictionary<string, object>> entitiesList)
+        {
+            //Place some badwaters!
+            int badWaterNum = 0;
+            int attemptedTimes = 0;
+            int abortTimeframe = ((MapSizeX + MapSizeY) / 2) * 4;
+            while ((badWaterNum < targetBadwater) && (attemptedTimes < abortTimeframe))
+            {
+                int bufferZone = 2; //this needs to be at least 2x2 to fit a badwater source
+                int x = rand.Next(0, MapSizeX - (bufferZone + 1));
+                int y = rand.Next(0, MapSizeY - (bufferZone + 1));
+                int z = map[x, y];
+                int testX = 0;
+                int testY = 0;
+                bool tryAnotherLocation = false;
+                while (testY <= bufferZone)
+                {
+                    if ((z != map[x + testX,y + testY]) || EntityMapper[x + testX, y + testY] || RiverMapper[x + testX, y + testY])
+                    {
+                        tryAnotherLocation = true;
+                    }
+                    testX++;
+                    if (testX > bufferZone)
+                    {
+                        testX = 0;
+                        testY++;
+                    }
+                }
+                testX = 0;
+                testY = 0;
+                if (tryAnotherLocation)
+                {
+                    attemptedTimes++;
+                    continue;
+                }
+                Dictionary<string, object> badWaterProperty = new Dictionary<string, object>();
+                Dictionary<string, object> badWaterComponentsDictionary = new Dictionary<string, object>();
+                Dictionary<string, object> waterSourceComponentsDictionary = new Dictionary<string, object>();
+                Dictionary<string, object> badWaterBlockComponentsDictionary = new Dictionary<string, object>();
+                Dictionary<string, int> badWaterBlockCoordinatesDictionary = new Dictionary<string, int>();
+                badWaterBlockCoordinatesDictionary.Add("X", y);
+                badWaterBlockCoordinatesDictionary.Add("Y", x);
+                badWaterBlockCoordinatesDictionary.Add("Z", z);
+                waterSourceComponentsDictionary.Add("SpecifiedStrength", 1.5f);
+                waterSourceComponentsDictionary.Add("CurrentStrength", 1.5f);
+                badWaterComponentsDictionary.Add("WaterSource", waterSourceComponentsDictionary);
+                badWaterBlockComponentsDictionary.Add("Coordinates", badWaterBlockCoordinatesDictionary);
+                badWaterComponentsDictionary.Add("BlockObject", badWaterBlockComponentsDictionary);
+                badWaterProperty.Add("Id", Guid.NewGuid().ToString());
+                badWaterProperty.Add("Template", "BadwaterSource");
+                badWaterProperty.Add("Components", badWaterComponentsDictionary);
+                testX = 0;
+                testY = 0;
+                while (testY <= bufferZone)
+                {
+                    EntityMapper[x + testX, y + testY] = true;
+                    testX++;
+                    if (testX > bufferZone)
+                    {
+                        testX = 0;
+                        testY++;
+                    }
+                }
+                entitiesList.Add(badWaterProperty);
+                EntityMapper[x, y] = true; //Gotta register that entity...
+                badWaterNum++;
             }
             return entitiesList;
         }

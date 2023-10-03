@@ -13,7 +13,7 @@ namespace TimberbornTerrainGenerator
         
         private static void Postfix(NewMapBox __instance, VisualElement __result) 
         {
-            
+
             var builder = DependencyContainer.GetInstance<UIBuilder>();
 
             var wrapper = new VisualElement 

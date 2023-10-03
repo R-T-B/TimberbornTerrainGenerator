@@ -34,6 +34,7 @@ namespace TimberbornTerrainGenerator
         public static int RiverMapWeight = 5;
         public static int MaxMineCount = 4;
         public static int MinMineCount = 0;
+        public static int BadWaterCount = 4;
         public static int RuinCount = 500;
         public static int PineTreeCount = 3600;
         public static int BirchTreeCount = 2400;
@@ -65,6 +66,7 @@ namespace TimberbornTerrainGenerator
         public static NineSliceTextField riverMapWeightBox;
         public static NineSliceTextField maxMineCountBox;
         public static NineSliceTextField minMineCountBox;
+        public static NineSliceTextField badWaterCountBox;
         public static NineSliceTextField ruinCountBox;
         public static NineSliceTextField pineTreeCountBox;
         public static NineSliceTextField birchTreeCountBox;
@@ -119,6 +121,7 @@ namespace TimberbornTerrainGenerator
             riverMapWeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
             maxMineCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             minMineCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            badWaterCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             ruinCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             pineTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             birchTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
@@ -182,7 +185,7 @@ namespace TimberbornTerrainGenerator
                 .AddHeader(text: "Timberborn Terrain Generator Settings")
                 .AddComponent(builder => builder
                     .SetWidth(new Length(960, Length.Unit.Pixel))
-                    .SetHeight(new Length(550, Length.Unit.Pixel))
+                    .SetHeight(new Length(620, Length.Unit.Pixel))
                     .SetFlexDirection(FlexDirection.Row)
                     .SetBackgroundColor(new StyleColor(new Color(0.33f, 0.31f, 0.18f, 0.0f)))
                     .SetAlignItems(Align.FlexStart)
@@ -260,7 +263,9 @@ namespace TimberbornTerrainGenerator
                     .AddPreset(factory => dandelionBushCountBox)
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("SlopeCount:")))
                     .AddPreset(factory => slopeCountBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("                     " + '\u2800'))) //Spacer needed for proper element placement
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("BadWaterCount:")))
+                    .AddPreset(factory => badWaterCountBox)
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("      " + '\u2800'))) //Spacer needed for proper element placement
                     .AddPreset(factory => factory.Labels().Label(text: ("All counts are scaled to a 256^2 map.")))
                     .AddPreset(factory => acceptButton)
                     .AddPreset(factory => factory.Labels().DefaultBold(text: ('\u2800' + " REMEMBER GEN CAN TAKE BETWEEN 1-2 MINUTES DEPENDING ON MAPSIZE " + '\u2800'))) //Larger Spacer needed for proper button seperation
@@ -476,6 +481,7 @@ namespace TimberbornTerrainGenerator
                 RiverMapWeight = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RiverMapWeight"));
                 MaxMineCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "MaxMineCount"));
                 MinMineCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "MinMineCount"));
+                BadWaterCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "BadWaterCount"));
                 RuinCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "RuinCount"));
                 PineTreeCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "PineTreeCount"));
                 BirchTreeCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "BirchTreeCount"));
@@ -499,6 +505,7 @@ namespace TimberbornTerrainGenerator
                 riverMapWeightBox.text = RiverMapWeight.ToString();
                 maxMineCountBox.text = MaxMineCount.ToString();
                 minMineCountBox.text = MinMineCount.ToString();
+                badWaterCountBox.text = BadWaterCount.ToString();
                 ruinCountBox.text = RuinCount.ToString();
                 pineTreeCountBox.text = PineTreeCount.ToString();
                 birchTreeCountBox.text = BirchTreeCount.ToString();
@@ -563,6 +570,7 @@ namespace TimberbornTerrainGenerator
                 iniParser.AddSetting("TimberbornTerrainGenerator", "RiverMapWeight", RiverMapWeight.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "MaxMineCount", MaxMineCount.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "MinMineCount", MinMineCount.ToString());
+                iniParser.AddSetting("TimberbornTerrainGenerator", "BadWaterCount", BadWaterCount.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "RuinCount", RuinCount.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "PineTreeCount", PineTreeCount.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "BirchTreeCount", BirchTreeCount.ToString());
