@@ -10,7 +10,7 @@ namespace TimberbornTerrainGenerator
 	{
 		public static IConsoleWriter Logger;
         private static string pluginPath;
-        public const string PluginVersion = "1.7.2";
+        public const string PluginVersion = "1.8.1";
         public static string PluginPath
         {
             get

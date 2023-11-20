@@ -27,7 +27,6 @@ namespace TimberbornTerrainGenerator
             int scaledBirchTreeCount = (int)Math.Round(BirchTreeCount * mapScaler);
             int scaledOakTreeCount = (int)Math.Round(OakTreeCount * mapScaler);
             int scaledBlueberriesCount = (int)Math.Round(BlueberryBushCount * mapScaler);
-            int scaledDandelionsCount = (int)Math.Round(DandelionBushCount * mapScaler);
             if (scaledMinesCount < MinMineCount)
             {
                 scaledMinesCount = MinMineCount;
@@ -38,7 +37,6 @@ namespace TimberbornTerrainGenerator
             int birchTreesNum = 0;
             int oakTreesNum = 0;
             int blueberriesNum = 0;
-            int dandelionsNum = 0;
             int xCounter = 0;
             int yCounter = 0;
             //Setup the noise maps with their own independent random data
@@ -53,14 +51,12 @@ namespace TimberbornTerrainGenerator
             noise.SetSeed(Seed + 100);
             float[,] blueberriesNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 100, 0.8f, FastNoiseLite.NoiseType.Perlin); //Really speckled noise
             noise.SetSeed(Seed + 125);
-            float[,] dandelionsNoiseMap = GenerateNoiseMap(MapSizeX, MapSizeY, 100, 0.8f, FastNoiseLite.NoiseType.Perlin); //Really speckled noise
             //Setup the other misc variables
             float ruinsMaxH = GetFloatArrayMax(ruinsNoiseMap);
             float pineTreesMaxH = GetFloatArrayMax(pineTreesNoiseMap);
             float birchTreesMaxH = GetFloatArrayMax(birchTreesNoiseMap);
             float oakTreesMaxH = GetFloatArrayMax(oakTreesNoiseMap);
             float blueberriesMaxH = GetFloatArrayMax(blueberriesNoiseMap);
-            float dandelionsMaxH = GetFloatArrayMax(dandelionsNoiseMap);
 
             float modifier = 1.00f;
             float ruinsPrevalence;
@@ -68,7 +64,6 @@ namespace TimberbornTerrainGenerator
             float birchTreesPrevalence;
             float oakTreesPrevalence;
             float blueberriesPrevalence;
-            float dandelionsPrevalence;
 
             //First place slopes and mines, they are their own thing as they don't need an expensive map loop.
             entitiesList = GetSlopes(map, scaledSlopeCount, entitiesList);
@@ -76,7 +71,7 @@ namespace TimberbornTerrainGenerator
             entitiesList = GetBadwaters(map, scaledBadWaterCount, entitiesList);
 
             //Lets begin our massive "other" entity loop, now consolidated into one thing.  We keep going until done!
-            while ((ruinsNum < scaledRuinsCount) || (pineTreesNum < scaledPineTreeCount) || (birchTreesNum < scaledBirchTreeCount) || (oakTreesNum < scaledOakTreeCount) || (blueberriesNum < scaledBlueberriesCount) || (dandelionsNum < scaledDandelionsCount))
+            while ((ruinsNum < scaledRuinsCount) || (pineTreesNum < scaledPineTreeCount) || (birchTreesNum < scaledBirchTreeCount) || (oakTreesNum < scaledOakTreeCount) || (blueberriesNum < scaledBlueberriesCount))
             {
                 modifier -= 0.01f;
                 ruinsPrevalence = ruinsMaxH * modifier;
@@ -84,13 +79,12 @@ namespace TimberbornTerrainGenerator
                 birchTreesPrevalence = birchTreesMaxH * modifier;
                 oakTreesPrevalence = oakTreesMaxH * modifier;
                 blueberriesPrevalence = blueberriesMaxH * modifier;
-                dandelionsPrevalence = dandelionsMaxH * modifier;
                 //Begin map loop
                 while (xCounter < MapSizeX)
                 {
                     while (yCounter < MapSizeY)
                     {
-                        //NOTE: Order of placement priority in the event of a conflict is as follows: Slopes (already placed), Mines (already placed), Blueberries,Dandelions,Ruins,Pines,Birches,Oaks.  We may want to sort this by quantity someday.
+                        //NOTE: Order of placement priority in the event of a conflict is as follows: Slopes (already placed), Mines (already placed), Blueberries,Ruins,Pines,Birches,Oaks.  We may want to sort this by quantity someday.
                         //We need to count if we spawned something or not, so we track how many entities there are and compare later.
                         int entitiesListCounter = entitiesList.Count;
                         if (!(blueberriesNum >= scaledBlueberriesCount))
@@ -100,15 +94,6 @@ namespace TimberbornTerrainGenerator
                             {
                                 entitiesListCounter = entitiesList.Count;
                                 blueberriesNum++;
-                            }
-                        }
-                        if (!(dandelionsNum >= scaledDandelionsCount))
-                        {
-                            entitiesList = EntityManager.GetDandelions(map, entitiesList, xCounter, yCounter, dandelionsNoiseMap, dandelionsPrevalence);
-                            if (entitiesListCounter < entitiesList.Count) //The count changes, we obviously spawned something!
-                            {
-                                entitiesListCounter = entitiesList.Count;
-                                dandelionsNum++;
                             }
                         }
                         if (!(ruinsNum >= scaledRuinsCount))
@@ -886,132 +871,6 @@ namespace TimberbornTerrainGenerator
                     blueberryProperty.Add("Template", "BlueberryBush");
                     blueberryProperty.Add("Components", blueberryComponentsDictionary);
                     entitiesList.Add(blueberryProperty);
-                    EntityMapper[walkAboutX, walkAboutY] = true; //Gotta register that entity...
-                }
-            }
-            return entitiesList;
-        }
-        public static List<Dictionary<string, object>> GetDandelions(int[,] map, List<Dictionary<string, object>> entitiesList, int xCounter, int yCounter, float[,] dandelionsNoiseMap, float prevalence)
-        {
-            if (RiverMapper[xCounter, yCounter] && (dandelionsNoiseMap[xCounter, yCounter] > prevalence))
-            {
-                //Ok!  We are in the riverbed.  We are allowed to place a cluster of upto 1 dandelion nearby, but where?  First we need to find land.  Reference the global river map.
-                int walkAboutX = xCounter;
-                int walkAboutY = yCounter;
-                int walkAboutRange = -1;
-                bool triedAtLeastOnce = false;
-                bool abortPlanting = false;
-                //Walk around the immediate vicinity. Don't stop until the rivermap tells us. Start with a negative walking direction along the axis, then switch to a positive.  We know it's in one tile.
-                while (true)
-                {
-                    if (triedAtLeastOnce)
-                    {
-                        //We aren't THERE yet.  I think we're going in circles!  How about we try going positive instead of negative?
-                        if (walkAboutRange < 0)
-                        {
-                            walkAboutRange = Math.Abs(walkAboutRange);
-                        }
-                        else
-                        {
-                            //What do you mean we already tried going positive instead of negative!? We're going to drown, you know that right? I hate you, Charlie Brown...
-                            //back to negative, just incremented.
-                            walkAboutRange++;
-                            walkAboutRange = walkAboutRange * (-1);
-                        }
-                    }
-                    if (((walkAboutX + walkAboutRange) >= MapSizeX) || ((walkAboutY + walkAboutRange) >= MapSizeY) || ((walkAboutX + walkAboutRange) < 0) || ((walkAboutY + walkAboutRange) < 0))
-                    {
-                        //We are too close to the border to plant dandelions, Charlie Brown.  Beyond here be dragons...
-                        abortPlanting = true;
-                        break;
-                    }
-                    if ((!RiverMapper[walkAboutX + walkAboutRange, walkAboutY]) && ((walkAboutX + walkAboutRange) < MapSizeX) && ((walkAboutX + walkAboutRange) >= 0))  //Are we there yet?
-                    {
-                        if (EntityMapper[walkAboutX + walkAboutRange, walkAboutY])
-                        {
-                            //We've been here before you dummy. We have to keep looking!
-                            triedAtLeastOnce = true;
-                            continue;
-                        }
-                        walkAboutX += walkAboutRange;
-                        break;  //I always knew we'd make it!
-                    }
-                    if ((!RiverMapper[walkAboutX, walkAboutY + walkAboutRange]) && ((walkAboutY + walkAboutRange) < MapSizeY) && ((walkAboutY + walkAboutRange) >= 0))  //Are we there yet?
-                    {
-                        if (EntityMapper[walkAboutX, walkAboutY + walkAboutRange])
-                        {
-                            //We've been here before you dummy. We have to keep looking!
-                            triedAtLeastOnce = true;
-                            continue;
-                        }
-                        walkAboutY += walkAboutRange;
-                        break; //I always knew we'd make it!
-                    }
-                    if (!RiverMapper[walkAboutX + walkAboutRange, walkAboutY + walkAboutRange])  //Are we there yet?
-                    {
-                        if (EntityMapper[walkAboutX + walkAboutRange, walkAboutY + walkAboutRange])
-                        {
-                            //We've been here before you dummy. We have to keep looking!
-                            triedAtLeastOnce = true;
-                            continue;
-                        }
-                        walkAboutY += walkAboutRange;
-                        walkAboutX += walkAboutRange;
-                        break; //I always knew we'd make it!
-                    }
-                    triedAtLeastOnce = true;
-                }
-                if (!abortPlanting)
-                {
-                    //At this point, Charlie Brown has perished and we are going to plant some dandelions.  Let's proceed.
-                    EntityMapper[walkAboutX, walkAboutY] = true;
-                    int z = map[walkAboutX, walkAboutY];
-                    Dictionary<string, object> dandelionProperty = new Dictionary<string, object>();
-                    Dictionary<string, object> dandelionComponentsDictionary = new Dictionary<string, object>();
-                    Dictionary<string, object> dandelionBlockComponentsDictionary = new Dictionary<string, object>();
-                    Dictionary<string, int> dandelionBlockCoordinatesDictionary = new Dictionary<string, int>();
-                    Dictionary<string, bool> dandelionIsDryDictionary = new Dictionary<string, bool>();
-                    Dictionary<string, float> dandelionGrowableDictionary = new Dictionary<string, float>();
-                    Dictionary<string, float> dandelionNaturalRandomizerDictionary = new Dictionary<string, float>();
-                    Dictionary<string, object> dandelionCoordinatesOffseterCoordinatesOffsetDictionary = new Dictionary<string, object>();
-                    Dictionary<string, float> dandelionCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary = new Dictionary<string, float>(); ;
-                    Dictionary<string, float> dandelionGatherableYieldGrowerGrowthDictionary = new Dictionary<string, float>();
-                    Dictionary<string, object> dandelionYielderGatherableYieldDictionary = new Dictionary<string, object>();
-                    Dictionary<string, object> dandelionYielderGatherableYieldGoodDictionary = new Dictionary<string, object>();
-                    Dictionary<string, string> dandelionYielderGatherableYieldGoodIdDictionary = new Dictionary<string, string>();
-                    Dictionary<string, object> dandelionLivingNaturalResourceDictionary = new Dictionary<string, object>();
-                    Dictionary<string, bool> dandelionLivingNaturalResourceIsDeadDictionary = new Dictionary<string, bool>();
-                    dandelionIsDryDictionary.Add("IsDry", false);
-                    dandelionLivingNaturalResourceIsDeadDictionary.Add("IsDead", false);
-                    dandelionYielderGatherableYieldGoodIdDictionary.Add("Id", "Dandelion");
-                    dandelionGatherableYieldGrowerGrowthDictionary.Add("GrowthProgress", (float)rand.NextDouble());
-                    dandelionCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary.Add("X", (float)rand.NextDouble() - 0.5f);
-                    dandelionCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary.Add("Y", (float)rand.NextDouble() - 0.5f);
-                    dandelionNaturalRandomizerDictionary.Add("Rotation", (float)(rand.Next(0, 360) + rand.NextDouble()));
-                    dandelionNaturalRandomizerDictionary.Add("DiameterScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
-                    dandelionNaturalRandomizerDictionary.Add("HeightScale", (float)(0.85 + rand.Next(1, 30) / 100.0));
-                    dandelionGrowableDictionary.Add("GrowthProgress", 1.0f);
-                    dandelionBlockCoordinatesDictionary.Add("X", walkAboutY);
-                    dandelionBlockCoordinatesDictionary.Add("Y", walkAboutX);
-                    dandelionBlockCoordinatesDictionary.Add("Z", z);
-                    dandelionYielderGatherableYieldGoodDictionary.Add("Amount", 1);
-                    dandelionLivingNaturalResourceDictionary.Add("LivingNaturalResource", dandelionLivingNaturalResourceIsDeadDictionary);
-                    dandelionYielderGatherableYieldGoodDictionary.Add("Good", dandelionYielderGatherableYieldGoodIdDictionary);
-                    dandelionYielderGatherableYieldDictionary.Add("Yield", dandelionYielderGatherableYieldGoodDictionary);
-                    dandelionCoordinatesOffseterCoordinatesOffsetDictionary.Add("CoordinatesOffset", dandelionCoordinatesOffseterCoordinatesOffsetCoordinatesDictionary);
-                    dandelionBlockComponentsDictionary.Add("Coordinates", dandelionBlockCoordinatesDictionary);
-                    dandelionComponentsDictionary.Add("BlockObject", dandelionBlockComponentsDictionary);
-                    dandelionComponentsDictionary.Add("Growable", dandelionGrowableDictionary);
-                    dandelionComponentsDictionary.Add("NaturalResourceModelRandomizer", dandelionNaturalRandomizerDictionary);
-                    dandelionComponentsDictionary.Add("CoordinatesOffseter", dandelionCoordinatesOffseterCoordinatesOffsetDictionary);
-                    dandelionComponentsDictionary.Add("GatherableYieldGrower", dandelionGatherableYieldGrowerGrowthDictionary);
-                    dandelionComponentsDictionary.Add("Yielder:Gatherable", dandelionYielderGatherableYieldDictionary);
-                    dandelionComponentsDictionary.Add("DryObject", dandelionIsDryDictionary);
-                    dandelionComponentsDictionary.Add("LivingNaturalResource", dandelionLivingNaturalResourceIsDeadDictionary);
-                    dandelionProperty.Add("Id", Guid.NewGuid().ToString());
-                    dandelionProperty.Add("Template", "Dandelion");
-                    dandelionProperty.Add("Components", dandelionComponentsDictionary);
-                    entitiesList.Add(dandelionProperty);
                     EntityMapper[walkAboutX, walkAboutY] = true; //Gotta register that entity...
                 }
             }

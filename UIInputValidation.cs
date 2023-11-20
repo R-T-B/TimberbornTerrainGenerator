@@ -343,6 +343,24 @@ namespace TimberbornTerrainGenerator
             }
             try
             {
+                int evalBadWaterCount = int.Parse(badWaterCountBox.text);
+                if (evalBadWaterCount > -1)
+                {
+                    BadWaterCount = evalBadWaterCount;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch
+            {
+                badWaterCountBox.text = BadWaterCount.ToString();
+                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
+                return false;
+            }
+            try
+            {
                 int evalPineTreeCount = int.Parse(pineTreeCountBox.text);
                 if (evalPineTreeCount > -1)
                 {
@@ -410,24 +428,6 @@ namespace TimberbornTerrainGenerator
             catch
             {
                 blueberryBushCountBox.text = BlueberryBushCount.ToString();
-                _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
-                return false;
-            }
-            try
-            {
-                int evalDandelionBushCount = int.Parse(dandelionBushCountBox.text);
-                if (evalDandelionBushCount > -1)
-                {
-                    DandelionBushCount = evalDandelionBushCount;
-                }
-                else
-                {
-                    throw new Exception();
-                }
-            }
-            catch
-            {
-                dandelionBushCountBox.text = DandelionBushCount.ToString();
                 _dialogBoxShower.Create().SetMessage("Unable to validate Input! Input has been restored to previous value. Please check your input is within parameters!").SetConfirmButton(delegate () { }, "OK").Show();
                 return false;
             }

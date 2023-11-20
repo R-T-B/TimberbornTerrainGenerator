@@ -40,7 +40,6 @@ namespace TimberbornTerrainGenerator
         public static int BirchTreeCount = 2400;
         public static int OakTreeCount = 1800;
         public static int BlueberryBushCount = 500;
-        public static int DandelionBushCount = 250;
         public static int SlopeCount = 128;
         //END EXTERNAL LOADABLE INI SETTINGS
         public static int lastRadioButtonIndex = -1;
@@ -72,7 +71,6 @@ namespace TimberbornTerrainGenerator
         public static NineSliceTextField birchTreeCountBox;
         public static NineSliceTextField oakTreeCountBox;
         public static NineSliceTextField blueberryBushCountBox;
-        public static NineSliceTextField dandelionBushCountBox;
         public static NineSliceTextField slopeCountBox;
         public static ListView filenameListBox;
         public static NineSliceTextField newFileNameBox;
@@ -127,7 +125,6 @@ namespace TimberbornTerrainGenerator
             birchTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             oakTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             blueberryBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            dandelionBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             slopeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
             SetupFirstTimeConfigPresets();
             PopulateFileList();
@@ -185,7 +182,7 @@ namespace TimberbornTerrainGenerator
                 .AddHeader(text: "Timberborn Terrain Generator Settings")
                 .AddComponent(builder => builder
                     .SetWidth(new Length(960, Length.Unit.Pixel))
-                    .SetHeight(new Length(620, Length.Unit.Pixel))
+                    .SetHeight(new Length(630, Length.Unit.Pixel))
                     .SetFlexDirection(FlexDirection.Row)
                     .SetBackgroundColor(new StyleColor(new Color(0.33f, 0.31f, 0.18f, 0.0f)))
                     .SetAlignItems(Align.FlexStart)
@@ -256,16 +253,13 @@ namespace TimberbornTerrainGenerator
                     .AddPreset(factory => birchTreeCountBox)
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("OakTreeCount:")))
                     .AddPreset(factory => oakTreeCountBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("                      " + '\u2800'))) //Spacer needed for proper element placement
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("BlueberryBushCount:")))
                     .AddPreset(factory => blueberryBushCountBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("DandelionBushCount:")))
-                    .AddPreset(factory => dandelionBushCountBox)
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("SlopeCount:")))
                     .AddPreset(factory => slopeCountBox)
                     .AddPreset(factory => factory.Labels().DefaultBig(text: ("BadWaterCount:")))
                     .AddPreset(factory => badWaterCountBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("      " + '\u2800'))) //Spacer needed for proper element placement
+                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("                                                                                             " + '\u2800'))) //Spacer needed for proper element placement
                     .AddPreset(factory => factory.Labels().Label(text: ("All counts are scaled to a 256^2 map.")))
                     .AddPreset(factory => acceptButton)
                     .AddPreset(factory => factory.Labels().DefaultBold(text: ('\u2800' + " REMEMBER GEN CAN TAKE BETWEEN 1-2 MINUTES DEPENDING ON MAPSIZE " + '\u2800'))) //Larger Spacer needed for proper button seperation
@@ -487,7 +481,6 @@ namespace TimberbornTerrainGenerator
                 BirchTreeCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "BirchTreeCount"));
                 OakTreeCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "OakTreeCount"));
                 BlueberryBushCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "BlueberryBushCount"));
-                DandelionBushCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "DandelionBushCount"));
                 SlopeCount = int.Parse(iniParser.GetSetting("TimberbornTerrainGenerator", "SlopeCount"));
                 seedBox.text = Seed.ToString();
                 mapSizeBox.text = MapSizeX.ToString();
@@ -511,7 +504,6 @@ namespace TimberbornTerrainGenerator
                 birchTreeCountBox.text = BirchTreeCount.ToString();
                 oakTreeCountBox.text = OakTreeCount.ToString();
                 blueberryBushCountBox.text = BlueberryBushCount.ToString();
-                dandelionBushCountBox.text = DandelionBushCount.ToString();
                 slopeCountBox.text = SlopeCount.ToString();
                 SaveINISettings("stocksettings"); //Make sure the new settings are recorded from the GUI.
                 return true;
@@ -576,7 +568,6 @@ namespace TimberbornTerrainGenerator
                 iniParser.AddSetting("TimberbornTerrainGenerator", "BirchTreeCount", BirchTreeCount.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "OakTreeCount", OakTreeCount.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "BlueberryBushCount", BlueberryBushCount.ToString());
-                iniParser.AddSetting("TimberbornTerrainGenerator", "DandelionBushCount", DandelionBushCount.ToString());
                 iniParser.AddSetting("TimberbornTerrainGenerator", "SlopeCount", SlopeCount.ToString());
                 iniParser.SaveSettings();
                 PopulateFileList();

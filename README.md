@@ -41,6 +41,8 @@ v1.7.1: Improvements to rivermap flooring logic.
 
 v1.7.2: Moved user configs to Timberborn documents folder, will be automigrated.
 
+v.1.8.1: Basic Badwater update support.
+
 # Feedback
 
 If you have any feedback, please reach out to me at github or on Timberborn Discord in the modding channel.
