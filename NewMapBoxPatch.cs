@@ -15,24 +15,12 @@ namespace TimberbornTerrainGenerator
         {
 
             var builder = DependencyContainer.GetInstance<UIBuilder>();
-
-            var wrapper = new VisualElement 
-            {
-                style = 
-                {
-                    flexDirection = FlexDirection.Row,
-                    flexGrow = 1,
-                    justifyContent = Justify.Center,
-                    paddingTop = new StyleLength(8f)
-                }
-            };
             var settings = builder.Presets().Buttons().Button(null, text: "Random map");
-            wrapper.Add(settings);
             
-            var root = __result.Q<VisualElement>("NewMapPanel");
+            var root = __result;
             var createButton = __result.Q<LocalizableButton>("StartButton");
             createButton.text = "Create New Empty Map";
-            root.Add(wrapper);
+            root.Add(settings);
             root.style.height = 240f;
             settings.clicked += ShowSettingsBox;
             
