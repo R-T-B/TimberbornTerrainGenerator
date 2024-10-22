@@ -14,7 +14,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
   </PropertyGroup>
-
+<PropertyGroup>
+    <PublicizeAll>true</PublicizeAll>
+</PropertyGroup>
   <ItemGroup>
     <Compile Remove="TimberbornMapGeneratorHistoricalPythonSrc\**" />
     <Compile Remove="TimberbornMapGeneratorPythonSrc\**" />
@@ -44,18 +46,1674 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Krafs.Publicizer" Version="2.1.0">
+    <PackageReference Include="Krafs.Publicizer" Version="2.2.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
-    <PackageReference Include="TimberApi" Version="0.6.3.1" />
-    <PackageReference Include="Timberborn.GameLibs" Version="0.5.4-r.0" />
+    <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
   </ItemGroup>
 	<ItemGroup>
-		<Publicize Include="Timberborn.NewMapBox" />
+	  <Folder Include="Properties\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Properties\" />
+	  <Reference Include="0Harmony">
+	    <HintPath>..\..\..\Timberborn\Mods\harmony_4149561\0Harmony.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Bindito.Core">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Bindito.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Bindito.Unity">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Bindito.Unity.dll</HintPath>
+	  </Reference>
+	  <Reference Include="BuildingSpecificationSystem">
+	    <HintPath>..\..\..\Timberborn\Mods\TimberAPI\core\BuildingSpecificationSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Newtonsoft.Json">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Newtonsoft.Json.dll</HintPath>
+	  </Reference>
+	  <Reference Include="TimberApi">
+	    <HintPath>..\..\..\Timberborn\Mods\TimberAPI\core\TimberApi.dll</HintPath>
+	  </Reference>
+	  <Reference Include="TimberApi.BottomBarSystem">
+	    <HintPath>..\..\..\Timberborn\Mods\TimberAPI\core\TimberApi.BottomBarSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="TimberApi.EntityLinkerSystem">
+	    <HintPath>..\..\..\Timberborn\Mods\TimberAPI\core\TimberApi.EntityLinkerSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="TimberApi.SpecificationPatcher">
+	    <HintPath>..\..\..\Timberborn\Mods\TimberAPI\core\TimberApi.SpecificationPatcher.dll</HintPath>
+	  </Reference>
+	  <Reference Include="TimberApi.SpecificationSystem">
+	    <HintPath>..\..\..\Timberborn\Mods\TimberAPI\core\TimberApi.SpecificationSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="TimberApi.Tools">
+	    <HintPath>..\..\..\Timberborn\Mods\TimberAPI\core\TimberApi.Tools.dll</HintPath>
+	  </Reference>
+	  <Reference Include="TimberApi.UIBuilderSystem">
+	    <HintPath>..\..\..\Timberborn\Mods\TimberAPI\core\TimberApi.UIBuilderSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="TimberApi.UIPresets">
+	    <HintPath>..\..\..\Timberborn\Mods\TimberAPI\core\TimberApi.UIPresets.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.AlertPanelSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.AlertPanelSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Analytics">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Analytics.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.AnalyticsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.AnalyticsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Animations">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Animations.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ApplicationLifetime">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ApplicationLifetime.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ApplicationSettingsSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ApplicationSettingsSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.AreaSelectionSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.AreaSelectionSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.AssetSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.AssetSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Attractions">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Attractions.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.AttractionsBatchControl">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.AttractionsBatchControl.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.AttractionsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.AttractionsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Autosaving">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Autosaving.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.AutosavingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.AutosavingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BaseComponentSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BaseComponentSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BatchControl">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BatchControl.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BeaverBehavior">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BeaverBehavior.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BeaverContaminationSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BeaverContaminationSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BeaverContaminationSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BeaverContaminationSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Beavers">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Beavers.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BeaversUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BeaversUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BehaviorSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BehaviorSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BehaviorSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BehaviorSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Benchmarking">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Benchmarking.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BenchmarkingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BenchmarkingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BlockObjectAccesses">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BlockObjectAccesses.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BlockObjectModelSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BlockObjectModelSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BlockObjectTools">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BlockObjectTools.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BlockObstacles">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BlockObstacles.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BlockSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BlockSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BlockSystemNavigation">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BlockSystemNavigation.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BlockSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BlockSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BonusSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BonusSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BonusSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BonusSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Bootstrapper">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Bootstrapper.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BotBehavior">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BotBehavior.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Bots">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Bots.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BotsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BotsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BotsUpkeep">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BotsUpkeep.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BottomBarSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BottomBarSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BottomMatching">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BottomMatching.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Brushes">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Brushes.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BrushesUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BrushesUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BugTrackerUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BugTrackerUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BuilderHubSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BuilderHubSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BuilderPrioritySystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BuilderPrioritySystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BuilderPrioritySystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BuilderPrioritySystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BuildingDoorsteps">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BuildingDoorsteps.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BuildingRange">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BuildingRange.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Buildings">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Buildings.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BuildingsBlocking">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BuildingsBlocking.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BuildingsNavigation">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BuildingsNavigation.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BuildingsReachability">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BuildingsReachability.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BuildingStatuses">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BuildingStatuses.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BuildingsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BuildingsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.BuildingTools">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.BuildingTools.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CameraAnchorPickerSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CameraAnchorPickerSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CameraSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CameraSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Carrying">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Carrying.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CarryingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CarryingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CharacterControlSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CharacterControlSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CharacterControlSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CharacterControlSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CharacterModelSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CharacterModelSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CharacterMovementSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CharacterMovementSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CharacterNavigation">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CharacterNavigation.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Characters">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Characters.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CharactersBatchControl">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CharactersBatchControl.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CharactersUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CharactersUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Clusters">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Clusters.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ClustersUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ClustersUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CommandLine">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CommandLine.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Common">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Common.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Console">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Console.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ConstructionGuidelines">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ConstructionGuidelines.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ConstructionGuidelinesUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ConstructionGuidelinesUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ConstructionMode">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ConstructionMode.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ConstructionSites">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ConstructionSites.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ConstructionSitesUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ConstructionSitesUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Coordinates">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Coordinates.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CoreSound">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CoreSound.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CoreUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CoreUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.CursorToolSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.CursorToolSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Cutting">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Cutting.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DeathSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DeathSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Debugging">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Debugging.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DebuggingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DebuggingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DeconstructionSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DeconstructionSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DeconstructionSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DeconstructionSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Demolishing">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Demolishing.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DemolishingToolGroupSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DemolishingToolGroupSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DemolishingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DemolishingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DeteriorationSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DeteriorationSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DeteriorationSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DeteriorationSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Diagnostics">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Diagnostics.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DiagnosticsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DiagnosticsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DistanceHeatmap">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DistanceHeatmap.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DistributionSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DistributionSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DistributionSystemBatchControl">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DistributionSystemBatchControl.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DistributionSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DistributionSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DropdownSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DropdownSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DwellingSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DwellingSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.DwellingSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.DwellingSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Effects">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Effects.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Emptying">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Emptying.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.EnterableSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.EnterableSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.EntityPanelSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.EntityPanelSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.EntitySystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.EntitySystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ErrorReporting">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ErrorReporting.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ErrorReportingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ErrorReportingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ExperimentalModeSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ExperimentalModeSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Explosions">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Explosions.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ExplosionsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ExplosionsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.FactionGoalsSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.FactionGoalsSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.FactionSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.FactionSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.FeatureToggleSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.FeatureToggleSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Fences">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Fences.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Fields">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Fields.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.FieldsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.FieldsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.FileBrowsing">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.FileBrowsing.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.FileSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.FileSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Flipping">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Flipping.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Forestry">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Forestry.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ForestryEffects">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ForestryEffects.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ForestryUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ForestryUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameAnalytics">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameAnalytics.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameBlockObjectButtonsSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameBlockObjectButtonsSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameDistricts">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameDistricts.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameDistrictsBatchControl">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameDistrictsBatchControl.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameDistrictsMigration">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameDistrictsMigration.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameDistrictsMigrationBatchControl">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameDistrictsMigrationBatchControl.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameDistrictsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameDistrictsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameExitSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameExitSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameFactionSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameFactionSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameFactionSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameFactionSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameGoods">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameGoods.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameOver">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameOver.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameOverUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameOverUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameSaveRepositorySystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameSaveRepositorySystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameSaveRepositorySystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameSaveRepositorySystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameSaveRuntimeSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameSaveRuntimeSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameSaveRuntimeSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameSaveRuntimeSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameScene">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameScene.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameSceneLoading">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameSceneLoading.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameSound">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameSound.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameStartup">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameStartup.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameWonderCompletion">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameWonderCompletion.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GameWonderCompletionUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GameWonderCompletionUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Gathering">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Gathering.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GatheringUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GatheringUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GenericStoreSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GenericStoreSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GoodConsumingBuildingSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GoodConsumingBuildingSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GoodConsumingBuildingSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GoodConsumingBuildingSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Goods">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Goods.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GoodsMapEditor">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GoodsMapEditor.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GoodStackSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GoodStackSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GoodStackSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GoodStackSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GoodsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GoodsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GridTraversing">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GridTraversing.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Growing">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Growing.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.GrowingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.GrowingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Hauling">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Hauling.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.HaulingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.HaulingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.HazardousWeatherSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.HazardousWeatherSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.HazardousWeatherSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.HazardousWeatherSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Healthcare">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Healthcare.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.HousingBatchControl">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.HousingBatchControl.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.InputSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.InputSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.InputSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.InputSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.InventoryNeedSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.InventoryNeedSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.InventorySystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.InventorySystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.InventorySystemBatchControl">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.InventorySystemBatchControl.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.InventorySystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.InventorySystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.KeyBindingSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.KeyBindingSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.KeyBindingSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.KeyBindingSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.LaborSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.LaborSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.LaborSystemInitialization">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.LaborSystemInitialization.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Language">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Language.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.LanguageUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.LanguageUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.LevelVisibilitySystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.LevelVisibilitySystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.LevelVisibilitySystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.LevelVisibilitySystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.LifeSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.LifeSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.LinkedBuildingSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.LinkedBuildingSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.LinkedBuildingSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.LinkedBuildingSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Localization">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Localization.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MainMenuModdingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MainMenuModdingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MainMenuPanels">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MainMenuPanels.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MainMenuScene">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MainMenuScene.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MainMenuSceneLoading">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MainMenuSceneLoading.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorBrushesUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorBrushesUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorHazardousWeatherUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorHazardousWeatherUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorNaturalResources">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorNaturalResources.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorNaturalResourcesUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorNaturalResourcesUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorPersistence">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorPersistence.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorPersistenceUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorPersistenceUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorPlacementRandomizing">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorPlacementRandomizing.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorPlacementRandomizingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorPlacementRandomizingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorScene">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorScene.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorSceneLoading">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorSceneLoading.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorSimulationSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorSimulationSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorSimulationSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorSimulationSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorStartup">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorStartup.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorTickSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorTickSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapEditorUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapEditorUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapIndexSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapIndexSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapItemsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapItemsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapMetadataSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapMetadataSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapMetadataSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapMetadataSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapRepositorySystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapRepositorySystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapRepositorySystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapRepositorySystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapStateSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapStateSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapThumbnail">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapThumbnail.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapThumbnailCapturing">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapThumbnailCapturing.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapThumbnailCapturingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapThumbnailCapturingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MapThumbnailOverlaySystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MapThumbnailOverlaySystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MechanicalSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MechanicalSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MechanicalSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MechanicalSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Metrics">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Metrics.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Modding">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Modding.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ModdingAssets">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ModdingAssets.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ModdingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ModdingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ModelAttachmentSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ModelAttachmentSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ModelHiding">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ModelHiding.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ModelVariantSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ModelVariantSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ModManagerScene">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ModManagerScene.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ModManagerSceneUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ModManagerSceneUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MortalComponents">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MortalComponents.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.MortalSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.MortalSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Multithreading">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Multithreading.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NaturalOverhangs">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NaturalOverhangs.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NaturalResources">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NaturalResources.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NaturalResourcesContamination">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NaturalResourcesContamination.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NaturalResourcesContaminationUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NaturalResourcesContaminationUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NaturalResourcesLifecycle">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NaturalResourcesLifecycle.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NaturalResourcesLifecycleModelSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NaturalResourcesLifecycleModelSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NaturalResourcesLifecycleUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NaturalResourcesLifecycleUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NaturalResourcesModelSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NaturalResourcesModelSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NaturalResourcesMoisture">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NaturalResourcesMoisture.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NaturalResourcesMoistureUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NaturalResourcesMoistureUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NaturalResourcesReproduction">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NaturalResourcesReproduction.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NaturalResourcesUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NaturalResourcesUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Navigation">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Navigation.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NavigationUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NavigationUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NeedApplication">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NeedApplication.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NeedBehaviorSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NeedBehaviorSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NeedSpecifications">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NeedSpecifications.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NeedSuspending">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NeedSuspending.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NeedSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NeedSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NotificationSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NotificationSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.NotificationSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.NotificationSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Options">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Options.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.OptionsGame">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.OptionsGame.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Particles">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Particles.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PathSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PathSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PathSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PathSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Persistence">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Persistence.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Planting">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Planting.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PlantingEffects">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PlantingEffects.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PlantingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PlantingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PlatformUtilities">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PlatformUtilities.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PlayerDataSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PlayerDataSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Pollination">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Pollination.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Population">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Population.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PopulationStatisticsSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PopulationStatisticsSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PopulationUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PopulationUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PopulationWorkStatistics">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PopulationWorkStatistics.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PowerBatchControl">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PowerBatchControl.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PowerGenerating">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PowerGenerating.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PowerGeneratingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PowerGeneratingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PowerStorage">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PowerStorage.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PowerStorageUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PowerStorageUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PrefabGroupSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PrefabGroupSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PrefabOptimization">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PrefabOptimization.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PrefabSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PrefabSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PrioritySystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PrioritySystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.PrioritySystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.PrioritySystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.QuickNotificationSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.QuickNotificationSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.RangedEffectBuildingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.RangedEffectBuildingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.RangedEffectSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.RangedEffectSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.RecoverableGoodSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.RecoverableGoodSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.RecoverableGoodSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.RecoverableGoodSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.RecoveredGoodSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.RecoveredGoodSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.RecoveredGoodSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.RecoveredGoodSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.RelationSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.RelationSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.RelationSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.RelationSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Rendering">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Rendering.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Reproduction">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Reproduction.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ReproductionUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ReproductionUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ReservableSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ReservableSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ResourceCountingSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ResourceCountingSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ResourceCountingSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ResourceCountingSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Ruins">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Ruins.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.RuinsModelShuffling">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.RuinsModelShuffling.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.RuinsNavigation">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.RuinsNavigation.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.RuinsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.RuinsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SaveMetadataSaving">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SaveMetadataSaving.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SaveMetadataSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SaveMetadataSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SaveSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SaveSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SaveThumbnail">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SaveThumbnail.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SaveThumbnailCapturing">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SaveThumbnailCapturing.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SceneLoading">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SceneLoading.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ScienceSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ScienceSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ScienceSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ScienceSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ScreenCapturing">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ScreenCapturing.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ScreenSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ScreenSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SelectionSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SelectionSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SelectionToolSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SelectionToolSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SerializationSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SerializationSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SettingsSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SettingsSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SettingsSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SettingsSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SettlementNameSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SettlementNameSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SettlementNameSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SettlementNameSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SettlementStatistics">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SettlementStatistics.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SimpleOutputBuildings">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SimpleOutputBuildings.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SimpleOutputBuildingsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SimpleOutputBuildingsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SimulationSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SimulationSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SingletonSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SingletonSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SkySystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SkySystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SleepSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SleepSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SliderToggleSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SliderToggleSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SlotSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SlotSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SoakedEffects">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SoakedEffects.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SoilBarrierSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SoilBarrierSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SoilContaminationSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SoilContaminationSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SoilMoistureSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SoilMoistureSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SoilMoistureSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SoilMoistureSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SoundSettingsSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SoundSettingsSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SoundSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SoundSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SpriteOperations">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SpriteOperations.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.StartingLocationSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.StartingLocationSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.StatusSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.StatusSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.StatusSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.StatusSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SteamStoreSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SteamStoreSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SteamWorkshop">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SteamWorkshop.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SteamWorkshopContent">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SteamWorkshopContent.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SteamWorkshopMapDownloading">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SteamWorkshopMapDownloading.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SteamWorkshopMapDownloadingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SteamWorkshopMapDownloadingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SteamWorkshopMapUploadingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SteamWorkshopMapUploadingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SteamWorkshopModDownloading">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SteamWorkshopModDownloading.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SteamWorkshopModDownloadingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SteamWorkshopModDownloadingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SteamWorkshopModUploadingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SteamWorkshopModUploadingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.SteamWorkshopUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.SteamWorkshopUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.StockpilePrioritySystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.StockpilePrioritySystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.StockpilePriorityUISystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.StockpilePriorityUISystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Stockpiles">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Stockpiles.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.StockpilesUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.StockpilesUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.StockpileVisualization">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.StockpileVisualization.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.StockpileVisualizationUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.StockpileVisualizationUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.StorageBatchControl">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.StorageBatchControl.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.StoreSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.StoreSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TailDecalSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TailDecalSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TailDecalSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TailDecalSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TemplateSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TemplateSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Terraforming">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Terraforming.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TerrainLevelValidation">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TerrainLevelValidation.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TerrainSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TerrainSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TerrainSystemRendering">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TerrainSystemRendering.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TerrainSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TerrainSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TextureOperations">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TextureOperations.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ThumbnailCapturing">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ThumbnailCapturing.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ThumbnailSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ThumbnailSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TickSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TickSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TickSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TickSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Timbermesh">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Timbermesh.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TimbermeshAnimations">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TimbermeshAnimations.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TimbermeshDTO">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TimbermeshDTO.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TimbermeshEditorTools">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TimbermeshEditorTools.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TimbermeshMaterials">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TimbermeshMaterials.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TimeSpeedButtonSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TimeSpeedButtonSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TimeSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TimeSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TimeSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TimeSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TitleScreenUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TitleScreenUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ToolPanelSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ToolPanelSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.ToolSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.ToolSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TooltipSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TooltipSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TopBarSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TopBarSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TutorialSettingsSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TutorialSettingsSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TutorialSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TutorialSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TutorialSystemInitialization">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TutorialSystemInitialization.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.TutorialSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.TutorialSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.UIFormatters">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.UIFormatters.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.UILayoutSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.UILayoutSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.UISound">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.UISound.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.UncuttableYielding">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.UncuttableYielding.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Versioning">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Versioning.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.VersioningSerialization">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.VersioningSerialization.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.VersioningUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.VersioningUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WalkingSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WalkingSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WalkingSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WalkingSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Wandering">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Wandering.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterBrushesUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterBrushesUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterBuildings">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterBuildings.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterBuildingsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterBuildingsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterContaminationBuildings">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterContaminationBuildings.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterContaminationBuildingsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterContaminationBuildingsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterContaminationRendering">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterContaminationRendering.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterObjects">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterObjects.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterSourceSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterSourceSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterSourceSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterSourceSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterSystemRendering">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterSystemRendering.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterSystemRenderingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterSystemRenderingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WaterWorkshops">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WaterWorkshops.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WeatherSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WeatherSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WeatherSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WeatherSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WebNavigation">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WebNavigation.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Wellbeing">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Wellbeing.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WellbeingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WellbeingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WindSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WindSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WindSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WindSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WonderCompletion">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WonderCompletion.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WonderPlanes">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WonderPlanes.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Wonders">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Wonders.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WondersUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WondersUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WorkerOutfitSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WorkerOutfitSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WorkerTypes">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WorkerTypes.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WorkerTypesUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WorkerTypesUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WorkplacesBatchControl">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WorkplacesBatchControl.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Workshops">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Workshops.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WorkshopsEffects">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WorkshopsEffects.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WorkshopsUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WorkshopsUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WorkSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WorkSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WorkSystemUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WorkSystemUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WorldPersistence">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WorldPersistence.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.WorldSerialization">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.WorldSerialization.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.YielderFinding">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.YielderFinding.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.Yielding">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.Yielding.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Timberborn.YieldingUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Timberborn.YieldingUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Burst">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Burst.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Burst.Unsafe">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Burst.Unsafe.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Collections">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Collections.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Collections.LowLevel.ILSupport">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.InputSystem">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.InputSystem.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.InputSystem.ForUI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.InputSystem.ForUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Mathematics">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Mathematics.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.MemoryProfiler">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.MemoryProfiler.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Recorder">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Recorder.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Recorder.Base">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Recorder.Base.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Rendering.LightTransport.Runtime">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Rendering.LightTransport.Runtime.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.RenderPipelines.Core.Runtime">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.RenderPipelines.Core.Runtime.Shared">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.RenderPipelines.Core.Runtime.Shared.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.RenderPipelines.GPUDriven.Runtime">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.RenderPipelines.GPUDriven.Runtime.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.RenderPipelines.Universal.2D.Runtime">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.RenderPipelines.Universal.2D.Runtime.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.RenderPipelines.Universal.Config.Runtime">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.RenderPipelines.Universal.Config.Runtime.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.RenderPipelines.Universal.Shaders">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Services.Analytics">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Services.Analytics.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Services.Core">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Services.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Services.Core.Analytics">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Services.Core.Analytics.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Services.Core.Configuration">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Services.Core.Configuration.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Services.Core.Device">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Services.Core.Device.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Services.Core.Environments">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Services.Core.Environments.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Services.Core.Environments.Internal">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Services.Core.Environments.Internal.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Services.Core.Internal">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Services.Core.Internal.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Services.Core.Networking">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Services.Core.Networking.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Services.Core.Registration">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Services.Core.Registration.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Services.Core.Scheduler">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Services.Core.Scheduler.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Services.Core.Telemetry">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Services.Core.Telemetry.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Services.Core.Threading">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Services.Core.Threading.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.TextMeshPro">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.Timeline">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\Unity.Timeline.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.AccessibilityModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.AccessibilityModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.AIModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.AIModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.AMDModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.AMDModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.AndroidJNIModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.AndroidJNIModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.AnimationModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.ARModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.ARModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.AssetBundleModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.AudioModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.ClothModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.ClothModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.CloudBuild">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.CloudBuild.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.ClusterInputModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.ClusterInputModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.ClusterRendererModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.ClusterRendererModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.ContentLoadModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.ContentLoadModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.CoreModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.CrashReportingModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.CrashReportingModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.DirectorModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.DirectorModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.DSPGraphModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.DSPGraphModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.GameCenterModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.GameCenterModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.GIModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.GIModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.GraphicsStateCollectionSerializerModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.GraphicsStateCollectionSerializerModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.GridModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.GridModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.HierarchyCoreModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.HierarchyCoreModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.HotReloadModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.HotReloadModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.ImageConversionModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.IMGUIModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.InputForUIModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.InputForUIModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.InputLegacyModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.InputModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.InputModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.JSONSerializeModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.LocalizationModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.LocalizationModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.MarshallingModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.MarshallingModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.MultiplayerModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.MultiplayerModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.NVIDIAModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.NVIDIAModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.ParticleSystemModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.PerformanceReportingModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.PerformanceReportingModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.Physics2DModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.PhysicsModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.PropertiesModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.PropertiesModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.ScreenCaptureModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.ShaderVariantAnalyticsModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.ShaderVariantAnalyticsModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.SharedInternalsModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.SharedInternalsModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.SpriteMaskModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.SpriteMaskModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.SpriteShapeModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.SpriteShapeModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.StreamingModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.StreamingModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.SubstanceModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.SubstanceModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.SubsystemsModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.SubsystemsModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.TerrainModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.TerrainModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.TerrainPhysicsModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.TextCoreFontEngineModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.TextCoreTextEngineModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.TextRenderingModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.TilemapModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.TilemapModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.TLSModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.TLSModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UI">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UIElementsModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UIModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UmbraModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UmbraModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UnityAnalyticsModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UnityConnectModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UnityConnectModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UnityCurlModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UnityCurlModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UnityTestProtocolModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UnityWebRequestModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.VehiclesModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.VehiclesModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.VFXModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.VFXModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.VideoModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.VideoModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.VirtualTexturingModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.VirtualTexturingModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.VRModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.VRModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.WindModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.WindModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.XRModule">
+	    <HintPath>D:\SteamLibrary\steamapps\common\Timberborn\Timberborn_Data\Managed\UnityEngine.XRModule.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 </Project>

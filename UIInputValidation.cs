@@ -1,10 +1,10 @@
 ﻿using HarmonyLib;
-using Timberborn.MapSystemUI;
 using UnityEngine.UIElements;
 using static TimberbornTerrainGenerator.RandomMapSettingsBox;
 using Timberborn.CoreUI;
 using System;
 using TimberApi.DependencyContainerSystem;
+using Timberborn.MapRepositorySystemUI;
 
 namespace TimberbornTerrainGenerator
 {

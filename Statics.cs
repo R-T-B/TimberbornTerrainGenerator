@@ -1,23 +1,22 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using TimberApi.ConsoleSystem;
 using UnityEngine;
+using Timberborn.MapRepositorySystem;
 
 namespace TimberbornTerrainGenerator
 {
     public static class Statics
 	{
-		public static IConsoleWriter Logger;
-        private static string pluginPath;
-        public const string PluginVersion = "1.8.2";
+        private static string pluginPath = null;
+        public const string PluginVersion = "1.9.0";
         public static string PluginPath
         {
             get
             {
                 if (ReferenceEquals(null, pluginPath))
                 {
-                    string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                    string codeBase = Path.Combine(Timberborn.PlatformUtilities.UserDataFolder.Folder, "Mods/TimerbornTerrainGenerator/");
                     UriBuilder uri = new UriBuilder(codeBase);
                     pluginPath = Uri.UnescapeDataString(uri.Path);
                     pluginPath = Path.GetDirectoryName(pluginPath);
@@ -30,32 +29,7 @@ namespace TimberbornTerrainGenerator
             get
             {
                 string legacyConfigPath = PluginPath;
-                string configPath = Timberborn.Core.UserDataFolder.Folder + "/Maps/TimberbornTerrainGeneratorProfiles";
-                try
-                {
-                    while (!Directory.Exists(legacyConfigPath + "/config"))
-                    {
-                        legacyConfigPath = legacyConfigPath + "/../";
-                    }
-                    legacyConfigPath = legacyConfigPath + "/config/TimberbornTerrainGenerator";
-                    if (Directory.Exists(legacyConfigPath) && (!Directory.Exists(configPath)))
-                    {
-                        DirectoryInfo legacyDir = new DirectoryInfo(legacyConfigPath);
-                        Directory.CreateDirectory(configPath);
-                        DirectoryInfo configDir = new DirectoryInfo(configPath);
-                        foreach (FileInfo file in legacyDir.GetFiles())
-                        {
-                            string targetFilePath = Path.Combine(configPath, file.Name);
-                            file.MoveTo(targetFilePath);
-                        }
-                        Directory.Delete(legacyConfigPath, true);
-                    }
-                }
-                catch
-                {
-                    Debug.LogError("Unable to find a config folder!"); //Fail?
-                    return "";
-                }
+                string configPath = Path.Combine(MapRepository.UserMapsDirectory, "TimberbornTerrainGeneratorProfiles");
                 if (!Directory.Exists(configPath))
                 {
                     Directory.CreateDirectory(configPath);

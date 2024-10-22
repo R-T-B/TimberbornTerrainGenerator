@@ -13,6 +13,7 @@ using static TimberbornTerrainGenerator.Utilities;
 using static TimberbornTerrainGenerator.Statics;
 using static TimberbornTerrainGenerator.EntityManager;
 using static TimberbornTerrainGenerator.RandomMapSettingsBox;
+using Timberborn.MapRepositorySystem;
 
 namespace TimberbornTerrainGenerator
 {
@@ -64,17 +65,17 @@ namespace TimberbornTerrainGenerator
                     Thread.Sleep(100);
                 }
                 Thread.Sleep(500); //give slow HDD users time to completely serialize the file.
-                Statics.Logger.LogInfo("Loading randomised map");
-                MapFileReference mapFileReference = MapFileReference.FromDisk(PluginPath + "/newMap");
+                //Statics.Logger.LogInfo("Loading randomised map");
+                MapFileReference mapFileReference = MapFileReference.FromDisk(PluginPath + "/newMap.timber");
                 __instance.LoadMap(mapFileReference);
                 
-                Statics.Logger.LogInfo("Finished loading");
+                //Statics.Logger.LogInfo("Finished loading");
                 customMapEnabled = false; //This flag must be reset.
                 return false;
             }
             else
             {
-                __instance._sceneLoader.LoadScene(MapEditorSceneLoader.MapEditorSceneIndex, MapEditorSceneLoader.ExtraWaitDuration, MapEditorSceneParameters.CreateNewMapParameters(mapSize), __instance.Tip());
+                __instance._sceneLoader.LoadScene(MapEditorSceneParameters.CreateNewMapParameters(mapSize), MapEditorSceneLoader.ExtraWaitDuration, __instance.Tip());
                 return false;
             }
         }

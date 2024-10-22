@@ -1,17 +1,15 @@
 ﻿using System.Reflection;
-using Timberborn.MapSystemUI;
-using TimberApi.ModSystem;
 using static TimberbornTerrainGenerator.Statics;
-using TimberApi.ConsoleSystem;
 using HarmonyLib;
+using Timberborn.ModManagerScene;
+using Timberborn.MapRepositorySystemUI;
 
 namespace TimberbornTerrainGenerator
 {
-    public class Plugin : IModEntrypoint
+    public class Plugin : IModStarter
     {
-        public void Entry(IMod mod, IConsoleWriter consoleWriter)
+        public void StartMod(IModEnvironment modEnvironment)
         {
-            Statics.Logger = consoleWriter;
             Patcher.DoPatching();
         }
 

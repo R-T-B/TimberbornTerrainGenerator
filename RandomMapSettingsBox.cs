@@ -5,9 +5,15 @@ using Timberborn.CoreUI;
 using System.IO;
 using Timberborn.MapEditorSceneLoading;
 using TimberApi.DependencyContainerSystem;
-using TimberApi.UiBuilderSystem;
+using TimberApi.UIBuilderSystem;
 using Timberborn.SettingsSystem;
 using System.Collections.Generic;
+using TimberApi.UIBuilderSystem.ElementBuilders;
+using TimberApi.UIPresets.TextFields;
+using TimberApi.UIPresets.Buttons;
+using TimberApi.UIPresets.Builders;
+using TimberApi.UIBuilderSystem.StyleSheetSystem.PropertyEnums;
+using System.Reflection.Emit;
 
 namespace TimberbornTerrainGenerator
 {
@@ -46,15 +52,15 @@ namespace TimberbornTerrainGenerator
         private readonly UIBuilder builder;
         public static NineSliceTextField seedBox;
         public static NineSliceTextField mapSizeBox;
-        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle perlinToggle;
-        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle openSimplex2Toggle;
-        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle cellularToggle;
+        public static Toggle perlinToggle;
+        public static Toggle openSimplex2Toggle;
+        public static Toggle cellularToggle;
         public static NineSliceTextField minHeightBox;
         public static NineSliceTextField maxHeightBox;
         public static NineSliceTextField terrainAmplitudeBox;
         public static NineSliceTextField terrainFrequencyMultBox;
-        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle terrainSlopeEnabledToggle;
-        public static TimberApi.UiBuilderSystem.CustomElements.LocalizableToggle riverSlopeEnabledToggle;
+        public static Toggle terrainSlopeEnabledToggle;
+        public static Toggle riverSlopeEnabledToggle;
         public static NineSliceTextField terrainSlopeLevelBox;
         public static NineSliceTextField riverSlopeLevelBox;
         public static NineSliceTextField riverNodesBox;
@@ -82,7 +88,7 @@ namespace TimberbornTerrainGenerator
                     flexGrow = 1,
                     alignItems = Align.Center,
                     justifyContent = Justify.Center,
-                    flexDirection = FlexDirection.Row,
+                    flexDirection = UnityEngine.UIElements.FlexDirection.Row,
                 }
         };
 
@@ -98,45 +104,51 @@ namespace TimberbornTerrainGenerator
         }
         public void refreshGUI()
         {
-            seedBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            mapSizeBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            perlinToggle = builder.Presets().Toggles().Circle("perlinCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Perlin");
-            openSimplex2Toggle = builder.Presets().Toggles().Circle("openSimplex2Checkbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "OpenSimplex2");
-            cellularToggle = builder.Presets().Toggles().Circle("cellularCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white), "Cellular");
-            minHeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            maxHeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            terrainAmplitudeBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            terrainFrequencyMultBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            terrainSlopeEnabledToggle = builder.Presets().Toggles().Checkbox("terrainSlopeCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white));
-            riverSlopeEnabledToggle = builder.Presets().Toggles().Checkbox("riverSlopeCheckbox", default, null, default, default, FontStyle.Normal, new StyleColor(Color.white));
-            terrainSlopeLevelBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            riverSlopeLevelBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            riverNodesBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            riverSourceStrengthBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            riverWindinessBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            riverWidthBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            riverElevationBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            riverMapWeightBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            maxMineCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            minMineCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            badWaterCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            ruinCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            pineTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            birchTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            oakTreeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            blueberryBushCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
-            slopeCountBox = builder.Presets().TextFields().InGameTextField(100, 25);
+            seedBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            mapSizeBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            perlinToggle = builder.Create<ToggleBuilder>().SetText("Perlin").Build();
+            openSimplex2Toggle = builder.Create<ToggleBuilder>().SetText("OpenSimplex2").Build();
+            cellularToggle = builder.Create<ToggleBuilder>().SetText("Cellular").Build();
+            minHeightBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            maxHeightBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            terrainAmplitudeBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            terrainFrequencyMultBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            terrainSlopeEnabledToggle = builder.Create<ToggleBuilder>().Build();
+            riverSlopeEnabledToggle = builder.Create<ToggleBuilder>().Build();
+            terrainSlopeLevelBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            riverSlopeLevelBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            riverNodesBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            riverSourceStrengthBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            riverWindinessBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            riverWidthBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            riverElevationBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            riverMapWeightBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            maxMineCountBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            minMineCountBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            badWaterCountBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            ruinCountBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            pineTreeCountBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            birchTreeCountBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            oakTreeCountBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            blueberryBushCountBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
+            slopeCountBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
             SetupFirstTimeConfigPresets();
             PopulateFileList();
-            filenameListBox = builder.Presets().ListViews().CustomListView(fileList, null, null, null, null, null, SelectionType.Single, 125, 515);
-            newFileNameBox = builder.Presets().TextFields().InGameTextField(120, 25);
+            filenameListBox = builder.Create<ListViewBuilder>().SetItemSource(fileList).SetSelectionType(SelectionType.Single).SetHeight(new Length(515, LengthUnit.Pixel)).SetWidth(new Length(125, LengthUnit.Pixel)).Build();
+            newFileNameBox = builder.Create<TextFieldBuilder>().SetBackgroundColor(Color.white).Build();
             LoadINISettings("stocksettings");
-            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Presets().Buttons().ButtonGame(name: "acceptButton", text: "Accept");
-            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Presets().Buttons().ButtonGame(name: "cancelButton", text: "Cancel");
-            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton saveButton = builder.Presets().Buttons().ButtonGame(null, 100, 25, default, default, default, null, "saveButton", "Save Profile");
-            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton newSaveButton = builder.Presets().Buttons().ButtonGame(null, 200, 25, default, default, default, null, "newSaveButton", "Save New Profile");
-            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton loadButton = builder.Presets().Buttons().ButtonGame(null, 100, 25, default, default, default, null, "loadButton", "Load Profile");
-            TimberApi.UiBuilderSystem.CustomElements.LocalizableButton deleteButton = builder.Presets().Buttons().ButtonGame(null, 200, 25, default, default, new StyleColor(Color.red), null, "newSaveButton", "Delete Profile");
+            TimberApi.UIBuilderSystem.CustomElements.LocalizableButton acceptButton = builder.Create<MenuButton>().Build();
+            acceptButton.text = "Accept";
+            TimberApi.UIBuilderSystem.CustomElements.LocalizableButton cancelButton = builder.Create<MenuButton>().Build();
+            cancelButton.text = "Cancel";
+            TimberApi.UIBuilderSystem.CustomElements.LocalizableButton saveButton = builder.Create<MenuButton>().Build();
+            saveButton.text = "Save Profile";
+            TimberApi.UIBuilderSystem.CustomElements.LocalizableButton newSaveButton = builder.Create<MenuButton>().Build();
+            newSaveButton.text = "Save New Profile";
+            TimberApi.UIBuilderSystem.CustomElements.LocalizableButton loadButton = builder.Create<MenuButton>().Build();
+            loadButton.text = "Load Profile";
+            TimberApi.UIBuilderSystem.CustomElements.LocalizableButton deleteButton = builder.Create<MenuButton>().Build();
+            deleteButton.text = "Delete Profile";
             acceptButton.clicked += () => OnUIConfirmed();
             cancelButton.clicked += OnUICancelled;
             saveButton.clicked += () => saveButtonMethod();
@@ -178,115 +190,110 @@ namespace TimberbornTerrainGenerator
             {
                 riverSlopeEnabledToggle.value = false;
             }
-            VisualElement settingsDialogBox = builder.CreateBoxBuilder()
-                .AddHeader(text: "Timberborn Terrain Generator Settings")
-                .AddComponent(builder => builder
-                    .SetWidth(new Length(960, Length.Unit.Pixel))
-                    .SetHeight(new Length(630, Length.Unit.Pixel))
-                    .SetFlexDirection(FlexDirection.Row)
-                    .SetBackgroundColor(new StyleColor(new Color(0.33f, 0.31f, 0.18f, 0.0f)))
+            VisualElement settingsDialogBox = builder.Create<VisualElementBuilder>("Timberborn Terrain Generator Settings")
+        .SetName("Timberborn Terrain Generator Settings")
+        .SetWidth(new Length(960, LengthUnit.Pixel))
+        .SetHeight(new Length(630, LengthUnit.Pixel))
+        .SetFlexDirection(UnityEngine.UIElements.FlexDirection.Row)
+        .SetBackgroundColor(new StyleColor(new Color(0.33f, 0.31f, 0.18f, 1.0f)))
+        .SetAlignItems(Align.FlexStart)
+        .SetAlignContent(Align.FlexStart)
+        .SetFlexWrap(Wrap.Wrap)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("Seed:"))
+        .AddComponent(seedBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|A seed of -1 means a completely random map, any other integer will be the same each run     " + '\u2800'))
+        .AddComponent<LabelBuilder>(factory => factory.SetText("MapSizeXY:"))
+        .AddComponent(mapSizeBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|The size of the map.  Only square maps are supported, between 32x32 and 384x384             " + '\u2800'))
+        .AddComponent<LabelBuilder>(factory => factory.SetText("TerrainNoiseType:"))
+        .AddComponent(perlinToggle)
+        .AddComponent(openSimplex2Toggle)
+        .AddComponent(cellularToggle)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|Determines the noise used by the generator. Experts only.     " + '\u2800'))//needs less spaces because whitepsace is not the same kerning as letters
+        .AddComponent<LabelBuilder>(factory => factory.SetText("TerrainMinHeight:"))
+        .AddComponent(minHeightBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|Bottom of gen'd terrain. Must be integer greater than 0 and < TerrainMaxHeight.             " + '\u2800'))
+        .AddComponent<LabelBuilder>(factory => factory.SetText("TerrainMaxHeight:"))
+        .AddComponent(maxHeightBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|Top of gen'd terrain.  Must be integer > TerrainMinHeight and < 22.                         " + '\u2800'))
+        .AddComponent<LabelBuilder>(factory => factory.SetText("TerrainAmplitude:"))
+        .AddComponent(terrainAmplitudeBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|A decimal between 0.0 and 10.0 describing how extreme the terrain is (pits&hills).    " + '\u2800'))
+        .AddComponent<LabelBuilder>(factory => factory.SetText("TerrainFrequencyMult:"))
+        .AddComponent(terrainFrequencyMultBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|An integer describing how 'zoomed in' features are generated.  See readme.                  " + '\u2800'))
+        .AddComponent<LabelBuilder>(factory => factory.SetText("TerrainSlopeEnabled:"))
+        .AddComponent(terrainSlopeEnabledToggle)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|Whether or not Terrain is generated with a builtin slope angle.                                      " + '\u2800'))//needs more spaces because whitepsace is not the same kerning as letters
+        .AddComponent<LabelBuilder>(factory => factory.SetText("TerrainSlopeLevel:"))
+        .AddComponent(terrainSlopeLevelBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|The angle of the generated terrain slope, a decimal between 0.0 and 1.0.                    " + '\u2800'))
+        .AddComponent<LabelBuilder>(factory => factory.SetText("RiverSlopeEnabled:"))
+        .AddComponent(riverSlopeEnabledToggle)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|Whether or not Riverbed is generated with a builtin slope angle.                                     " + '\u2800'))//needs more spaces because whitepsace is not the same kerning as letters
+        .AddComponent<LabelBuilder>(factory => factory.SetText("RiverSlopeLevel:"))
+        .AddComponent(riverSlopeLevelBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|The angle of the generated river slope, a decimal between 0.0 and 1.0.                      " + '\u2800'))
+        .AddComponent<LabelBuilder>(factory => factory.SetText("RiverNodes:"))
+        .AddComponent(riverNodesBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|An integer describing the number of bends in the river.                                              " + '\u2800')) //needs more spaces because whitepsace is not the same kerning as letters
+        .AddComponent<LabelBuilder>(factory => factory.SetText("RiverSourceStrength:"))
+        .AddComponent(riverSourceStrengthBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|A decimal value describing the strength of the water sources (flow rate)                    " + '\u2800'))
+        .AddComponent<LabelBuilder>(factory => factory.SetText("RiverWindiness:"))
+        .AddComponent(riverWindinessBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|A decimal value between 0.0 and 1.0 describing how much the river 'wanders.'                " + '\u2800'))
+        .AddComponent<LabelBuilder>(factory => factory.SetText("RiverWidth:"))
+        .AddComponent(riverWidthBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|An Integer describing how wide the river is. Is scaled to map size, but always > 2.         " + '\u2800'))
+        .AddComponent<LabelBuilder>(factory => factory.SetText("RiverElevation:"))
+        .AddComponent(riverElevationBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("|A decimal between -1.0 and 1.0 describing the map height of the riverbed.                   " + '\u2800'))
+        .AddComponent<LabelBuilder>(factory => factory.SetText("RiverMapWeight:"))
+        .AddComponent(riverMapWeightBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("| An integer describing the strength of the rivermap vs the terrain heightmap.               " + '\u2800'))
+        .AddComponent<LabelBuilder>(factory => factory.SetText("MaxMineCount:"))
+        .AddComponent(maxMineCountBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("MinMineCount:"))
+        .AddComponent(minMineCountBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("RuinCount:"))
+        .AddComponent(ruinCountBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("PineTreeCount:"))
+        .AddComponent(pineTreeCountBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("BirchTreeCount:"))
+        .AddComponent(birchTreeCountBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("OakTreeCount:"))
+        .AddComponent(oakTreeCountBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("BlueberryBushCount:"))
+        .AddComponent(blueberryBushCountBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("SlopeCount:"))
+        .AddComponent(slopeCountBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("BadWaterCount:"))
+        .AddComponent(badWaterCountBox)
+        .AddComponent<LabelBuilder>(factory => factory.SetText("                                                                                             " + '\u2800')) //Spacer needed for proper element placement
+        .AddComponent<LabelBuilder>(factory => factory.SetText("All counts are scaled to a 256^2 map.").SetColor(new Color(0.5f, 0.5f, 0.5f)))
+        .AddComponent(acceptButton)
+        .AddComponent<LabelBuilder>(factory => factory.SetText('\u2800' + " REMEMBER GEN CAN TAKE BETWEEN 1-2 MINUTES DEPENDING ON MAPSIZE " + '\u2800')) //Larger Spacer needed for proper button seperation
+        .AddComponent(cancelButton)
+        .Build();
+         VisualElement loadSaveDialogBox = builder.Create<VisualElementBuilder>("Load/Save Profiles")
+                .SetName("Load/Save Profiles")
+                    .SetWidth(new Length(200, LengthUnit.Pixel))
+                    .SetHeight(new Length(620, LengthUnit.Pixel))
+                    .SetFlexDirection(UnityEngine.UIElements.FlexDirection.Row)
+                    .SetBackgroundColor(new StyleColor(new Color(0.5f, 0.5f, 0.5f, 1f)))
                     .SetAlignItems(Align.FlexStart)
                     .SetAlignContent(Align.FlexStart)
                     .SetFlexWrap(Wrap.Wrap)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("Seed:")))
-                    .AddPreset(factory => seedBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|A seed of -1 means a completely random map, any other integer will be the same each run     " + '\u2800')))
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("MapSizeXY:")))
-                    .AddPreset(factory => mapSizeBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|The size of the map.  Only square maps are supported, between 32x32 and 384x384             " + '\u2800')))
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("TerrainNoiseType:")))
-                    .AddPreset(factory => perlinToggle)
-                    .AddPreset(factory => openSimplex2Toggle)
-                    .AddPreset(factory => cellularToggle)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Determines the noise used by the generator. Experts only.     " + '\u2800')))//needs less spaces because whitepsace is not the same kerning as letters
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("TerrainMinHeight:")))
-                    .AddPreset(factory => minHeightBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Bottom of gen'd terrain. Must be integer greater than 0 and < TerrainMaxHeight.             " + '\u2800')))
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("TerrainMaxHeight:")))
-                    .AddPreset(factory => maxHeightBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Top of gen'd terrain.  Must be integer > TerrainMinHeight and < 22.                         " + '\u2800')))
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("TerrainAmplitude:")))
-                    .AddPreset(factory => terrainAmplitudeBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|A decimal between 0.0 and 10.0 describing how extreme the terrain is (pits&hills).    " + '\u2800')))
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("TerrainFrequencyMult:")))
-                    .AddPreset(factory => terrainFrequencyMultBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|An integer describing how 'zoomed in' features are generated.  See readme.                  " + '\u2800')))
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("TerrainSlopeEnabled:")))
-                    .AddPreset(factory => terrainSlopeEnabledToggle)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Whether or not Terrain is generated with a builtin slope angle.                                      " + '\u2800')))//needs more spaces because whitepsace is not the same kerning as letters
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("TerrainSlopeLevel:")))
-                    .AddPreset(factory => terrainSlopeLevelBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|The angle of the generated terrain slope, a decimal between 0.0 and 1.0.                    " + '\u2800')))
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("RiverSlopeEnabled:")))
-                    .AddPreset(factory => riverSlopeEnabledToggle)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|Whether or not Riverbed is generated with a builtin slope angle.                                     " + '\u2800')))//needs more spaces because whitepsace is not the same kerning as letters
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("RiverSlopeLevel:")))
-                    .AddPreset(factory => riverSlopeLevelBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|The angle of the generated river slope, a decimal between 0.0 and 1.0.                      " + '\u2800')))
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("RiverNodes:")))
-                    .AddPreset(factory => riverNodesBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|An integer describing the number of bends in the river.                                              " + '\u2800'))) //needs more spaces because whitepsace is not the same kerning as letters
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("RiverSourceStrength:")))
-                    .AddPreset(factory => riverSourceStrengthBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|A decimal value describing the strength of the water sources (flow rate)                    " + '\u2800')))
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("RiverWindiness:")))
-                    .AddPreset(factory => riverWindinessBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|A decimal value between 0.0 and 1.0 describing how much the river 'wanders.'                " + '\u2800')))
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("RiverWidth:")))
-                    .AddPreset(factory => riverWidthBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|An Integer describing how wide the river is. Is scaled to map size, but always > 2.         " + '\u2800')))
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("RiverElevation:")))
-                    .AddPreset(factory => riverElevationBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("|A decimal between -1.0 and 1.0 describing the map height of the riverbed.                   " + '\u2800')))
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("RiverMapWeight:")))
-                    .AddPreset(factory => riverMapWeightBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("| An integer describing the strength of the rivermap vs the terrain heightmap.               " + '\u2800')))
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("MaxMineCount:")))
-                    .AddPreset(factory => maxMineCountBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("MinMineCount:")))
-                    .AddPreset(factory => minMineCountBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("RuinCount:")))
-                    .AddPreset(factory => ruinCountBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("PineTreeCount:")))
-                    .AddPreset(factory => pineTreeCountBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("BirchTreeCount:")))
-                    .AddPreset(factory => birchTreeCountBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("OakTreeCount:")))
-                    .AddPreset(factory => oakTreeCountBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("BlueberryBushCount:")))
-                    .AddPreset(factory => blueberryBushCountBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("SlopeCount:")))
-                    .AddPreset(factory => slopeCountBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("BadWaterCount:")))
-                    .AddPreset(factory => badWaterCountBox)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("                                                                                             " + '\u2800'))) //Spacer needed for proper element placement
-                    .AddPreset(factory => factory.Labels().Label(text: ("All counts are scaled to a 256^2 map.")))
-                    .AddPreset(factory => acceptButton)
-                    .AddPreset(factory => factory.Labels().DefaultBold(text: ('\u2800' + " REMEMBER GEN CAN TAKE BETWEEN 1-2 MINUTES DEPENDING ON MAPSIZE " + '\u2800'))) //Larger Spacer needed for proper button seperation
-                    .AddPreset(factory => cancelButton)
+                    .AddComponent(filenameListBox)
+                    .AddComponent(saveButton)
+                    .AddComponent(loadButton)
+                    .AddComponent(deleteButton)
+                    .AddComponent<LabelBuilder>(factory => factory.SetText("FileName:"))
+                    .AddComponent(newFileNameBox)
+                    .AddComponent(newSaveButton)
+                .Build();
 
-                )
-                .BuildAndInitialize();
-            VisualElement loadSaveDialogBox = builder.CreateBoxBuilder()
-                .AddHeader(text: "Load/Save Profiles")
-                .AddComponent(builder => builder
-                    .SetWidth(new Length(200, Length.Unit.Pixel))
-                    .SetHeight(new Length(620, Length.Unit.Pixel))
-                    .SetFlexDirection(FlexDirection.Row)
-                    .SetBackgroundColor(new StyleColor(new Color(0.5f, 0.5f, 0.5f, 0.475f)))
-                    .SetAlignItems(Align.FlexStart)
-                    .SetAlignContent(Align.FlexStart)
-                    .SetFlexWrap(Wrap.Wrap)
-                    .AddPreset(factory => filenameListBox)
-                    .AddPreset(factory => saveButton)
-                    .AddPreset(factory => loadButton)
-                    .AddPreset(factory => deleteButton)
-                    .AddPreset(factory => factory.Labels().DefaultBig(text: ("FileName:")))
-                    .AddPreset(factory => newFileNameBox)
-                    .AddPreset(factory => newSaveButton)
-
-                )
-                .BuildAndInitialize();
             wrapper.Clear();
             wrapper.Add(settingsDialogBox);
             wrapper.Add(loadSaveDialogBox);
