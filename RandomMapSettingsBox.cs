@@ -1,4 +1,4 @@
-﻿using UnityEngine.UIElements;
+using UnityEngine.UIElements;
 using UnityEngine;
 using static TimberbornTerrainGenerator.Statics;
 using Timberborn.CoreUI;

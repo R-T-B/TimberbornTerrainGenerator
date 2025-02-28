@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using static TimberbornTerrainGenerator.Statics;
 using HarmonyLib;
 using Timberborn.ModManagerScene;

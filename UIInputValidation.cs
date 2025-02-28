@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using UnityEngine.UIElements;
 using static TimberbornTerrainGenerator.RandomMapSettingsBox;
 using Timberborn.CoreUI;

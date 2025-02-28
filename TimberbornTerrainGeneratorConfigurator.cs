@@ -1,4 +1,4 @@
-﻿using Bindito.Core;
+using Bindito.Core;
 
 namespace TimberbornTerrainGenerator
 {

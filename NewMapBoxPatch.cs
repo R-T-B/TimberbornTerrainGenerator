@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Timberborn.CoreUI;
 using Timberborn.MapRepositorySystemUI;
 using UnityEngine.UIElements;
